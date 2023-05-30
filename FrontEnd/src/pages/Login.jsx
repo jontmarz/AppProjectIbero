@@ -14,12 +14,28 @@ const ImgBG = styled("img")({
 })
 
 export default function Login() {
-    // const [data, setData] = useState({ email, password })
+
+    var disabled = false;
+
+    const [data, setData] = useState({
+        email: '',
+        password: ''
+    })
+
+    const [error, setError] = useState({
+        error: false,
+        message: ''
+    })
+
+    const [loading, setLoading] = useState(false)
+
+    const handleInputChange = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value})
+    }
 
     const enviarDatos = (e) => {
         e.preventDefault();
-        // const formData = setData({ ...data, [e.target.name]: e.target.value})
-        console.log(formData);
+        console.log("enviando datos: ", data.email);
     }
 
     return (
@@ -40,10 +56,10 @@ export default function Login() {
                         className="login"
                         onSubmit={enviarDatos}
                     >
-                        <TextField type="email" label="Usuario (email)" variant="filled" className="username"  required />
-                        <TextField type="password" label="Contraseña" variant="filled" className="password"  required />
+                        <TextField type="email" onChange={handleInputChange} name="email" label="Usuario (email)" variant="filled" className="username"  required />
+                        <TextField type="password" onChange={handleInputChange} name="password" label="Contraseña" variant="filled" className="password"  required />
                         <Box sx={{ display:"flex", justifyContent:"end" }}>
-                            <CustomButton name="Ingresar" />
+                            <CustomButton name="Ingresar" data={disabled} />
                         </Box>
                     </Box>
                 </Grid>

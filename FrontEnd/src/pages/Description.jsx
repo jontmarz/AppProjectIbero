@@ -1,9 +1,9 @@
-import { Grid, Typography, Box, List, ListItem, ListItemText, TextField, ListItemIcon, Button } from "@mui/material";
-import styled from "@emotion/styled";
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import { Grid, Typography, Box, List, ListItem, ListItemText, ListItemIcon } from "@mui/material";
 import Logo from "../components/Logo";
 import CustomButton from "../components/CustomButton";
 import RichTextEditor from "../components/RichTextEditor";
+import CustomList from "../components/CustomList";
+
 
 export default function Description() {
 
@@ -17,6 +17,7 @@ export default function Description() {
     ]
 
     const enviarDatos = () => {
+        e.preventDefault();
         console.log("datos envidos");
     }
 
@@ -32,16 +33,7 @@ export default function Description() {
                         <Typography variant="p" component="p" sx={{ mt: 3 }}>
                             Después de cumplir con los requisitos puede guardar:
                         </Typography>
-                        <List component="ul">
-                            {listItems.map((i, index) =>
-                                <ListItem key={index}>
-                                    <ListItemIcon>
-                                        <CheckBoxOutlineBlankIcon />
-                                    </ListItemIcon>
-                                    <ListItemText key={index} primary={i} />
-                                </ListItem>
-                            )}
-                        </List>
+                        <CustomList list={listItems} />
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={8}>
@@ -53,9 +45,16 @@ export default function Description() {
                         <Typography variant="h6" component="h6" sx={{ mt: 3, mb: 2 }}>
                             Descripción del problema:
                         </Typography>
-                        <RichTextEditor />
-                        <Box sx={{ display:"flex", justifyContent:"end" }}>
-                            <CustomButton name="Guardar" />
+                        <Box
+                            sx={{ display:"grid", gap:2, width:"100%"}}
+                            component="form"
+                            className="description"
+                            onSubmit={enviarDatos}
+                        >
+                            <RichTextEditor />
+                            <Box sx={{ display:"flex", justifyContent:"end" }}>
+                                <CustomButton name="Guardar" />
+                            </Box>
                         </Box>
                     </Box>
                 </Grid>

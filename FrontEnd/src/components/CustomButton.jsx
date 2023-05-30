@@ -14,12 +14,13 @@ export default function CustomButton(props) {
             color: #000;
             border: 1px solid #000;
         }
+        &.Mui-disabled { color: #fff; }
     `;
 
     
     if (props.anchor) {
         return (<BtnStyles component={Link} to={props.anchor}>{props.name}</BtnStyles>)
     } else {
-        return(<BtnStyles type="submit">{props.name}</BtnStyles>)
+        return(<BtnStyles type="submit" disabled={props.data}>{props.name}</BtnStyles>)
     }
 }

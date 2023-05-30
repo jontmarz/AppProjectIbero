@@ -1,5 +1,6 @@
-import { Box, Grid, Typography, TextField, Button, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { Box, Grid, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import styled from "@emotion/styled";
+import { useState } from "react";
 import Logo from "../components/Logo";
 import CustomButton from "../components/CustomButton";
 import signupImg from "../assets/img-signup.jpg";
@@ -12,24 +13,39 @@ export default function Signup() {
         objectFit: "cover",
         objectPosition: "center"
     })
-    
-    const dataSelect = [
-        {
-            doc: "Cédula de Ciudadanía",
-            value: "CC"
-        },
-        {
-            doc: "Cédula de Extranjería",
-            value: "CE"
-        },
-        {
-            doc: "Pasaporte",
-            value: "PA"
-        },
-    ]
+
+    const dataSelect = {
+        CC: "Cédula de Ciudadanía",
+        CE: "Cédula de Extranjería",
+        PA: "Pasaporte",
+    }
+
+    const [data, setData] = useState({
+        name: '',
+        typeDoc: '',
+        numDoc: '',
+        emailI: '',
+        emailP: '',
+        faculty: '',
+        academicProgram: '',
+        password: '',
+        rePassword: '',
+    })
+
+    const [error, setError] = useState({
+        error: false,
+        message: ''
+    })
+
+    const [loading, setLoading] = useState(false)
+
+    const handleInputChange = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value})
+    }
 
     const enviarDatos = (e) => {
-        console.log("datos envidos");
+        e.preventDefault();
+        console.log("datos enviados ", data);
     }
 
     return (
@@ -47,24 +63,24 @@ export default function Signup() {
                 >
                     <Grid container spacing={4} >
                         <Grid item xs={12} sm={6} sx={{display:"grid", gap:2}}>
-                            <TextField type="text" label="Nombre Completo" variant="filled" className="username"  required />
+                            <TextField type="text" onChange={handleInputChange} name="name" label="Nombre Completo" variant="filled" className="username"  required />
                             <FormControl>
                                 <InputLabel id="documento--label">Tipo de Identificación</InputLabel>
-                                <Select variant="filled" sx={{color: "#000"}}>
-                                    {dataSelect.map((i, index) => 
-                                        <MenuItem key={index} value={i.value}>{i.doc}</MenuItem>
+                                <Select variant="filled" onChange={e => handleInputChange(e)} name="typeDoc" sx={{color: "#000"}}>
+                                    {Object.entries(dataSelect).map((i, index) => 
+                                        <MenuItem key={index} value={i[0]}>{i[1]}</MenuItem>
                                     )}
                                 </Select>
                             </FormControl>
-                            <TextField type="number" label="Número de Identificación" variant="filled" className="username"  required />
-                            <TextField type="email" label="Email Institucional" variant="filled" className="username"  required />
-                            <TextField type="email" label="Email Personal" variant="filled" className="username"  required />
+                            <TextField type="number" onChange={handleInputChange} name="numDoc" label="Número de Identificación" variant="filled" className="username"  required />
+                            <TextField type="email" onChange={handleInputChange} name="emailI" label="Email Institucional" variant="filled" className="username"  required />
+                            <TextField type="email" onChange={handleInputChange} name="emailP" label="Email Personal" variant="filled" className="username"  required />
                         </Grid>
                         <Grid item xs={12} sm={6} sx={{display:"grid", gap:2}}>
-                            <TextField type="text" label="Facultad" variant="filled" className="username"  required />
-                            <TextField type="text" label="Programa Académico" variant="filled" className="username"  required />
-                            <TextField type="password" label="Contraseña" variant="filled" className="username"  required />
-                            <TextField type="password" label="Confirmar Contraseña" variant="filled" className="username"  required />
+                            <TextField type="text" onChange={handleInputChange} name="faculty" label="Facultad" variant="filled" className="username"  required />
+                            <TextField type="text" onChange={handleInputChange} name="academicProgram" label="Programa Académico" variant="filled" className="username"  required />
+                            <TextField type="password" onChange={handleInputChange} name="password" label="Contraseña" variant="filled" className="username"  required />
+                            <TextField type="password" onChange={handleInputChange} name="rePassword" label="Confirmar Contraseña" variant="filled" className="username"  required />
                             <Box sx={{ display:"flex", justifyContent:"end" }}>
                                 <CustomButton name="Guardar" />
                             </Box>

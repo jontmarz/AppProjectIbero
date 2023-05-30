@@ -4,8 +4,6 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from "./config/router";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import './assets/sass/main.scss'
-import "@fontsource/montserrat-alternates"
-import "@fontsource/kanit"
 
 const theme = createTheme({
   pallete: {

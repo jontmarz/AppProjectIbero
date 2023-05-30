@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { Editor, EditorState, getDefaultKeyBinding, RichUtils } from "draft-js";
-// import '../assets/sass/Draft.css';
 import '../assets/sass/Draft.scss';
+import '../../node_modules/draft-js/dist/Draft.css';
 
 class RichTextEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = { editorState: EditorState.createEmpty() };
 
-        this.focus = () => this.refs.editor.focus();
+        this.focus = () => createRef.editor.focus();
         this.onChange = (editorState) => this.setState({ editorState });
 
         this.handleKeyCommand = this._handleKeyCommand.bind(this);
@@ -61,9 +61,6 @@ class RichTextEditor extends React.Component {
 
     render() {
         const { editorState } = this.state;
-
-        // If the user changes block type before entering any text, we can
-        // either style the placeholder or hide it. Let's just hide it now.
         let className = 'RichEditor-editor';
         var contentState = editorState.getCurrentContent();
         if (!contentState.hasText()) {

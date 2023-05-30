@@ -1,8 +1,10 @@
-import { Grid, Typography, Box, List, ListItem, ListItemText, TextField, Button } from "@mui/material";
+import { Grid, Typography, Box, List, ListItem, ListItemText, TextField } from "@mui/material";
 import styled from "@emotion/styled";
+import { useState } from "react";
 import Logo from "../components/Logo";
 import CustomButton from "../components/CustomButton";
 import treeImg from "../assets/arbol-problema-img.png";
+import CustomList from "../components/CustomList";
 
 export default function ProblemTree() {
 
@@ -20,8 +22,21 @@ export default function ProblemTree() {
         "4. Lo mismo sucede con los efectos, sin emabrgo, ellos refieren es lo que puede suceder si el problema continua",
     ]
 
-    const enviarDatos = () => {
-        console.log("datos envidos");
+    const [data, setData] = useState({
+        indirectEffects: {1: '', 2: ''},
+        directEffects: {1: '', 2: '', 3: ''},
+        centralProblem: '',
+        directCauses: {1: '', 2: '', 3: ''},
+        indirectCauses: {1: '', 2: ''},
+    })
+
+    const handleInputChange = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value})
+    }
+
+    const enviarDatos = (e) => {
+        e.preventDefault();
+        console.log("datos envidos", data);
     }
 
     return (
@@ -34,13 +49,7 @@ export default function ProblemTree() {
                         <Typography variant="p" component="p" sx={{ textAlign:'left', mt: 5 }}>
                             Recuerde que:
                         </Typography>
-                        <List component="ol">
-                            {listItems.map((i, index) =>
-                                <ListItem key={index}>
-                                    <ListItemText key={index} primary={i} />
-                                </ListItem>
-                            )}
-                        </List>
+                        <CustomList list={listItems} order />
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={9}>
@@ -56,11 +65,15 @@ export default function ProblemTree() {
                                     label="1"
                                     multiline
                                     rows={3}
+                                    onChange={handleInputChange}
+                                    name={data.indirectEffects[0]}
                                 />
                                 <TextField
                                     label="2"
                                     multiline
                                     rows={3}
+                                    onChange={handleInputChange}
+                                    name={data.indirectEffects[1]}
                                 />
                             </Grid>
                         </Grid>
@@ -71,16 +84,22 @@ export default function ProblemTree() {
                                     label="1"
                                     multiline
                                     rows={3}
+                                    onChange={handleInputChange}
+                                    name={data.directEffects[0]}
                                 />
                                 <TextField
                                     label="2"
                                     multiline
                                     rows={3}
+                                    onChange={handleInputChange}
+                                    name={data.directEffects[1]}
                                 />
                                 <TextField
                                     label="3"
                                     multiline
                                     rows={3}
+                                    onChange={handleInputChange}
+                                    name={data.directEffects[2]}
                                 />
                             </Grid>
                         </Grid>
@@ -92,6 +111,8 @@ export default function ProblemTree() {
                                     multiline
                                     rows={3}
                                     sx={{width: "80%"}}
+                                    onChange={handleInputChange}
+                                    name="centralProblem"
                                 />
                             </Grid>
                         </Grid>
@@ -102,16 +123,22 @@ export default function ProblemTree() {
                                     label="1"
                                     multiline
                                     rows={3}
+                                    onChange={handleInputChange}
+                                    name={data.directCauses[0]}
                                 />
                                 <TextField
                                     label="2"
                                     multiline
                                     rows={3}
+                                    onChange={handleInputChange}
+                                    name={data.directCauses[1]}
                                 />
                                 <TextField
                                     label="3"
                                     multiline
                                     rows={3}
+                                    onChange={handleInputChange}
+                                    name={data.directCauses[2]}
                                 />
                             </Grid>
                         </Grid>

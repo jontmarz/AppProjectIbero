@@ -3,6 +3,7 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import Logo from "../components/Logo";
 import RichTextEditor from "../components/RichTextEditor";
 import CustomButton from "../components/CustomButton";
+import CustomList from "../components/CustomList";
 
 const listJust = [
     "1. La necesidad de ese proyecto ¿Por qué se va a hacer?",
@@ -40,26 +41,11 @@ export default function Justification() {
                     <Typography variant="p" component="p" sx={{ mt: 2 }}>
                         Dentro de esa justificación, tiene que plantearte las siguientes cuestiones:
                     </Typography>
-                    <List component="ol">
-                        {listJust.map((i, index) =>
-                            <ListItem key={index}>
-                                <ListItemText key={index} primary={i} />
-                            </ListItem>
-                        )}
-                    </List>
+                    <CustomList list={listJust} order />
                     <Typography variant="p" component="p" sx={{ mt: 2 }}>
                         Después de cumplir con los requisitos puede guardar:
                     </Typography>
-                    <List component="ul">
-                        {listItems.map((i, index) =>
-                            <ListItem key={index}>
-                                <ListItemIcon>
-                                    <CheckBoxOutlineBlankIcon />
-                                </ListItemIcon>
-                                <ListItemText key={index} primary={i} />
-                            </ListItem>
-                        )}
-                    </List>
+                    <CustomList list={listItems} />
                 </Grid>
                 <Grid item xs={12} md={7}>
                     <Box
