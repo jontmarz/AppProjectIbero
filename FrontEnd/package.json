@@ -1,5 +1,5 @@
 {
-  "name": "projectsibero",
+  "name": "frontend_projectsibero",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,6 +8,8 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  "author": "Jon TMarz",
+  "license": "ISC",
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",

@@ -21,7 +21,7 @@ export default function Signup() {
     }
 
     const [data, setData] = useState({
-        name: '',
+        fullName: '',
         typeDoc: '',
         numDoc: '',
         emailI: '',
@@ -63,7 +63,7 @@ export default function Signup() {
                 >
                     <Grid container spacing={4} >
                         <Grid item xs={12} sm={6} sx={{display:"grid", gap:2}}>
-                            <TextField type="text" onChange={handleInputChange} name="name" label="Nombre Completo" variant="filled" className="username"  required />
+                            <TextField type="text" onChange={handleInputChange} name="fullName" label="Nombre Completo" variant="filled" className="username"  required />
                             <FormControl>
                                 <InputLabel id="documento--label">Tipo de Identificación</InputLabel>
                                 <Select variant="filled" onChange={e => handleInputChange(e)} name="typeDoc" sx={{color: "#000"}}>

@@ -6,21 +6,21 @@ const UsersSchema = new Schema({
         type :      String,
         required :  true,
     },
-    identifyType: {
+    typeDoc: {
         type :       String,
         required :   true,
     },
-    identify : {
+    numDoc : {
         type :      Number,
         unique:     true,
         required :   true,
         index:      { unique: true }
     },
-    institucionalEmail : {
+    emailI : {
         type :      String,
         required :  true,
     },
-    personalEmail : {
+    emailP : {
         type :      String,
         required :  true,
     },
@@ -28,7 +28,7 @@ const UsersSchema = new Schema({
         type :      String,
         required :  true,
     },
-    academyProgram : {
+    academicProgram : {
         type :      String,
         required :  true,
     },
