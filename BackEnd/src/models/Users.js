@@ -10,7 +10,7 @@ const UsersSchema = new Schema({
         type :       String,
         required :   true,
     },
-    numDoc : {
+    identify : {
         type :      Number,
         unique:     true,
         required :   true,

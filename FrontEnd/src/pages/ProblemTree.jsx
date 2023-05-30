@@ -25,13 +25,24 @@ export default function ProblemTree() {
     const [data, setData] = useState({
         indirectEffects: {1: '', 2: ''},
         directEffects: {1: '', 2: '', 3: ''},
-        centralProblem: '',
-        directCauses: {1: '', 2: '', 3: ''},
-        indirectCauses: {1: '', 2: ''},
+        // centralProblem: '',
+        /* directCauses: {1: '', 2: '', 3: ''},
+        indirectCauses: {1: '', 2: ''}, */
     })
 
+    const handleInputChangeIE = (e, id) => {
+        const { value } = e.target;
+        setData({ indirectEffects: {...data.indirectEffects, [id]: value} })
+    }
+    
+    const handleInputChangeDE = (e, id) => {
+        const { value } = e.target;
+        setData({ directEffects: {...data.directEffects, [id]: value} })
+    }
+    
     const handleInputChange = (e) => {
-        setData({ ...data, [e.target.name]: e.target.value})
+        const { name, value } = e.target;
+        setData({ ...data, [name]: value })
     }
 
     const enviarDatos = (e) => {
@@ -65,14 +76,14 @@ export default function ProblemTree() {
                                     label="1"
                                     multiline
                                     rows={3}
-                                    onChange={handleInputChange}
+                                    onChange={e => handleInputChangeIE(e, 0)}
                                     name={data.indirectEffects[0]}
                                 />
                                 <TextField
                                     label="2"
                                     multiline
                                     rows={3}
-                                    onChange={handleInputChange}
+                                    onChange={e => handleInputChangeIE(e, 1)}
                                     name={data.indirectEffects[1]}
                                 />
                             </Grid>
@@ -84,26 +95,26 @@ export default function ProblemTree() {
                                     label="1"
                                     multiline
                                     rows={3}
-                                    onChange={handleInputChange}
+                                    onChange={e => handleInputChangeDE(e, 1)}
                                     name={data.directEffects[0]}
                                 />
                                 <TextField
                                     label="2"
                                     multiline
                                     rows={3}
-                                    onChange={handleInputChange}
+                                    onChange={e => handleInputChangeDE(e, 2)}
                                     name={data.directEffects[1]}
                                 />
                                 <TextField
                                     label="3"
                                     multiline
                                     rows={3}
-                                    onChange={handleInputChange}
+                                    onChange={e => handleInputChange(e, 3)}
                                     name={data.directEffects[2]}
                                 />
                             </Grid>
                         </Grid>
-                        <Grid container spacing={2} sx={{mt: 2}}>
+                        {/* <Grid container spacing={2} sx={{mt: 2}}>
                             <Grid item xs={12} sx={{display: "flex", gap: 2, flexDirection: { xs: "column", sm: "row"}, justifyContent: "space-around", mx: 10, alignItems: "center"}}>
                                 <Typography variant="p" component="p" sx={{  }}>Problema central</Typography>
                                 <TextField
@@ -115,8 +126,8 @@ export default function ProblemTree() {
                                     name="centralProblem"
                                 />
                             </Grid>
-                        </Grid>
-                        <Grid container spacing={2} sx={{mt: 2}}>
+                        </Grid> */}
+                        {/* <Grid container spacing={2} sx={{mt: 2}}>
                             <Grid item xs={12} sx={{display: "flex", gap: 2, flexDirection: { xs: "column", sm: "row"}, justifyContent: "space-between", mx: 10, alignItems: "center"}}>
                                 <Typography variant="p" component="p" sx={{  }}>Causas directas</Typography>
                                 <TextField
@@ -156,7 +167,7 @@ export default function ProblemTree() {
                                     rows={3}
                                 />
                             </Grid>
-                        </Grid>
+                        </Grid> */}
                         <Box sx={{ display:"flex", justifyContent:"end", mt:5 }}>
                             <CustomButton name="Guardar"  />
                         </Box>
