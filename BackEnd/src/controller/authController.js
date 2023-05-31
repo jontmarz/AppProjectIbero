@@ -19,14 +19,13 @@ export const signup = async ( req , res ) => {
 
         const payload ={
             'User' : user.identify,
+            'Nombre' : user.fullName,
             'id_User' : user._id,
         }
 
         const {tokenGenerado, expiresIn} = await generarJwt(payload);
-        // generateRefreshToken(user.id, res)
 
         return res.status(200).json({
-            // userComplete : user,
             status: 200,
             code: 1,
             message: "SING-IN FUE REALIZADO CON EXITO",
@@ -60,6 +59,7 @@ export const login = async ( req , res ) => {
 
         const payload ={
             'User' : user.identify,
+            'Nombre' : user.fullName,
             'id_User' : user._id,
         }
 
@@ -68,7 +68,7 @@ export const login = async ( req , res ) => {
         return res.status(200).json({
             status: 200,
             code: 1,
-            message: "SING-IN FUE REALIZADO CON EXITO",
+            message: "LOG-IN FUE REALIZADO CON EXITO",
             token: {
                 tokenid: tokenGenerado,
                 expires: expiresIn,

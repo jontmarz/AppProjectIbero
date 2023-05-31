@@ -47,7 +47,6 @@ UsersSchema.pre("save", async function (next){
 
     try {
         if (!this.isModified("password")) return next();
-
         this.password = await bcrypt.hash(this.password, 10);
         next();
     } catch (e) {
@@ -59,6 +58,5 @@ UsersSchema.pre("save", async function (next){
 UsersSchema.methods.comparePassword = async function (password) {
     return await bcrypt.compare(password, this.password)
 }
-
 
 export const Users = model("Users", UsersSchema);
