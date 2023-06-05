@@ -6,7 +6,7 @@ export const middlewareToken = async(req,res,next) => {
         if (!authHeader) {
             return res.status(400).json({
                 message: "DEBE ENVIAR UN TOKEN VALIDO!",
-                code: -1
+                code: 0
             })
         }
 
@@ -19,7 +19,7 @@ export const middlewareToken = async(req,res,next) => {
         console.log(error);
         return res.status(500).json({
             message: "Hubo un error al intentar verificar token",
-            code: -1
+            code: 0
         })
     }
 

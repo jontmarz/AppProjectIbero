@@ -12,7 +12,8 @@ router.get("/logout", logout)
 
 router.get("/users", middlewareToken, (req, res) =>{
     res.json({
-        'messague': 'entro exitosamente'
+        'messague': 'entro exitosamente',
+        'code': 1
     })
 })
 
