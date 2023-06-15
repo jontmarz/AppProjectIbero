@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from "./config/router";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import './assets/sass/main.scss'
+import MainPage from './layout/MainPage';
 
 const theme = createTheme({
   pallete: {
@@ -28,6 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ThemeProvider theme={theme}>
       {/* <SnackbarProvider> */}
         <CssBaseline>
+          {/* <MainPage /> */}
           <RouterProvider router={router} />
         </CssBaseline>
       {/* </SnackbarProvider> */}

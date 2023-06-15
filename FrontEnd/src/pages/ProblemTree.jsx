@@ -25,9 +25,9 @@ export default function ProblemTree() {
     const [data, setData] = useState({
         indirectEffects: {1: '', 2: ''},
         directEffects: {1: '', 2: '', 3: ''},
-        // centralProblem: '',
-        /* directCauses: {1: '', 2: '', 3: ''},
-        indirectCauses: {1: '', 2: ''}, */
+        centralProblem: '',
+        directCauses: {1: '', 2: '', 3: ''},
+        indirectCauses: {1: '', 2: ''},
     })
 
     const handleInputChangeIE = (e, id) => {
