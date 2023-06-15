@@ -10,30 +10,30 @@ const UsersSchema = new Schema({
         type :       String,
         required :   true,
     },
-    userId: {
+    identify: {
         type :      Number,
         unique:     true,
         required :   true,
-        index:      { unique: true }
     },
-    emailI : {
+    emailI: {
         type :      String,
         required :  true,
         unique:     true,
+        index:      { unique: true }
     },
-    emailP : {
+    emailP: {
         type :      String,
         required :  true,
     },
-    faculty : {
+    faculty: {
         type :      String,
         required :  true,
     },
-    academicProgram : {
+    academicProgram: {
         type :      String,
         required :  true,
     },
-    password : {
+    password: {
         type :      String,
         required :  true,
     },
@@ -51,7 +51,6 @@ UsersSchema.pre("save", async function (next){
         this.password = await bcrypt.hash(this.password, 10);
         next();
     } catch (e) {
-        console.log(e);
         throw new Error("Error al codificar la contraseña")
     }
 })

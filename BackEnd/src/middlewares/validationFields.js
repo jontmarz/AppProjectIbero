@@ -20,7 +20,12 @@ export const validationResExpress = (req, res, next) => {
 export const signupValidatorFields = [
     body('fullName', "Coloca tu nombre completo").trim().isString().notEmpty(),
     body('typeDoc', "Coloca tu tipo de documento").trim().isString().notEmpty(),
-    body('identify', "Coloca tu documento").trim().notEmpty(),
+    body('identify', "Coloca tu documento").trim().notEmpty().custom(async(value) => {
+      return Users.findOne({ where: {emailI: value} })
+        .then(() => {
+            return Promise.reject('Este correo ya esta registrado')
+        })
+    }),
     body('emailI', "Coloca un correo institucional valido").trim().custom(async(value) => {
       return Users.findOne({ where: {emailI: value} })
         .then(() => {
@@ -43,6 +48,7 @@ export const signupValidatorFields = [
   ]
 
   export const logInValidatorFields = [
-    body('identify', "colocar la facultad o institución").trim().notEmpty(),
+    body('emailI', "Correo no valido").isEmail().normalizeEmail().notEmpty(),
+    body('password', "colocar la contraseña").trim(),
     validationResExpress
   ]

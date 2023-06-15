@@ -6,7 +6,7 @@ export const signup = async ( req , res ) => {
     try {
         const request = req.body;
 
-        let user = await Users.findOne({identify: request.identify})
+        let user = await Users.findOne({emailI: request.emailI})
         if (user) {
             return res.status(401).json({
                 status: 401,
@@ -18,7 +18,7 @@ export const signup = async ( req , res ) => {
         await user.save();
 
         const payload ={
-            'User' : user.identify,
+            'User' : user.emailI,
             'Nombre' : user.fullName,
             'id_User' : user._id,
         }
@@ -45,20 +45,19 @@ export const signup = async ( req , res ) => {
 // FUNCION PARA LOGEO DE USUARIOS
 export const login = async ( req , res ) => {
     try {
-        const { identify, password } = req.body;
+        const { emailI, password } = req.body;
 
-        let user = await Users.findOne({ identify })
+        let user = await Users.findOne({ emailI })
 
         if (!user || !(await user.comparePassword(password))) {
             return res.status(403).json({
-                status: 403,
-                code: 0,
-                message: "El usuario o contraseña incorrectos"
+                message: "El usuario o contraseña incorrectos",
+                code: 0
             })
         }
 
         const payload ={
-            'User' : user.identify,
+            'User' : user.emailI,
             'Nombre' : user.fullName,
             'id_User' : user._id,
         }
@@ -66,9 +65,8 @@ export const login = async ( req , res ) => {
         const {tokenGenerado, expiresIn} = await generarJwt(payload);
 
         return res.status(200).json({
-            status: 200,
-            code: 1,
             message: "LOG-IN fue realizado exitosamente",
+            code: 1,
             token: {
                 tokenid: tokenGenerado,
                 expires: expiresIn,
@@ -76,8 +74,8 @@ export const login = async ( req , res ) => {
         })
     } catch (e) {
         return res.status(500).json({
-            status: 500,
-            message: e.message
+            message: e.message,
+            code:0
         })
     }
 }
