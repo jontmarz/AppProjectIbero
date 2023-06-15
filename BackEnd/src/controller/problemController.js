@@ -13,17 +13,18 @@ export const problemCreate = async (req, res) => {
         const dataApp = DataApp();
 
         dataApp.set({"problems":problema});
+        dataApp.set({"user": payload.id_User});
 
         await dataApp.save();
 
         return res.status(200).json({
-            message: `CREACION EXITOSA DE ARBOL DE PROBLEMAS`,
+            message: `Creacion exitosa de arbol de problemas`,
             code : 1,
         })
 
     } catch (error) {
         res.status(500).json({
-            message: "EL DATO NO EXISTE O OCURRIO UN ERROR CON LOS DATOS DE CLIENTES",
+            message: "El dato no existe o ocurrio un error con los datos de cliente",
             code: -1
         })
     }

@@ -11,7 +11,7 @@ export const signup = async ( req , res ) => {
             return res.status(401).json({
                 status: 401,
                 code: 0,
-                message: "ESTE USUARIO YA EXISTE EN BASE DE DATOS"
+                message: "Este usuario ya existe en base de datos"
             })
         }
         user = new Users(req.body);
@@ -28,7 +28,7 @@ export const signup = async ( req , res ) => {
         return res.status(200).json({
             status: 200,
             code: 1,
-            message: "SING-IN FUE REALIZADO CON EXITO",
+            message: "SING-IN fue realizado con exito",
             token: {
                 tokenid: tokenGenerado,
                 expires: expiresIn,
@@ -53,7 +53,7 @@ export const login = async ( req , res ) => {
             return res.status(403).json({
                 status: 403,
                 code: 0,
-                message: "EL USUARIO O CONTRASEÑA EQUIVOCADO"
+                message: "El usuario o contraseña incorrectos"
             })
         }
 
@@ -68,7 +68,7 @@ export const login = async ( req , res ) => {
         return res.status(200).json({
             status: 200,
             code: 1,
-            message: "LOG-IN FUE REALIZADO CON EXITO",
+            message: "LOG-IN fue realizado exitosamente",
             token: {
                 tokenid: tokenGenerado,
                 expires: expiresIn,

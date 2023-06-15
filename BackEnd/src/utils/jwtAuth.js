@@ -12,7 +12,7 @@ export const generarJwt = async (payload) =>{
         return {tokenGenerado, expiresIn};
 
     } catch (error) {
-        throw new Error ( "ERROR AL GENERAR EL TOKEN " )
+        throw new Error ( "Error al generar el Token " )
     }
 }
 
@@ -23,7 +23,7 @@ export const verificarJwt = async ( token ) =>{
         const payload = jwt.verify(token, "" + process.env.SECRETPRIVATEKEY);
         return payload;
     } catch (error) {
-        throw new Error ( "ERROR AL VERIFICAR EL TOKEN " )
+        throw new Error ( "Error al verificar el Token " )
     }
 }
 
@@ -34,7 +34,7 @@ export const decodeJwt = async ( token ) =>{
         return payload;
 
     } catch (error) {
-        throw new Error ( "ERROR AL GENERAR EL TOKEN " )
+        throw new Error ( "Error al generar el Token " )
     }
 }
 

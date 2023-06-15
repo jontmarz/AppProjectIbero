@@ -10,7 +10,7 @@ const UsersSchema = new Schema({
         type :       String,
         required :   true,
     },
-    identify : {
+    userId: {
         type :      Number,
         unique:     true,
         required :   true,
@@ -19,6 +19,7 @@ const UsersSchema = new Schema({
     emailI : {
         type :      String,
         required :  true,
+        unique:     true,
     },
     emailP : {
         type :      String,

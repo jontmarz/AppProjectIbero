@@ -5,7 +5,7 @@ export const middlewareToken = async(req,res,next) => {
     const authHeader = req.headers.authorization;
         if (!authHeader) {
             return res.status(400).json({
-                message: "DEBE ENVIAR UN TOKEN VALIDO!",
+                message: "debe enviar un token valido!",
                 code: 0
             })
         }
