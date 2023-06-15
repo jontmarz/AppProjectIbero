@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function CustomButton(props) {
 
-    const BtnStyles = styled(Button,)`
+    const BtnStyles = styled(Button)`
         background-color: #000;
         color: #fff;
         transition: all 0.3s ease-in-out;
@@ -19,8 +19,10 @@ export default function CustomButton(props) {
 
     
     if (props.anchor) {
-        return (<BtnStyles component={Link} to={props.anchor}>{props.name}</BtnStyles>)
-    } else {
-        return(<BtnStyles type="submit" disabled={props.data}>{props.name}</BtnStyles>)
+        return (<BtnStyles component={Link} to={props.anchor} className="custom_button">{props.name}</BtnStyles>)
+    } else if(props.action) {
+        return (<BtnStyles onClick={props.click}>{props.name}</BtnStyles>)
+    }else {
+        return(<BtnStyles type="submit" disabled={props.data} className="custom_button">{props.name}</BtnStyles>)
     }
 }
