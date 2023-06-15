@@ -21,9 +21,9 @@ export const signupValidatorFields = [
     body('fullName', "Coloca tu nombre completo").trim().isString().notEmpty(),
     body('typeDoc', "Coloca tu tipo de documento").trim().isString().notEmpty(),
     body('identify', "Coloca tu documento").trim().notEmpty().custom(async(value) => {
-      return Users.findOne({ where: {emailI: value} })
+      return Users.findOne({ where: {identify: value} })
         .then(() => {
-            return Promise.reject('Este correo ya esta registrado')
+            return Promise.reject('Este documento ya esta registrado')
         })
     }),
     body('emailI', "Coloca un correo institucional valido").trim().custom(async(value) => {
