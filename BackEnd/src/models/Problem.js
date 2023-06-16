@@ -1,14 +1,14 @@
 import { Schema, model } from 'mongoose';
 
 export const problemSchema = new Schema({
-    indEffect:{type : Schema.Types.Mixed},
-    dirEffect:{type : Schema.Types.Mixed},
+    indEffect:{type : Object},
+    dirEffect:{type : Object},
     centralProb: {
         type: String,
         required: true
     },
-    dirCauses:{type : Schema.Types.Mixed},
-    indCauses:{type : Schema.Types.Mixed},
+    dirCauses:{type : Object},
+    indCauses:{type : Object},
 
 })
 
