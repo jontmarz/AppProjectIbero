@@ -33,7 +33,7 @@ export const problemView = async (req, res) => {
 
 export const problemCreate = async (req, res) => {
     try {
-        const data = req.body;
+        const data = req.body.tree;
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
 
