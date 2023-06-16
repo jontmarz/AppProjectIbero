@@ -4,8 +4,10 @@ dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import "../database/dbconexion.js";
+
 import auth from "./routes/authRouter.js";
 import problem from "./routes/problemRouter.js";
+import user from "./routes/userRouter.js";
 
 const app = express();
 
@@ -17,7 +19,7 @@ import { middlewareToken } from './middlewares/middlewareToken.js'
 
 // ROUTES
 app.use('/api/auth', auth);
-
+app.use('/api/user', middlewareToken, user);
 app.use('/api/dataApp/problem-tree', middlewareToken, problem);
 
 

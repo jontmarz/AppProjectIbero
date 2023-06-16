@@ -10,7 +10,8 @@ export const problemSchema = new Schema({
         required: true
     },
     centralProb: {
-        type: String},
+        type: String,
+    },
     dircauses:{
         type: Object,
         required: true
