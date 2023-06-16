@@ -8,7 +8,7 @@ export const problemView = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
-        let problem = await DataApp.findOne({user: payload.id_User})
+        let problem = await DataApp.findOne({user: payload.id_User});
         if(problem.problems == undefined){
             return res.status(200).json({
                 message: `No se han guardado datos`,
