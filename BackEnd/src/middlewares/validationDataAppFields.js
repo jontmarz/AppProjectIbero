@@ -3,7 +3,7 @@ import { validationResult, body} from "express-validator";
 export const validationResExpress = (req, res, next) => {
     const errors = validationResult(req);
     const errores = errors.formatWith( error => error.msg)
-
+    console.log(req.body);
     if (!errors.isEmpty()) {
         return res.status(400).json({
             message: "Error en algun campo del formulario",
@@ -14,20 +14,17 @@ export const validationResExpress = (req, res, next) => {
     next()
 }
 export const problemFields = [
-    body('indEffect', "Por favor rellenar los espacios como un objeto {'1':'','2':''}").isObject().notEmpty(),
-        body('indEffect[1]',"Debe ser string este campo").trim().isString().notEmpty(),
-        body('indEffect[2]',"Debe ser string este campo").trim().isString().notEmpty(),
-    body('dirEffect', "Por favor rellenar los espacios como un objeto {'1':'','2':'','3':''}").isObject().notEmpty(),
-        body('dirEffect[1]',"Debe ser string este campo").trim().isString().notEmpty(),
-        body('dirEffect[2]',"Debe ser string este campo").trim().isString().notEmpty(),
-        body('dirEffect[3]',"Debe ser string este campo").trim().isString().notEmpty(),
-    body('centralProb', "Coloca tu tipo de documento").trim().isString().notEmpty(),
-    body('dircauses', "Por favor rellenar los espacios como un objeto {'1':'','2':'','3':''}").isObject().notEmpty(),
-        body('dircauses[1]',"Debe ser string este campo").trim().isString().notEmpty(),
-        body('dircauses[2]',"Debe ser string este campo").trim().isString().notEmpty(),
-        body('dircauses[3]',"Debe ser string este campo").trim().isString().notEmpty(),
-    body('indcauses', "Por favor rellenar los espacios como un objeto {'1':'','2':''}").isObject().notEmpty(),
-        body('indcauses[1]',"Debe ser string este campo").trim().isString().notEmpty(),
-        body('indcauses[2]',"Debe ser string este campo").trim().isString().notEmpty(),
+
+        body('indEffect[ei1]',"campo debe ser tipo texto").isString().trim().notEmpty(),
+        body('indEffect.ei2',"campo debe ser tipo texto").isString().trim().notEmpty(),
+        body('dirEffect.ed1',"campo debe sert tipo texto").isString().trim().notEmpty(),
+        body('dirEffect.ed2',"campo debe sert tipo texto").isString().trim().notEmpty(),
+        body('dirEffect.ed3',"campo debe sert tipo texto").isString().trim().notEmpty(),
+        body('centralProb', "Problema Central no es texto").isString().trim().notEmpty(),
+        body('dirCauses.cd1',"campo debe ser tipo texto").isString().trim().notEmpty(),
+        body('dirCauses.cd2',"campo debe ser tipo texto").isString().trim().notEmpty(),
+        body('dirCauses.cd3',"campo debe ser tipo texto").isString().trim().notEmpty(),
+        body('indCauses.ci1',"campo debe ser tipo texto").isString().trim().notEmpty(),
+        body('indCauses.ci2',"campo debe ser tipo texto").isString().trim().notEmpty(),
     validationResExpress
     ]
