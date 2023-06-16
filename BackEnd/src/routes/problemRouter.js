@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { problemCreate } from '../controller/problemController.js';
+import { problemCreate, problemView} from '../controller/problemController.js';
 import { problemFields } from '../middlewares/validationDataAppFields.js';
 
 const router = Router();
 
 
-router.get('/', )
+router.get('/', problemView)
 
-router.post('/', problemFields, problemCreate)
+router.put('/', problemFields, problemCreate)
 
 export default router;

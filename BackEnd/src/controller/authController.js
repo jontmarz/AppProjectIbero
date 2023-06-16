@@ -1,3 +1,4 @@
+import { DataApp } from "../models/DataApp.js";
 import {Users} from "../models/Users.js";
 import { generarJwt } from "../utils/jwtAuth.js";
 
@@ -16,6 +17,10 @@ export const signup = async ( req , res ) => {
         }
         user = new Users(req.body);
         await user.save();
+
+        const dataApp = DataApp();
+        dataApp.set({"user": user._id});
+        await dataApp.save();
 
         const payload ={
             'User' : user.emailI,
