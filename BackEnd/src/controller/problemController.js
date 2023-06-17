@@ -17,8 +17,8 @@ export const problemView = async (req, res) => {
         } else {
             return res.status(200).json({
                 message: `Datos Cargados`,
-                problemas: problem.problems,
                 code : 1,
+                problemas: problem.problems,
             })
         }
 
