@@ -27,3 +27,8 @@ export const problemFields = [
     body('tree.indCauses.ci2',"campo debe ser tipo texto").isString().trim().notEmpty(),
     validationResExpress
 ]
+
+export const descriptionFields = [
+    body('desText', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    validationResExpress
+]
