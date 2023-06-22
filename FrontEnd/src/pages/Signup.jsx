@@ -1,10 +1,10 @@
 import { Box, Grid, TextField, Select, MenuItem, FormControl, InputLabel, Typography, Alert } from "@mui/material";
-import styled from "@emotion/styled";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { api } from '../config/axios';
-import Swal from 'sweetalert2';
+import { api, setToken } from '../config/axios';
 import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import Swal from 'sweetalert2';
 import Logo from "../components/Logo";
 import CustomButton from "../components/CustomButton";
 import signupImg from "../assets/img-signup.jpg";
@@ -25,18 +25,10 @@ export default function Signup() {
     })
 
     const { register, handleSubmit, formState: { errors } } = useForm();
-
     const navigate = useNavigate()
+    // const [loading, setLoading] = useState(false)
 
-    const [user, setUser] = useState([])
-
-    const [loading, setLoading] = useState(false)
-
-    const handleInputChange = (e) => {
-        setUser({ ...user, [e.target.name]: e.target.value})
-    }
-
-    const onSubmit = async(data, e) => {
+    const onSubmit = async (data, e) => {
         setUser([ ...user, data])
 
         const newUser = {
@@ -53,7 +45,6 @@ export default function Signup() {
         
         const res = await api.post("/api/auth/register", newUser)
             .then((res) => {
-                console.log(res.data);
                 setLoading(true)
                 Swal.fire({
                     title: "¡Registro exitoso!",
@@ -62,8 +53,9 @@ export default function Signup() {
                     confirmButtonText: "Aceptar",
                     confirmButtonColor: "#0098D4"
                 })
+                setToken(res.data.token.tokenid)
                 setLoading(false)
-                navigate("/")
+                navigate("/problem-tree")
             })
             .catch((e) => {
                 console.error(e.response.data);
@@ -192,7 +184,7 @@ export default function Signup() {
 
                             {/* Botón submit */}
                             <Box sx={{ display:"flex", justifyContent:"end" }}>
-                                <CustomButton name="Guardar" />
+                                <CustomButton type={submit} name="Guardar" />
                             </Box>
                         </Grid>
                     </Grid>

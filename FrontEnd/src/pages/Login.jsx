@@ -1,10 +1,12 @@
 import { Typography, Grid, TextField, Box, Button } from "@mui/material";
-import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { api } from '../config/axios';
-import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
+import { setToken, getToken } from "../config/axios";
+import { useUserContext } from '../context/UserContext'
+import styled from "@emotion/styled";
+import Swal from 'sweetalert2';
 import Logo from '../components/Logo';
 import imgLogin from '../assets/bg-login.jpg'
 import CustomButton from "../components/CustomButton";
@@ -17,51 +19,49 @@ const ImgBG = styled("img")({
     opacity: 0
 })
 
-const bgUrl = "../assets/bg-login.jpg"
-
 export default function Login() {
 
     var disabled = false;
 
     const { register, handleSubmit, formState: { errors } } = useForm();
-
     const navigate = useNavigate()
-
-    /* const [data, setData] = useState({
-        email: '',
-        password: ''
-    }) */
-
-    /* const [error, setError] = useState({
-        error: false,
-        message: ''
-    }) */
-
-    const [user, setUser] = useState([])
-
+    const [user, setUser] =  useUserContext()
     const [loading, setLoading] = useState(false)
 
-    const handleInputChange = (e) => {
-        setData({ ...data, [e.target.name]: e.target.value})
-        if (data) {
-            disabled = false;
-        }
-    }
-
-    const onSubmit = (data, e) => {
-        setUser([ ...user, data])
-
+    const onSubmit = async (data, e) => {
         const logUser = {
-            identify: data.identify,
+            emailI: data.emailI,
             password: data.password
         }
 
-        const res = api.post("/api/auth/login", logUser)
+        const res = await api.post("/api/auth/login", logUser)
             .then((res) => {
-                console.log(res.data);
+                setLoading(true)
+                Swal.fire({
+                    title: "¡Registro exitoso!",
+                    text: res.data.message,
+                    icon: "success",
+                    confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#0098D4"
+                })
+                setToken(res.data.token.tokenid)
+                // setUser(res.data.user)
+                setUser({
+                    id: 1,
+                    name: "Jorge",
+                })
+                setLoading(false)
+                navigate("/problem-tree")
             })
             .catch((e) => {
-                console.log(e.response.data.message);
+                console.log(e);
+                Swal.fire({
+                    title: "¡Error!",
+                    text: e.response.data.message,
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#0098D4"
+                })
             })
     }
 
@@ -92,21 +92,13 @@ export default function Login() {
                     >
                         {/* User */}
                         <TextField
-                            type="text"
-                            label="Identificación"
-                            variant="filled"
-                            className="identify"
-                            { ...register("identify", {required: true}) }
-                        />
-                        {errors.identify && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita tu número de identidad</Typography>}
-                        {/* <TextField
                             type="email"
                             label="Usuario (email)"
                             variant="filled"
                             className="username"
                             { ...register("emailI", { required: true }) }
                         /> 
-                        {errors.emailI && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita tu dirección de correo electrónico Institucional</Typography>} */}
+                        {errors.emailI && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita tu dirección de correo electrónico Institucional</Typography>}
 
 
                         {/* Password */}
@@ -126,7 +118,7 @@ export default function Login() {
                 </Grid>
                 <Grid item xs={12} md={6} sx={{ p:4 }}>
                     <Box sx={{ display:"flex", justifyContent:"end" }}>
-                        <CustomButton name='Registrarse' anchor='/signup' />
+                        <CustomButton data={disabled} name='Registrarse' anchor='/signup' />
                     </Box>
                     <Box sx={{ display:"flex", justifyContent:"end" }}>
                         <Logo />

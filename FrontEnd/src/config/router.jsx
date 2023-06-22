@@ -1,5 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 // import { Login, Records, Problemtree, Description, Goals, Justification } from '../pages/'
+import RootLayout from '../layout/RootLayout'
+import PrivateLayout from '../layout/PrivateLayout'
 import Login from '../pages/Login'
 import Signup from '../pages/Signup'
 import Records from '../pages/Records'
@@ -7,10 +9,12 @@ import Problemtree from '../pages/ProblemTree'
 import Description from '../pages/Description'
 import Goals from '../pages/Goals'
 import Justification from '../pages/Justification'
+import ErrorPage from "../pages/ErrorPage";
 
 export const router = createBrowserRouter([
     {
         path: "/",
+        element: <RootLayout />,
         children: [
             {
                 index: true,
@@ -21,25 +25,59 @@ export const router = createBrowserRouter([
                 element: <Signup />
             },
             {
-                path: "records",
-                element: <Records />
+                path: "problem-tree",
+                element: <PrivateLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <Problemtree />
+                    }
+                ]
             },
             {
-                path: "problem-tree",
-                element: <Problemtree />
+                path: "records",
+                element: <PrivateLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <Records />
+                    }
+                ]
             },
             {
                 path: "description",
-                element: <Description />
+                element: <PrivateLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <Description />
+                    }
+                ]
             },
             {
                 path: "goals",
-                element: <Goals />
+                element: <PrivateLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <Goals />
+                    }
+                ]
             },
             {
                 path: "justification",
-                element: <Justification />
+                element: <PrivateLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <Justification />
+                    }
+                ]
             },
+            {
+                path: "*",
+                element: <ErrorPage />
+            }
         ]
     }
 ])

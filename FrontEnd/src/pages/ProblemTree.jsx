@@ -1,19 +1,25 @@
 import { Grid, Typography, Box, List, ListItem, ListItemText, TextField } from "@mui/material";
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { api, initAxiosInterceptors, getToken } from '../config/axios';
+import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
 import Logo from "../components/Logo";
 import CustomButton from "../components/CustomButton";
 import treeImg from "../assets/arbol-problema-img.png";
 import CustomList from "../components/CustomList";
 
-export default function ProblemTree() {
+const Img = styled("img")({
+    width: '100%',
+    objectFit: "cover",
+    objectPosition: "center",
+    marginTop: "25px"
+})
 
-    const Img = styled("img")({
-        width: '100%',
-        objectFit: "cover",
-        objectPosition: "center",
-        marginTop: "25px"
-    })
+initAxiosInterceptors()
+
+export default function ProblemTree() {
 
     const listItems = [
         "1. El problema central no debe extenderse más de 5 renglones.",
@@ -22,32 +28,65 @@ export default function ProblemTree() {
         "4. Lo mismo sucede con los efectos, sin emabrgo, ellos refieren es lo que puede suceder si el problema continua",
     ]
 
-    const [data, setData] = useState({
-        indirectEffects: {1: '', 2: ''},
-        directEffects: {1: '', 2: '', 3: ''},
-        centralProblem: '',
-        directCauses: {1: '', 2: '', 3: ''},
-        indirectCauses: {1: '', 2: ''},
-    })
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate()
+    const [treeData, settreeData] = useState([])
+    const [loading, setLoading] = useState(false)
+    const onSubmit = async (data, e) => {
+        settreeData([ ...treeData, data])
+        
+        const tree = {
+            indEffect: {
+                ei1: data.EI1,
+                ei2: data.EI2
+            },
+            dirEffect: {
+                ed1: data.ED1,
+                ed2: data.ED2,
+                ed3: data.ED3
+            },
+            centralProb: data.CentralProblem,
+            dirCauses: {
+                cd1: data.CD1,
+                cd2: data.CD2,
+                cd3: data.CD3
+            },
+            indCauses: {
+                ci1: data.CI1,
+                ci2: data.CI2
+            }
+        }
 
-    const handleInputChangeIE = (e, id) => {
-        const { value } = e.target;
-        setData({ indirectEffects: {...data.indirectEffects, [id]: value} })
-    }
-    
-    const handleInputChangeDE = (e, id) => {
-        const { value } = e.target;
-        setData({ directEffects: {...data.directEffects, [id]: value} })
-    }
-    
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setData({ ...data, [name]: value })
-    }
-
-    const enviarDatos = (e) => {
-        e.preventDefault();
-        console.log("datos envidos", data);
+        // const res =  await api.put("/api/dataApp/problem-tree", tree )
+        const res =  await api({
+            url: "/api/dataApp/problem-tree",
+            method: "PUT",
+            headers: { Authorization: `Bearer ${getToken()}` },
+            data: { tree }
+        })
+            .then((res) => {
+                setLoading(true)
+                Swal.fire({
+                    title: "¡Registro exitoso!",
+                    text: res.data.message,
+                    icon: "success",
+                    confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#0098D4"
+                })
+                setLoading(false)
+                navigate("/description")
+            })
+            .catch((e) => {
+                console.error(e)
+                Swal.fire({
+                    title: "¡Error!",
+                    text: e.response.data.message,
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#0098D4"
+                })
+                // navigate("/")
+            })
     }
 
     return (
@@ -67,25 +106,28 @@ export default function ProblemTree() {
                     <Box
                         component="form"
                         className="problem-tree"
-                        onSubmit={enviarDatos}
+                        onSubmit={handleSubmit(onSubmit)}
                     >
                         <Grid container spacing={2} sx={{mt: 4}}>
                             <Grid item xs={12} sx={{display: "flex", gap: 2, flexDirection: { xs: "column", sm: "row"}, justifyContent: "space-evenly", mx: {xs: "10"}, alignItems: "center"}}>
+
+                                {/* Efectos Indirectos */}
                                 <Typography variant="p" component="p" sx={{  }}>Efectos Indirectos</Typography>
                                 <TextField
                                     label="1"
                                     multiline
                                     rows={3}
-                                    onChange={e => handleInputChangeIE(e, 0)}
-                                    name={data.indirectEffects[0]}
+                                    { ...register("EI1", { required: true }) }
                                 />
+                                {errors.EI1 && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el primer efecto indirecto</Typography>}
+
                                 <TextField
                                     label="2"
                                     multiline
                                     rows={3}
-                                    onChange={e => handleInputChangeIE(e, 1)}
-                                    name={data.indirectEffects[1]}
+                                    { ...register("EI2", { required: true }) }
                                 />
+                                {errors.EI2 && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el segundo efecto indirecto</Typography>}
                             </Grid>
                         </Grid>
                         <Grid container spacing={2} sx={{mt: 2}}>
@@ -95,62 +137,66 @@ export default function ProblemTree() {
                                     label="1"
                                     multiline
                                     rows={3}
-                                    onChange={e => handleInputChangeDE(e, 1)}
-                                    name={data.directEffects[0]}
+                                    { ...register("ED1", { required: true }) }
                                 />
+                                {errors.ED1 && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el primer efecto directo</Typography>}
                                 <TextField
                                     label="2"
                                     multiline
                                     rows={3}
-                                    onChange={e => handleInputChangeDE(e, 2)}
-                                    name={data.directEffects[1]}
+                                    { ...register("ED2", { required: true }) }
                                 />
+                                {errors.EI2 && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el segundo efecto directo</Typography>}
                                 <TextField
                                     label="3"
                                     multiline
                                     rows={3}
-                                    onChange={e => handleInputChange(e, 3)}
-                                    name={data.directEffects[2]}
+                                    { ...register("ED3", { required: true }) }
                                 />
+                                {errors.ED3 && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el tercer efecto directo</Typography>}
                             </Grid>
                         </Grid>
-                        {/* <Grid container spacing={2} sx={{mt: 2}}>
+                        <Grid container spacing={2} sx={{mt: 2}}>
                             <Grid item xs={12} sx={{display: "flex", gap: 2, flexDirection: { xs: "column", sm: "row"}, justifyContent: "space-around", mx: 10, alignItems: "center"}}>
+
+                                {/* Problema central */}
                                 <Typography variant="p" component="p" sx={{  }}>Problema central</Typography>
                                 <TextField
-                                    label="1"
+                                    label="Problema central"
                                     multiline
                                     rows={3}
                                     sx={{width: "80%"}}
-                                    onChange={handleInputChange}
-                                    name="centralProblem"
+                                    { ...register("CentralProblem", { required: true }) }
                                 />
+                                {errors.CentralProblem && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el problema central</Typography>}
                             </Grid>
-                        </Grid> */}
-                        {/* <Grid container spacing={2} sx={{mt: 2}}>
+                        </Grid>
+                        <Grid container spacing={2} sx={{mt: 2}}>
                             <Grid item xs={12} sx={{display: "flex", gap: 2, flexDirection: { xs: "column", sm: "row"}, justifyContent: "space-between", mx: 10, alignItems: "center"}}>
+
+                                {/* Causas directas */}
                                 <Typography variant="p" component="p" sx={{  }}>Causas directas</Typography>
                                 <TextField
                                     label="1"
                                     multiline
                                     rows={3}
-                                    onChange={handleInputChange}
-                                    name={data.directCauses[0]}
+                                    { ...register("CD1", { required: true }) }
                                 />
+                                {errors.CD1 && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita la primera causa directa</Typography>}
                                 <TextField
                                     label="2"
                                     multiline
                                     rows={3}
-                                    onChange={handleInputChange}
-                                    name={data.directCauses[1]}
+                                    { ...register("CD2", { required: true }) }
                                 />
+                                {errors.CD2 && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita la segunda causa directa</Typography>}
                                 <TextField
                                     label="3"
                                     multiline
                                     rows={3}
-                                    onChange={handleInputChange}
-                                    name={data.directCauses[2]}
+                                    { ...register("CD3", { required: true }) }
                                 />
+                                {errors.CD3 && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita la tercera causa directa</Typography>}
                             </Grid>
                         </Grid>
                         <Grid container spacing={2} sx={{mt: 4}}>
@@ -160,14 +206,18 @@ export default function ProblemTree() {
                                     label="1"
                                     multiline
                                     rows={3}
+                                    { ...register("CI1", { required: true }) }
                                 />
+                                {errors.CI1 && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita la primera causa indirecta</Typography>}
                                 <TextField
                                     label="2"
                                     multiline
                                     rows={3}
+                                    { ...register("CI2", { required: true }) }
                                 />
+                                {errors.CI2 && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita la tercera causa indirecta</Typography>}
                             </Grid>
-                        </Grid> */}
+                        </Grid>
                         <Box sx={{ display:"flex", justifyContent:"end", mt:5 }}>
                             <CustomButton name="Guardar"  />
                         </Box>

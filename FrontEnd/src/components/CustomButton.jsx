@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
-import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
+import styled from "@emotion/styled";
 
 export default function CustomButton(props) {
 
@@ -20,9 +20,10 @@ export default function CustomButton(props) {
     
     if (props.anchor) {
         return (<BtnStyles component={Link} to={props.anchor} className="custom_button">{props.name}</BtnStyles>)
-    } else if(props.action) {
-        return (<BtnStyles onClick={props.click}>{props.name}</BtnStyles>)
+    } else if(props.typeB === "button") {
+        return (<BtnStyles type="button">{props.name}</BtnStyles>)
     }else {
+        console.log(props.data);
         return(<BtnStyles type="submit" disabled={props.data} className="custom_button">{props.name}</BtnStyles>)
     }
 }
