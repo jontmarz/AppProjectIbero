@@ -9,7 +9,7 @@ import auth from "./routes/authRouter.js";
 import problem from "./routes/problemRouter.js";
 import description from "./routes/descriptionRouter.js";
 import user from "./routes/userRouter.js";
-
+import goal from "./routes/goalRouter.js"
 const app = express();
 
 app.use(express.json());
@@ -23,7 +23,7 @@ app.use('/api/auth', auth);
 app.use('/api/user', middlewareToken, user);
 app.use('/api/dataApp/problem-tree', middlewareToken, problem);
 app.use('/api/dataApp/description', middlewareToken, description);
-
+app.use('/api/dataApp/goals', middlewareToken, goal);
 
 // SERVER LISTENER
 app.listen(process.env.PORT,()=>{
