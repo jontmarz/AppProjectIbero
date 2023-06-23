@@ -28,7 +28,7 @@ export const goalView = async (req, res) => {
 
 export const goalCreate = async (req, res) => {
     try {
-        const data = req.body;
+        const data = req.body.goals;
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
 
