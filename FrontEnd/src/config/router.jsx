@@ -10,6 +10,7 @@ import Description from '../pages/Description'
 import Goals from '../pages/Goals'
 import Justification from '../pages/Justification'
 import ErrorPage from "../pages/ErrorPage";
+import { PrintToPdf } from "../pages/PrintToPdf";
 
 export const router = createBrowserRouter([
     {
@@ -71,6 +72,16 @@ export const router = createBrowserRouter([
                     {
                         index: true,
                         element: <Justification />
+                    }
+                ]
+            },
+            {
+                path: "print-to-pdf",
+                element: <PrivateLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <PrintToPdf />
                     }
                 ]
             },

@@ -9,8 +9,8 @@ export default function MainNav(props) {
   const navigate = useNavigate()
 
   const signOut = () => {
-      deleteToken()
-      navigate("/")
+    deleteToken()
+    navigate("/")
   }
   
   return (
@@ -20,7 +20,7 @@ export default function MainNav(props) {
           <Logo />
         </Grid>
         <Grid item xs={6} display="flex" justifyContent="flex-end" sx={{pr:5}}>
-          <CustomButton typeB="button" action={signOut} name="Salir"  />
+          <CustomButton action={signOut} name="Salir"  />
         </Grid>
       </Grid>
     </>

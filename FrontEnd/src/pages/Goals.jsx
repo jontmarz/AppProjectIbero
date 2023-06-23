@@ -78,7 +78,7 @@ export default function Goals() {
                     timer: 1500
                 })
                 setLoading(false)
-                navigate("/description")
+                navigate("/print-to-pdf")
             })
             .catch((e) => {
                 console.error(e)
