@@ -1,10 +1,9 @@
 import { Typography, Grid, TextField, Box, Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { api } from '../config/axios';
 import { useNavigate } from "react-router-dom";
-import { setToken, getToken } from "../config/axios";
-import { useUserContext } from '../context/UserContext'
+import { setToken } from "../config/axios";
 import styled from "@emotion/styled";
 import Swal from 'sweetalert2';
 import Logo from '../components/Logo';
@@ -25,7 +24,6 @@ export default function Login() {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate()
-    const [user, setUser] =  useUserContext()
     const [loading, setLoading] = useState(false)
 
     const onSubmit = async (data, e) => {
@@ -45,11 +43,6 @@ export default function Login() {
                     confirmButtonColor: "#0098D4"
                 })
                 setToken(res.data.token.tokenid)
-                // setUser(res.data.user)
-                setUser({
-                    id: 1,
-                    name: "Jorge",
-                })
                 setLoading(false)
                 navigate("/problem-tree")
             })

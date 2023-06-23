@@ -1,11 +1,10 @@
-import { Grid, Typography, Box, List, ListItem, ListItemText, TextField } from "@mui/material";
-import styled from "@emotion/styled";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { api, initAxiosInterceptors, getToken } from '../config/axios';
-import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
-import Logo from "../components/Logo";
+import { Grid, Typography, Box, TextField } from "@mui/material";
+import styled from "@emotion/styled";
+import { useForm } from "react-hook-form";
+import { api, getToken } from '../config/axios';
+import Swal from 'sweetalert2';
 import CustomButton from "../components/CustomButton";
 import treeImg from "../assets/arbol-problema-img.png";
 import CustomList from "../components/CustomList";
@@ -17,9 +16,12 @@ const Img = styled("img")({
     marginTop: "25px"
 })
 
-initAxiosInterceptors()
 
 export default function ProblemTree() {
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate()
+    const [treeData, settreeData] = useState([])
+    const [loading, setLoading] = useState(false)
 
     const listItems = [
         "1. El problema central no debe extenderse más de 5 renglones.",
@@ -28,10 +30,6 @@ export default function ProblemTree() {
         "4. Lo mismo sucede con los efectos, sin emabrgo, ellos refieren es lo que puede suceder si el problema continua",
     ]
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const navigate = useNavigate()
-    const [treeData, settreeData] = useState([])
-    const [loading, setLoading] = useState(false)
     const onSubmit = async (data, e) => {
         settreeData([ ...treeData, data])
         
@@ -57,7 +55,6 @@ export default function ProblemTree() {
             }
         }
 
-        // const res =  await api.put("/api/dataApp/problem-tree", tree )
         const res =  await api({
             url: "/api/dataApp/problem-tree",
             method: "PUT",
@@ -74,7 +71,7 @@ export default function ProblemTree() {
                     confirmButtonColor: "#0098D4"
                 })
                 setLoading(false)
-                navigate("/description")
+                navigate("/goals")
             })
             .catch((e) => {
                 console.error(e)
@@ -85,7 +82,6 @@ export default function ProblemTree() {
                     confirmButtonText: "Aceptar",
                     confirmButtonColor: "#0098D4"
                 })
-                // navigate("/")
             })
     }
 
@@ -93,7 +89,6 @@ export default function ProblemTree() {
         <>
             <Grid container spacing={2} sx={{ mb: 3, px: 5, maxWidth: {xl: 1400}, margin: {xl: "auto"} }}>
                 <Grid item xs={12} md={3}>
-                    <Logo />
                     <Img src={treeImg} alt="Árbol del problema" />
                     <Box>
                         <Typography variant="p" component="p" sx={{ textAlign:'left', mt: 5 }}>

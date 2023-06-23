@@ -1,17 +1,16 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
-import { deleteToken } from '../config/axios';
 import { Grid } from '@mui/material'
+import { deleteToken } from '../config/axios';
 import Logo from '../components/Logo';
-import CustomButton from '../components/CustomButton';
+import CustomButton from "../components/CustomButton";
 
 export default function MainNav(props) {
   const navigate = useNavigate()
 
   const signOut = () => {
-      console.log("running");
-      /* deleteToken()
-      navigate("/") */
+      deleteToken()
+      navigate("/")
   }
   
   return (
@@ -21,8 +20,7 @@ export default function MainNav(props) {
           <Logo />
         </Grid>
         <Grid item xs={6} display="flex" justifyContent="flex-end" sx={{pr:5}}>
-          {/* <button onClick={signOut}>Salir</button> */}
-          <CustomButton typeB="button" onClick={signOut} name="Salir"  />
+          <CustomButton typeB="button" action={signOut} name="Salir"  />
         </Grid>
       </Grid>
     </>

@@ -32,8 +32,7 @@ export default function UserProvider({ children }) {
 
         getUser()
     }, [])
-
-    console.log(user);
+    
     // if (user === false) return <h1>Loading...</h1>
 
     return (

@@ -34,11 +34,11 @@ export const descriptionFields = [
 ]
 
 export const goalFields = [
-    body('objEspe.oe1', "campo debe ser tipo texto").isString().trim().notEmpty(),
-    body('objEspe.oe2', "campo debe ser tipo texto").isString().trim().notEmpty(),
-    body('objEspe.oe3', "campo debe ser tipo texto").isString().trim().notEmpty(),
-    body('objEspe.oe4', "campo debe ser tipo texto").optional().isString().trim(),
-    body('objGen', "campo debe ser tipo texto").isString().trim().notEmpty(),
-    body('titleProj', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('goals.objEspe.oe1', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('goals.objEspe.oe2', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('goals.objEspe.oe3', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('goals.objEspe.oe4', "campo debe ser tipo texto").optional().isString().trim(),
+    body('goals.objGen', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('goals.titleProj', "campo debe ser tipo texto").isString().trim().notEmpty(),
     validationResExpress
 ]

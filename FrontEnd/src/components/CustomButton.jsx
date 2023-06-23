@@ -20,10 +20,9 @@ export default function CustomButton(props) {
     
     if (props.anchor) {
         return (<BtnStyles component={Link} to={props.anchor} className="custom_button">{props.name}</BtnStyles>)
-    } else if(props.typeB === "button") {
-        return (<BtnStyles type="button">{props.name}</BtnStyles>)
+    } else if(props.action) {
+        return (<BtnStyles component={Button} onClick={props.action}>{props.name}</BtnStyles>)
     }else {
-        console.log(props.data);
         return(<BtnStyles type="submit" disabled={props.data} className="custom_button">{props.name}</BtnStyles>)
     }
 }
