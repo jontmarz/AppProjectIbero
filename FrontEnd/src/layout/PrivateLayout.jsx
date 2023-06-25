@@ -6,12 +6,12 @@ import MainNav from "./MainNav";
 export default function Private() {
     const token = getToken()
 
-    return token ? <><MainNav /><Outlet /></> : <Navigate to="/" />
-    /* return token
+    // return token ? <><MainNav /><Outlet /></> : <Navigate to="/" />
+    return token
         ?
         <>
             <MainNav /> 
-            <Outlet /> 
+            <Outlet />
         </>
-        : <Navigate to="/" /> */
+        : <Navigate to="/" />
 }

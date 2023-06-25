@@ -2,3 +2,7 @@
 @import "@fontsource/kanit";
 @import './Variables.scss';
 @import './Mixins.scss';
+
+.printToPdf {
+    .css-z5c9v7-MuiGrid-root>.MuiGrid-item { padding-left: 0; }
+}

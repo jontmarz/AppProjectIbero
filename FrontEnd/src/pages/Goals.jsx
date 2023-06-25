@@ -33,7 +33,7 @@ export default function Goals() {
     
                 const CausesD = data.problemas.dirCauses
                 const Problem = data.problemas
-                // console.log(ArrProb);
+                
                 setLoadCausesD(CausesD)
                 setLoadProblem(Problem)
                 
@@ -72,8 +72,9 @@ export default function Goals() {
             .then(() => {
                 setLoading(true)
                 Swal.fire({
+                    title: "¡Datos Guardados!",
+                    text: res.data.message,
                     icon: 'success',
-                    title: 'los objetivos se guardaron con exito',
                     showConfirmButton: false,
                     timer: 1500
                 })

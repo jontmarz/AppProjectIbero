@@ -64,7 +64,7 @@ export default function ProblemTree() {
             .then((res) => {
                 setLoading(true)
                 Swal.fire({
-                    title: "¡Registro exitoso!",
+                    title: "¡Datos Guardados!",
                     text: res.data.message,
                     icon: "success",
                     confirmButtonText: "Aceptar",
@@ -87,7 +87,7 @@ export default function ProblemTree() {
 
     return (
         <>
-            <Grid container spacing={2} sx={{ mb: 3, px: 5, maxWidth: {xl: 1400}, margin: {xl: "auto"} }}>
+            <Grid container spacing={2} sx={{ mb: 3, px: 5, margin: {xl: "auto"} }}>
                 <Grid item xs={12} md={3}>
                     <Img src={treeImg} alt="Árbol del problema" />
                     <Box>

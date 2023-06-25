@@ -2,13 +2,14 @@ import React, { useEffect, useRef, useState} from 'react'
 import { useReactToPrint } from "react-to-print";
 import { ReactPdf } from '../components/ReactPdf'
 import { api, getToken } from '../config/axios';
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Box } from '@mui/material';
 import CustomButton from "../components/CustomButton";
 
 export const PrintToPdf = () => {
     const componentRef = useRef()
     const token = getToken()
     const [goalsData, setGoalsData] = useState([])
+    const [goalsEspect, setGoalsEspect] = useState([])
 
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -25,8 +26,8 @@ export const PrintToPdf = () => {
                     method: "GET",
                     headers: { Authorization: `Bearer ${token}` }
                 })
-    
                 setGoalsData(data.goals)
+                setGoalsEspect(data.goals.objEspe)
             } catch (e) {
                 console.error(e);
             }
@@ -35,35 +36,73 @@ export const PrintToPdf = () => {
         loadDoc()
     }, [])
 
+    const forthGoal = goalsEspect.oe4
+
     console.log(goalsData);
 
     return (
         <>
-            <div ref={componentRef} style={{width: '100%', height: window.innerHeight}}>
+            <Box ref={componentRef} sx={{width: '100%', }} className="printToPdf">
                 <Grid>
                     <Grid>
-                        <Typography variant="h4" component="h1" sx={{ mt: 3, textAlign: 'center' }}>{goalsData.titleProj}</Typography>
+                        <Typography variant="h4" component="h1" sx={{ mt: 3, textAlign: 'center', mb: 5, textTransform: 'capitalize' }}>{goalsData.titleProj}</Typography>
                     </Grid>
                 </Grid>
-                <Grid container spacing={4} sx={{px: 10, maxWidth: {xl: 1400}, margin: {xl: "auto"} }}>
-                    <Grid item xs={12} md={6} sx={{ py: 3}}>
-                            <Typography variant="p" component="p">Objetivo General</Typography>
+                <Grid container spacing={4} sx={{px: 10, mx: "auto" }}>
+                    <Grid item xs={12} md={6} sx={{ py: 3 }}>
+                            <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>Objetivo General</Typography>
                     </Grid>
-                    <Grid item xs={12} md={6} sx={{ py: 3}}>
-                    <Typography variant="p" component="p">{goalsData.objGen}</Typography>
+                    <Grid item xs={12} md={6} sx={{ py: 3 }}>
+                    <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>{goalsData.objGen}</Typography>
                     </Grid>
                 </Grid>
-                {/* <Grid container spacing={4} sx={{px: 10, maxWidth: {xl: 1400}, margin: {xl: "auto"} }}>
-                    <Grid item xs={12} md={6} sx={{ py: 3}}>
-                            <Typography variant="p" component="p">Primer Objetivo</Typography>
+                <Grid container spacing={4} sx={{px: 10, mx: "auto" }}>
+                    <Grid item xs={12} md={6} sx={{ py: 3 }}>
+                        <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>Primer Objetivo</Typography>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ py: 3}}>
-                    <Typography variant="p" component="p">{goalsData.objEspe.oe1}</Typography>
+                    <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>{goalsEspect.oe1}</Typography>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={4} sx={{px: 10, mx: "auto" }}>
+                    <Grid item xs={12} md={6} sx={{ py: 3}}>
+                        <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>Segundo Objetivo</Typography>
+                    </Grid>
+                    <Grid item xs={12} md={6} sx={{ py: 3}}>
+                    <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>{goalsEspect.oe2}</Typography>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={4} sx={{px: 10, mx: "auto" }}>
+                    <Grid item xs={12} md={6} sx={{ py: 3}}>
+                        <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>Tercer Objetivo</Typography>
+                    </Grid>
+                    <Grid item xs={12} md={6} sx={{ py: 3}}>
+                    <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>{goalsEspect.oe3}</Typography>
+                    </Grid>
+                </Grid>
+
+                { forthGoal ? (
+                    <Grid container spacing={4} sx={{px: 10, mx: "auto" }}>
+                        <Grid item xs={12} md={6} sx={{ py: 3}}>
+                            <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>Cuarto Objetivo</Typography>
+                        </Grid>
+                        <Grid item xs={12} md={6} sx={{ py: 3}}>
+                        <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>{goalsEspect.oe4}</Typography>
+                        </Grid>
+                    </Grid>
+                    
+                ) : '' }
+                {/* <Grid container spacing={4} sx={{ mb: 5, ml: 5 }}>
+                    <Grid item xs={12}>
+                        <CustomButton name='Editar Objetivos' anchor='/goals'/>
                     </Grid>
                 </Grid> */}
-                <CustomButton action={handlePrint} name="Imprimir PDF"/>
-
-            </div>
+                <Grid container spacing={4} sx={{ ml: 5 }}>
+                    <Grid item xs={12}>
+                        <CustomButton action={handlePrint} name="Imprimir PDF"/>
+                    </Grid>
+                </Grid>
+            </Box>
         </>
     )
 }
