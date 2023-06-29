@@ -14,31 +14,32 @@ export const signup = async ( req , res ) => {
                 code: 0,
                 message: "Este usuario ya existe en base de datos"
             })
-        }
-        user = new Users(req.body);
-        await user.save();
+        }else {
+            user = new Users(req.body);
+            await user.save();
 
-        const dataApp = DataApp();
-        dataApp.set({"user": user._id});
-        await dataApp.save();
+            const dataApp = DataApp();
+            dataApp.set({"user": user._id});
+            await dataApp.save();
 
-        const payload ={
-            'User' : user.emailI,
-            'Nombre' : user.fullName,
-            'id_User' : user._id,
-        }
-
-        const {tokenGenerado, expiresIn} = await generarJwt(payload);
-
-        return res.status(200).json({
-            status: 200,
-            code: 1,
-            message: "SING-IN fue realizado con exito",
-            token: {
-                tokenid: tokenGenerado,
-                expires: expiresIn,
+            const payload ={
+                'User' : user.emailI,
+                'Nombre' : user.fullName,
+                'id_User' : user._id,
             }
-        })
+
+            const {tokenGenerado, expiresIn} = await generarJwt(payload);
+
+            return res.status(200).json({
+                status: 200,
+                code: 1,
+                message: "SING-IN fue realizado con exito",
+                token: {
+                    tokenid: tokenGenerado,
+                    expires: expiresIn,
+                }
+            })
+        }
     } catch (e) {
         return res.status(500).json({
             status: 500,
