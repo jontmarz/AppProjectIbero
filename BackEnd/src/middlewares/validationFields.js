@@ -22,13 +22,13 @@ export const signupValidatorFields = [
     body('typeDoc', "Coloca tu tipo de documento").trim().isString().notEmpty(),
     body('identify', "Coloca tu documento").trim().notEmpty().custom(async(value) => {
       return Users.findOne({ where: {identify: value} })
-        .catch(() => {
+        .then(() => {
             return Promise.reject('Este documento ya esta registrado')
         })
     }),
     body('emailI', "Coloca un correo institucional valido").trim().custom(async(value) => {
       return Users.findOne({ where: {emailI: value} })
-        .catch(() => {
+        .then(() => {
             return Promise.reject('Este correo ya esta registrado')
         })
     }).isEmail().normalizeEmail().notEmpty(),
