@@ -1,13 +1,15 @@
 import { Outlet } from "react-router-dom";
 import UserProvider from "../context/UserContext";
-import { Box } from "@mui/material";
+import { Container } from "@mui/material";
 
 export default function Root() {
+
     return (
         <UserProvider>
-            <Box sx={{ maxWidth: {xl: 1400}, mx: "auto" }}>
+            <Container maxWidth="xl" sx={{ mx: "auto", p: "0 !important" }}>
+            {/* <Container sx={{ maxWidth: {xl: 1400}, mx: "auto" }}> */}
                 <Outlet />
-            </Box>
+            </Container>
         </UserProvider>
     )
 }

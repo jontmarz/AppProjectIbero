@@ -6,6 +6,7 @@ import dialnetLogo from "../assets/logos/dialnet.png";
 import redalycLogo from "../assets/logos/redalyc.png";
 import scifloLogo from "../assets/logos/sciflo.png";
 import CustomButton from "../components/CustomButton";
+import ModalRecords from "../components/ModalRecords";
 
 export default function Records() {
 
@@ -36,6 +37,7 @@ export default function Records() {
 
     const rows = [
         { id: 1, title: 'Título', author: 'Jon', resume: 'Este es el resumen', link: 'https://dato.com', quotes: '5', inputs: 'Aporte' },
+        {id: 2, title: '', author: '', resume: '', link: '', quotes: '', inputs: ''}
     ]
 
     const Img = styled("img")({
@@ -46,19 +48,17 @@ export default function Records() {
 
     return (
         <>
-            <Box sx={{maxWidth: 1400, margin: "auto"}}>
+            <Box sx={{maxWidth: 1400, margin: "2em auto"}}>
                 <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                        <Logo />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <Typography variant="p" component="p" sx={{ textAlign:'center', mt: 2 }}>Recuerde las bases bibliograficas que puede consultar:</Typography>
+                    <Grid item xs={12}>
+                        <Typography variant="h3" component="h3" sx={{ textAlign:'center', mt: 2 }}>Antecedentes de la Investigación</Typography>
+                        <Typography variant="p" component="p" sx={{ textAlign:'center', mt: 2, ml: 5 }}>Recuerde las bases bibliograficas que puede consultar:</Typography>
                         <Grid container spacing={2}>
                             {imgLogos.map((logo, index) => 
-                            <Grid item xs={4}>
-                                <Img src={logo.img} alt={logo.alt} />
-                            </Grid>
-                                )}
+                                <Grid item xs={4} key={index} sx={{ display:"flex", justifyContent:"center" }}>
+                                    <Img src={logo.img} alt={logo.alt} />
+                                </Grid>
+                            )}
                         </Grid>
                     </Grid>
                 </Grid>
@@ -74,9 +74,10 @@ export default function Records() {
                         }}
                         pageSizeOptions={[5, 10]}
                     />
-                    <Box sx={{ display:"flex", justifyContent:"end" }}>
+                    <Box sx={{ display:"flex", justifyContent:"space-around" }}>
                         <CustomButton name="Guardar"/>
                     </Box>
+                    <ModalRecords />
                 </Box>
             </Box>
         </>
