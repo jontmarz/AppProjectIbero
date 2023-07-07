@@ -1,42 +1,45 @@
 import { useState, useEffect, useContext, createContext } from "react";
 import { api } from "../config/axios";
-import { getToken } from "../config/axios";
+import { getToken, deleteToken } from "../config/axios";
+import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext()
 
-export default function UserProvider({ children }) {
+export default function UserContextProvider({ children }) {
     const [user, setUser] = useState([])
     const token = getToken()
+    const navigate = useNavigate()
     
-    const [loadingUser, setLoadingUser] = useState(true)
-
-    useEffect(() => {
-        const getUser = async() => {
-            if (!token) {
-                setLoadingUser(false)
-                return
-            }
-
-            try {
-                const { data } = await api({
-                    url: "/api/user/info",
-                    method: "GET",
-                    headers: { Authorization: `Bearer ${token}` },
-                })
-                setUser(data.infoUser)
-                setLoadingUser(false)
-            } catch (e) {
-                console.error(e);
-            }
+    const getUser = async() => {
+        if (!token) {
+            return
         }
 
-        getUser()
+        try {
+            const { data } = await api({
+                url: "/api/user/info",
+                method: "GET",
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            setUser(data.infoUser)
+        } catch (e) {
+            console.error(e);
+            if (e.response.status === 500) {
+                deleteToken()
+                setUser(false)
+                navigate("/")
+            }
+        }
+    }
+    getUser()
+
+    useEffect(() => {
+        return getUser
     }, [])
-    
-    // if (user === false) return <h1>Loading...</h1>
+
 
     return (
-        <UserContext.Provider value={[ user, setUser ]}>{children}</UserContext.Provider>
+        <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>
     )
 }
 

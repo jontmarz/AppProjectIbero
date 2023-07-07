@@ -22,7 +22,7 @@ export default function Goals() {
         "3. El titulo puede ser el mismo objetivo general sin el verbo en infinitivo."
     ]
 
-    useEffect(() => {
+    /* useEffect(() => {
         const loadTree = async () => {
             try {
                 const {data} = await api({
@@ -44,7 +44,7 @@ export default function Goals() {
     
         loadTree()
 
-    }, [])
+    }, []) */
 
 
     const onSubmit = async (data, e) => {
@@ -61,15 +61,16 @@ export default function Goals() {
             titleProj: data.titleProject
         }
 
-        // console.log(goals);
+        console.log(goals);
 
         const res = await api({
             url: "/api/dataApp/goals",
             method: "PUT",
-            headers: { Authorization: `Bearer ${getToken()}` },
+            headers: { Authorization: `Bearer ${token}` },
             data: { goals }
         })
-            .then(() => {
+            .then((res) => {
+                console.log("datos recibidos " + res);
                 setLoading(true)
                 Swal.fire({
                     title: "¡Datos Guardados!",
@@ -85,7 +86,7 @@ export default function Goals() {
                 console.error(e)
                 Swal.fire({
                     title: "¡Error!",
-                    text: e.response.data.message,
+                    text: e,
                     icon: "error",
                     confirmButtonText: "Aceptar",
                     confirmButtonColor: "#0098D4"
@@ -180,7 +181,7 @@ export default function Goals() {
                         label="Objetivo específico 4 opcional:"
                         variant="filled"
                         className="Main-Goals"
-                        { ...register("forthGoal", { required: true }) }
+                        { ...register("forthGoal") }
                     />
                     {errors.forthGoal && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el primer efecto indirecto</Typography>}
                 </Grid>
