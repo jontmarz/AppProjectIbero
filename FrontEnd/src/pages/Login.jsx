@@ -64,7 +64,7 @@ export default function Login() {
                 container
                 spacing={2}
                 sx={{
-                    background: "url(/src/assets/bg-login.jpg) center top no-repeat",
+                    background: `url(${imgLogin}) center top no-repeat`,
                     backgroundSize: "cover",
                 }}
             >
