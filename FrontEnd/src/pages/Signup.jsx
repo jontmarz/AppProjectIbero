@@ -61,7 +61,7 @@ export default function Signup() {
                 // setLoading(false)
             })
             .catch((e) => {
-                console.error(e);
+                console.error(e.response.data);
                 Swal.fire({
                     title: "¡Error!",
                     text: e.response.data.message,
@@ -111,8 +111,8 @@ export default function Signup() {
                                         {...register("typeDoc", { required: true })}
                                         sx={{color: "#000"}}
                                     >
-                                        {dataSelect.map((i, index) => 
-                                            <MenuItem key={index} value={i.type}>{i.name}</MenuItem>
+                                        {dataSelect.map((item, index) => 
+                                            <MenuItem key={index} value={item.type}>{item.name}</MenuItem>
                                         )}
                                     </Select>
                                 </FormControl>
