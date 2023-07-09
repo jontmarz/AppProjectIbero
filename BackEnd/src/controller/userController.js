@@ -9,9 +9,18 @@ export const infoUser = async (req, res) => {
 
     let user = await Users.findOne({_id : payload.id_User});
 
-    return res.status(200).json({
-        message: `Información Personal`,
-        code : 1,
-        infoUser: user,
-    })
+    if (user) {
+        return res.status(220).json({
+            message: `Información Personal`,
+            code : 220,
+            infoUser: user,
+        })
+    } else {
+        return res.status(420).json({
+            message: `Ningun Usuario`,
+            code : 420,
+            infoUser: user,
+        })
+    }
+    
 }

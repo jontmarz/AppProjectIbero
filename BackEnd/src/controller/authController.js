@@ -9,10 +9,9 @@ export const signup = async ( req , res ) => {
 
         let user = await Users.findOne({emailI: request.emailI})
         if (user) {
-            return res.status(401).json({
-                status: 401,
-                code: 0,
-                message: "Este usuario ya existe en base de datos"
+            return res.status(410).json({
+                message: "Este usuario ya existe en base de datos",
+                code: 410
             })
         }else {
             user = new Users(req.body);
@@ -30,10 +29,9 @@ export const signup = async ( req , res ) => {
 
             const {tokenGenerado, expiresIn} = await generarJwt(payload);
 
-            return res.status(200).json({
-                status: 200,
-                code: 1,
+            return res.status(220).json({
                 message: "SING-IN fue realizado con exito",
+                code: 220,
                 token: {
                     tokenid: tokenGenerado,
                     expires: expiresIn,
@@ -56,9 +54,9 @@ export const login = async ( req , res ) => {
         let user = await Users.findOne({ emailI })
 
         if (!user || !(await user.comparePassword(password))) {
-            return res.status(403).json({
+            return res.status(420).json({
                 message: "El usuario o contraseña incorrectos",
-                code: 0
+                code: 420
             })
         }
 
@@ -70,18 +68,18 @@ export const login = async ( req , res ) => {
 
         const {tokenGenerado, expiresIn} = await generarJwt(payload);
 
-        return res.status(200).json({
+        return res.status(220).json({
             message: "LOG-IN fue realizado exitosamente",
-            code: 1,
+            code: 220,
             token: {
                 tokenid: tokenGenerado,
                 expires: expiresIn,
             }
         })
     } catch (e) {
-        return res.status(500).json({
+        return res.status(420).json({
             message: e.message,
-            code:0
+            code:420
         })
     }
 }
@@ -90,14 +88,12 @@ export const login = async ( req , res ) => {
 export const logout = async ( req , res ) => {
     try {
         res.clearCookie("refreshCookies ");
-        return res.status(200).json({
-            status:200,
-            code: 1,
+        return res.status(210).json({
+            code: 210,
             message: {ok: true} });
     } catch (e) {
-        return res.status(500).json({
-            status: 500,
-            code:0,
+        return res.status(410).json({
+            code:410,
             message: e.message
         })
     }

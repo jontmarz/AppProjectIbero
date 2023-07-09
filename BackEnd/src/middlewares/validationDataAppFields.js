@@ -5,9 +5,9 @@ export const validationResExpress = (req, res, next) => {
     const errores = errors.formatWith( error => error.msg)
     console.log(req.body);
     if (!errors.isEmpty()) {
-        return res.status(400).json({
+        return res.status(410).json({
             message: "Error en algun campo del formulario",
-            code: 0,
+            code: 410,
             errors: errores.mapped()
         });
     }

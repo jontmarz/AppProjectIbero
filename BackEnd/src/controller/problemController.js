@@ -8,23 +8,23 @@ export const problemView = async (req, res) => {
         const payload = await decodeJwt(token);
         let problem = await DataApp.findOne({user: payload.id_User});
         if(problem.problems == undefined){
-            return res.status(200).json({
+            return res.status(440).json({
                 message: `No se han guardado datos`,
-                code : 1,
+                code : 440,
             })
         } else {
-            return res.status(200).json({
+            return res.status(240).json({
                 message: `Datos Cargados`,
-                code : 1,
+                code : 240,
                 problemas: problem.problems,
             })
         }
 
     } catch (error) {
-        res.status(500).json({
+        res.status(440).json({
             error: error,
             message: "El dato no existe o ocurrio un error con los datos de cliente",
-            code: 0
+            code: 440
         })
     }
 }
@@ -38,15 +38,15 @@ export const problemCreate = async (req, res) => {
         const problema = new Problem(data);
         await DataApp.findOneAndUpdate({user: payload.id_User}, {"problems":problema});
 
-        return res.status(200).json({
+        return res.status(230).json({
             message: `Guardado exitoso de arbol de problemas`,
-            code : 1,
+            code : 230,
         })
 
     } catch (error) {
-        res.status(500).json({
+        res.status(430).json({
             message: "Fallo en el guardado del formulario",
-            code: 0
+            code: 430
         })
     }
 }

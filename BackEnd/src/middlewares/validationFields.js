@@ -7,9 +7,9 @@ export const validationResExpress = (req, res, next) => {
     const errores = errors.formatWith( error => error.msg)
 
     if (!errors.isEmpty()) {
-        return res.status(400).json({
+        return res.status(410).json({
             message: "Error en el registro de usuario",
-            code: 0,
+            code: 410,
             errors: errores.mapped()
         });
     }
@@ -21,16 +21,19 @@ export const signupValidatorFields = [
     body('fullName', "Coloca tu nombre completo").trim().isString().notEmpty(),
     body('typeDoc', "Coloca tu tipo de documento").trim().isString().notEmpty(),
     body('identify', "Coloca tu documento").trim().notEmpty().custom(async(value) => {
-      return Users.findOne({ where: {identify: value} })
-        .then(() => {
-            return Promise.reject('Este documento ya esta registrado')
-        })
+
+      let user =  await Users.findOne({ identify: value })    
+
+      if (user) {
+        return Promise.reject('Este Documento ya esta registrado');
+      }
     }),
     body('emailI', "Coloca un correo institucional valido").trim().custom(async(value) => {
-      return Users.findOne({ where: {emailI: value} })
-        .then(() => {
-            return Promise.reject('Este correo ya esta registrado')
-        })
+      let email = await Users.findOne({ emailI: value })
+      
+      if (email) {
+        return Promise.reject('Este correo ya esta registrado')
+      }        
     }).isEmail().normalizeEmail().notEmpty(),
     body('emailP', "Coloca un correo personal valido").trim().isEmail().normalizeEmail().notEmpty(),
     body('faculty', "Colocar la facultad o institución").trim().isString().notEmpty(),
@@ -47,8 +50,8 @@ export const signupValidatorFields = [
     validationResExpress
   ]
 
-  export const logInValidatorFields = [
-    body('emailI', "Correo no valido").isEmail().normalizeEmail().notEmpty(),
-    body('password', "colocar la contraseña").trim(),
-    validationResExpress
-  ]
+export const logInValidatorFields = [
+  body('emailI', "Correo no valido").isEmail().normalizeEmail().notEmpty(),
+  body('password', "colocar la contraseña").trim(),
+  validationResExpress
+] 

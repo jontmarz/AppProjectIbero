@@ -9,19 +9,19 @@ export const goalView = async (req, res) => {
         const payload = await decodeJwt(token);
         let goal = await DataApp.findOne({user: payload.id_User});
 
-        return res.status(200).json({
+        return res.status(240).json({
             message: `Datos Cargados`,
-            code : 1,
+            code : 240,
             dirCauses: goal.problems.dirCauses,
             centralProb: goal.problems.centralProb,
             goals:  goal.goals
         })
 
     } catch (error) {
-        res.status(500).json({
-            error: error,
+        res.status(440).json({
             message: "El dato no existe o ocurrio un error con los datos de cliente",
-            code: 0
+            code: 440,
+            error: error,
         })
     }
 }
@@ -35,15 +35,15 @@ export const goalCreate = async (req, res) => {
         const goal = new Goal(data);
         await DataApp.findOneAndUpdate({user: payload.id_User}, {"goals":goal});
 
-        return res.status(200).json({
+        return res.status(230).json({
             message: `Guardado exitoso de objetivos`,
-            code : 1,
+            code : 230,
         })
 
     } catch (error) {
-        res.status(500).json({
+        res.status(430).json({
             message: "Fallo en el guardado del formulario",
-            code: 0
+            code: 430
         })
     }
 }
