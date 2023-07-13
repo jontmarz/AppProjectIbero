@@ -1,13 +1,13 @@
-import { Problem } from "../models/Problem.js";
+import { Record } from "../models/Record.js";
 import { DataApp } from "../models/DataApp.js";
 import { decodeJwt } from '../utils/jwtAuth.js';
 
-export const problemView = async (req, res) => {
+export const recordView = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
-        let problem = await DataApp.findOne({user: payload.id_User});
-        if(problem.problems == undefined){
+        let record = await DataApp.findOne({user: payload.id_User});
+        if(record.records == undefined){
             return res.status(440).json({
                 message: `No se han guardado datos`,
                 code : 440,
@@ -16,7 +16,7 @@ export const problemView = async (req, res) => {
             return res.status(240).json({
                 message: `Datos Cargados`,
                 code : 240,
-                problemas: problem.problems,
+                records: record.records.recordlist,
             })
         }
 
@@ -29,17 +29,16 @@ export const problemView = async (req, res) => {
     }
 }
 
-export const problemCreate = async (req, res) => {
+export const recordCreate = async (req, res) => {
     try {
-        const data = req.body.tree;
+        const data = req.body.records;
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
 
-        const problema = new Problem(data);
-        await DataApp.findOneAndUpdate({user: payload.id_User}, {"problems":problema});
-
+        const record = new Record({recordlist:data});
+        await DataApp.findOneAndUpdate({user: payload.id_User}, {"records": record});
         return res.status(230).json({
-            message: `Guardado exitoso de arbol de problemas`,
+            message: `Guardado exitoso de Records`,
             code : 230,
         })
 

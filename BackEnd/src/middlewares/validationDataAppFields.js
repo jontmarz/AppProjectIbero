@@ -3,7 +3,6 @@ import { validationResult, body} from "express-validator";
 export const validationResExpress = (req, res, next) => {
     const errors = validationResult(req);
     const errores = errors.formatWith( error => error.msg)
-    console.log(req.body);
     if (!errors.isEmpty()) {
         return res.status(410).json({
             message: "Error en algun campo del formulario",
@@ -40,5 +39,16 @@ export const goalFields = [
     body('goals.objEspe.oe4', "campo debe ser tipo texto").optional().isString().trim(),
     body('goals.objGen', "campo debe ser tipo texto").isString().trim().notEmpty(),
     body('goals.titleProj', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    validationResExpress
+]
+
+export const recordsFields = [
+    body('records[*].AutorRecord', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('records[*].LinkRecord', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('records[*].NumberQuotes', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('records[*].ResearchContribute', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('records[*].ResumeRecord', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('records[*].id', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('records[*].tittleRecord', "campo debe ser tipo texto").isString().trim().notEmpty(),
     validationResExpress
 ]
