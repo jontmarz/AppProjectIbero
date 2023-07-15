@@ -44,7 +44,8 @@ export default function Login() {
                 })
                 setToken(res.data.token.tokenid)
                 setLoading(false)
-                navigate("/problem-tree")
+                // navigate("/dashboard")
+                navigate("/records")
             })
             .catch((e) => {
                 console.log(e);

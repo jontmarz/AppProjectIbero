@@ -1,85 +1,126 @@
-import { Grid, Typography, Box } from "@mui/material";
-import styled from "@emotion/styled";
-import { DataGrid } from '@mui/x-data-grid';
-import Logo from "../components/Logo";
-import dialnetLogo from "../assets/logos/dialnet.png";
-import redalycLogo from "../assets/logos/redalyc.png";
-import scifloLogo from "../assets/logos/sciflo.png";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Grid, Typography, Box, Dialog, DialogTitle, DialogContent, DialogContentText } from "@mui/material";
+import Swal from 'sweetalert2';
+import { api, getToken } from '../config/axios';
+import PropTypes from 'prop-types';
 import CustomButton from "../components/CustomButton";
-import ModalRecords from "../components/ModalRecords";
+import QueryDB from "../components/records/QueryDB";
+import { TableRecords } from "../components/records/TableRecords";
+import { FormRecords } from "../components/records/FormRecords";
+
+function SimpleDialog(props) {
+    const { onClose, recordValue, open, formRecord } = props;
+  
+    const handleClose = () => {
+      onClose(recordValue);
+    };
+  
+    return (
+      <Dialog onClose={handleClose} open={open} sx={{ px:3 }}>
+        <DialogTitle sx={{ textAlign: "center"}}>Antecedentes de la Investigación</DialogTitle>
+        <DialogContent>
+            <DialogContentText sx={{ textAlign: "center", mb: 2 }}>Para agregar un antecedente, debes diligenciar el siguiente formulario:</DialogContentText>
+            <FormRecords uploadData={formRecord} />
+        </DialogContent>
+      </Dialog>
+    );
+}
+
+SimpleDialog.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired,
+    recordValue: PropTypes.array.isRequired,
+};
 
 export default function Records() {
 
-    const imgLogos = [
-        {
-            img: dialnetLogo,
-            alt: "Dialnet"
-        },
-        {
-            img: redalycLogo,
-            alt: "Redalyc"
-        },
-        {
-            img: scifloLogo,
-            alt: "SciFlo"
-        },
-    ]
+    const [open, setOpen] = useState(false);
+    const navigate = useNavigate()
+    const token = getToken()
+    const initTableData = localStorage.getItem('rowsData') ? JSON.parse(localStorage.getItem('rowsData')) : []
+    const [recordValue, setrecordValue] = useState(initTableData)
+    const handleData = (data) => {
+        var idData = recordValue.length + 1
+        const newData = { id: idData, ...data }
+        setrecordValue([...recordValue, newData]);
+        setOpen(false);
+    }
 
-    const columns = [
-        { field: 'id', headerName: 'ID', width: 50 },
-        { field: 'title', headerName: 'Título del antecedente', width: 200 },
-        { field: 'author', headerName: 'Autor(es)', width: 200 },
-        { field: 'resume', headerName: 'Resumen', width: 200 },
-        { field: 'link', headerName: 'Link de consulta', width: 200 },
-        { field: 'quotes', headerName: 'Número de citas', width: 100 },
-        { field: 'inputs', headerName: 'Aportes de Investigación', width: 200 },
-    ]
+    useEffect(() => {
+        const token = getToken()
+        if(!token) {
+        } else localStorage.setItem('rowsData', JSON.stringify(recordValue))
+    }, [recordValue])
 
-    const rows = [
-        { id: 1, title: 'Título', author: 'Jon', resume: 'Este es el resumen', link: 'https://dato.com', quotes: '5', inputs: 'Aporte' },
-        {id: 2, title: '', author: '', resume: '', link: '', quotes: '', inputs: ''}
-    ]
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
-    const Img = styled("img")({
-        width: '50%',
-        objectFit: "cover",
-        objectPosition: "center"
-    })
+    const handleClose = (value) => {
+        setOpen(false);
+        setrecordValue(value);
+    };
+
+    const records = Object.assign({}, recordValue)
+    
+    const SaveRecords = async() => {
+        console.log(records);
+        try {
+            const res = await api({
+                url: "/api/dataApp/records",
+                method: "PUT",
+                headers: { Authorization: `Bearer ${token}` },
+                data: { records }
+            })
+            Swal.fire({
+                title: "¡Datos Guardados!",
+                text: res.data.message,
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                confirmButtonColor: "#0098D4"
+            })
+            localStorage.removeItem('rowsData')
+            navigate("/problem-tree")
+        } catch (e) {
+            console.log(e);
+            Swal.fire({
+                title: "¡Error!",
+                text: e.response.data.message,
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                confirmButtonColor: "#0098D4"
+            })
+        }
+    }
 
     return (
         <>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <Typography variant="h3" component="h3" sx={{ textAlign: 'center', mt: 2 }}>Antecedentes de la Investigación</Typography>
+                <Typography variant="p" component="p" sx={{ textAlign: 'center', mt: 2, ml: 5 }}>Recuerde las bases bibliograficas que puede consultar:</Typography>
             <Box sx={{maxWidth: 1400, margin: "2em auto"}}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <Typography variant="h3" component="h3" sx={{ textAlign:'center', mt: 2 }}>Antecedentes de la Investigación</Typography>
-                        <Typography variant="p" component="p" sx={{ textAlign:'center', mt: 2, ml: 5 }}>Recuerde las bases bibliograficas que puede consultar:</Typography>
-                        <Grid container spacing={2}>
-                            {imgLogos.map((logo, index) => 
-                                <Grid item xs={4} key={index} sx={{ display:"flex", justifyContent:"center" }}>
-                                    <Img src={logo.img} alt={logo.alt} />
-                                </Grid>
-                            )}
-                        </Grid>
-                    </Grid>
-                </Grid>
+                <QueryDB />
                 <Box sx={{mx:2}}>
-                    <DataGrid
-                        sx={{ mb: 3}}
-                        rows={rows}
-                        columns={columns}
-                        initialState={{
-                            pagination: {
-                                paginationModel: { page:0, pageSize : 5},
-                            }
-                        }}
-                        pageSizeOptions={[5, 10]}
+                    <TableRecords data={recordValue} />
+
+                    <CustomButton name="Agregar Antecedente" action={handleClickOpen} color="#cca448" />
+
+                    <SimpleDialog
+                        recordValue={recordValue}
+                        open={open}
+                        onClose={handleClose}
+                        formRecord={handleData}
                     />
-                    <Box sx={{ display:"flex", justifyContent:"space-around" }}>
-                        <CustomButton name="Guardar"/>
+                    
+                    <Box sx={{ display:"flex", justifyContent:"space-around", mt:3 }}>
+                        <CustomButton name="Guardar Datos" action={SaveRecords} />
                     </Box>
-                    <ModalRecords />
                 </Box>
             </Box>
+            </Grid>
+        </Grid>
         </>
     )
 }

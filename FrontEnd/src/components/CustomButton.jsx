@@ -4,8 +4,10 @@ import styled from "@emotion/styled";
 
 export default function CustomButton(props) {
 
+    var color = props.color ? props.color : "#000";
+
     const BtnStyles = styled(Button)`
-        background-color: #000;
+        background-color: ${color};
         color: #fff;
         transition: all 0.3s ease-in-out;
         padding: 0.5em 4em;

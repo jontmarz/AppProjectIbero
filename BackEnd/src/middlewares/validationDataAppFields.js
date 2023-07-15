@@ -50,6 +50,6 @@ export const recordsFields = [
     body('records[*].ResearchContribute', "campo debe ser tipo texto").isString().trim().notEmpty(),
     body('records[*].ResumeRecord', "campo debe ser tipo texto").isString().trim().notEmpty(),
     body('records[*].id', "campo debe ser tipo texto").isString().trim().notEmpty(),
-    body('records[*].titleRecord', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('records[*].TitleRecord', "campo debe ser tipo texto").isString().trim().notEmpty(),
     validationResExpress
 ]

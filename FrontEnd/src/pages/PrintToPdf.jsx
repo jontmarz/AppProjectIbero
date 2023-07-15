@@ -19,9 +19,9 @@ export const PrintToPdf = () => {
     })
 
     useEffect(() => {
-        const loadDoc = async () => {
+        const loadDoc = async() => {
             try {
-                const {data} = await api({
+                const { data } = await api({
                     url: "/api/dataApp/goals",
                     method: "GET",
                     headers: { Authorization: `Bearer ${token}` }
@@ -38,7 +38,7 @@ export const PrintToPdf = () => {
 
     const forthGoal = goalsEspect.oe4
 
-    console.log(goalsData);
+    // console.log(goalsData);
 
     return (
         <>

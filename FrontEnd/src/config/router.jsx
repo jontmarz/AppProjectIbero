@@ -10,6 +10,7 @@ import Description from '../pages/Description'
 import Goals from '../pages/Goals'
 import Justification from '../pages/Justification'
 import ErrorPage from "../pages/ErrorPage";
+import Dashboard from "../pages/Dashboard";
 import { PrintToPdf } from "../pages/PrintToPdf";
 
 export const router = createBrowserRouter([
@@ -24,6 +25,16 @@ export const router = createBrowserRouter([
             {
                 path: "signup",
                 element: <Signup />
+            },
+            {
+                path: "dashboard",
+                element: <PrivateLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <Dashboard />
+                    }
+                ]
             },
             {
                 path: "problem-tree",

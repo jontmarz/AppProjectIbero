@@ -1,19 +1,14 @@
-import { useState, useEffect, useContext, createContext } from "react";
+import { useState } from 'react'
 import { api } from "../config/axios";
 import { getToken, deleteToken } from "../config/axios";
 import { useNavigate } from "react-router-dom";
 
-const UserContext = createContext()
-
-export default function UserContextProvider({ children }) {
+export default function Dashboard() {
     const [user, setUser] = useState([])
     const token = getToken()
     const navigate = useNavigate()
     
     const getUser = async() => {
-        if (!token) {
-            return
-        }
 
         try {
             const { data } = await api({
@@ -31,14 +26,9 @@ export default function UserContextProvider({ children }) {
             } */
         }
     }
-    
-    useEffect(() => {
-        return getUser
-    }, [])
+    getUser()
 
-    return (
-        <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>
-    )
+  return (
+    <div>Usuario: {user}</div>
+  )
 }
-
-export const useUserContext = () => useContext(UserContext)
