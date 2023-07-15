@@ -43,12 +43,13 @@ export const goalFields = [
 ]
 
 export const recordsFields = [
+    body('records', "records no existe como objeto").isObject().notEmpty(),
     body('records[*].AutorRecord', "campo debe ser tipo texto").isString().trim().notEmpty(),
     body('records[*].LinkRecord', "campo debe ser tipo texto").isString().trim().notEmpty(),
     body('records[*].NumberQuotes', "campo debe ser tipo texto").isString().trim().notEmpty(),
     body('records[*].ResearchContribute', "campo debe ser tipo texto").isString().trim().notEmpty(),
     body('records[*].ResumeRecord', "campo debe ser tipo texto").isString().trim().notEmpty(),
     body('records[*].id', "campo debe ser tipo texto").isString().trim().notEmpty(),
-    body('records[*].tittleRecord', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('records[*].titleRecord', "campo debe ser tipo texto").isString().trim().notEmpty(),
     validationResExpress
 ]
