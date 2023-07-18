@@ -72,7 +72,7 @@ export const FormRecords = ({ uploadData }) => {
                             sx={{ my: 2, width: {xs: "90%", md: "80%"} }}
                             {...register("LinkRecord", { required: true })}
                         />
-                        {errors.LinkRecord && <Typography component="span" sx={{ color: "red", fontSize: 10 }}>Digita el link de consulta de la base bibliográfica</Typography>}
+                        {errors.LinkRecord && <Typography component="span" sx={{ color: "red", fontSize: 10 }}>Verifica el enlace de consulta de la base bibliográfica. El formato es inválido</Typography>}
 
                         <TextField
                             type="number"
@@ -80,9 +80,9 @@ export const FormRecords = ({ uploadData }) => {
                             variant="filled"
                             className="NumberQuotes"
                             sx={{ my: 2, width: {xs: "90%", md: "80%"} }}
-                            {...register("NumberQuotes", { required: true })}
+                            {...register("NumberQuotes", { required: true, min: 1, max: 5 })}
                         />
-                        {errors.NumberQuotes && <Typography component="span" sx={{ color: "red", fontSize: 10 }}>Digita el número de citas de la base bibliográfica</Typography>}
+                        {errors.NumberQuotes && <Typography component="span" sx={{ color: "red", fontSize: 10 }}>Digita el número de citas de la base bibliográfica. Mínimo 1 cita, máximo 5 citas </Typography>}
 
                         <TextField
                             type="text"

@@ -21,6 +21,7 @@ export default function UserContextProvider({ children }) {
                 method: "GET",
             })
             setUser(data.infoUser)
+            navigate("/menu-pages")
             console.log(data);
         } catch (e) {
             console.error('error: ' + e.response);

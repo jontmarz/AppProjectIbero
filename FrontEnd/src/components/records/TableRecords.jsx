@@ -20,7 +20,7 @@ export const TableRecords = ({ data }) => {
         <>
             <DataGrid
                 sx={{ mb: 3 }}
-                rows={data}
+                rows={ Object.keys(data).length === 0 ? rows : data }
                 columns={columns}
                 initialState={{
                     pagination: {

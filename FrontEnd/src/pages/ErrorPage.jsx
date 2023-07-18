@@ -7,7 +7,7 @@ export default function ErrorPage() {
         if(!getToken()) {
             return "/"
         } else {
-            return "/problem-tree"
+            return "/menu-pages"
         }
     }
 

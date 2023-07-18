@@ -11,6 +11,7 @@ import Goals from '../pages/Goals'
 import Justification from '../pages/Justification'
 import ErrorPage from "../pages/ErrorPage";
 import Dashboard from "../pages/Dashboard";
+import MenuPages from "../pages/MenuPages";
 import { PrintToPdf } from "../pages/PrintToPdf";
 
 export const router = createBrowserRouter([
@@ -25,6 +26,16 @@ export const router = createBrowserRouter([
             {
                 path: "signup",
                 element: <Signup />
+            },
+            {
+                path: "menu-pages",
+                element: <PrivateLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <MenuPages />
+                    }
+                ]
             },
             {
                 path: "dashboard",

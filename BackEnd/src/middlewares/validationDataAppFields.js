@@ -49,7 +49,7 @@ export const recordsFields = [
     body('records[*].NumberQuotes', "campo debe ser tipo texto").isString().trim().notEmpty(),
     body('records[*].ResearchContribute', "campo debe ser tipo texto").isString().trim().notEmpty(),
     body('records[*].ResumeRecord', "campo debe ser tipo texto").isString().trim().notEmpty(),
-    body('records[*].id', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('records[*].id', "campo debe ser tipo numero").isNumeric().isLength({min:1, max:5}).notEmpty(),
     body('records[*].TitleRecord', "campo debe ser tipo texto").isString().trim().notEmpty(),
     validationResExpress
 ]
