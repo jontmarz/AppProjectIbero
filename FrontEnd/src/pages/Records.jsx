@@ -38,13 +38,23 @@ export default function Records() {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate()
     const token = getToken()
-    const initTableData = localStorage.getItem('rowsData') ? JSON.parse(localStorage.getItem('rowsData')) : []
-    const [recordValue, setrecordValue] = useState(initTableData)
+    const [disabled, setDisabled] = useState(false)
+    const initTableData = () => {
+        const storedData = localStorage.getItem('rowsData')
+        return storedData ? JSON.parse(storedData) : []
+    }
+    const [recordValue, setrecordValue] = useState(() => initTableData())
+
     const handleData = (data) => {
         var idData = recordValue.length + 1
         const newData = { id: idData, ...data }
         setrecordValue([...recordValue, newData]);
         setOpen(false);
+        /* if (recordValue.length > 0) {
+            setDisabled(false)
+        } else {
+            setDisabled(true)
+        } */
     }
 
     useEffect(() => {
@@ -63,9 +73,9 @@ export default function Records() {
     };
 
     const records = Object.assign({}, recordValue)
+    console.log(disabled);
     
     const SaveRecords = async() => {
-        console.log(records);
         try {
             const res = await api({
                 url: "/api/dataApp/records",
@@ -115,7 +125,7 @@ export default function Records() {
                     />
                     
                     <Box sx={{ display:"flex", justifyContent:"space-around", mt:3 }}>
-                        <CustomButton name="Guardar Datos" action={SaveRecords} />
+                        <CustomButton name="Guardar Datos" action={SaveRecords} data={disabled} />
                     </Box>
                 </Box>
             </Box>

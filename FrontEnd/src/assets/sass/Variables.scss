@@ -1,1 +1,12 @@
 $mainFont: "Montserrat Alternates";
+$fontPdf: "Arial";
+
+.printToPdf {
+    font-family: $fontPdf;
+    h1, h2, h3, h4, h5, h6, p, span, th {
+        font-family: $fontPdf !important;
+    }
+    .f-weight {
+        font-weight: 400;
+    }
+}

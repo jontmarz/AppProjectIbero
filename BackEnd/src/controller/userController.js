@@ -13,7 +13,13 @@ export const infoUser = async (req, res) => {
         return res.status(220).json({
             message: `Información Personal`,
             code : 220,
-            infoUser: user,
+            infoUser: {
+                '_id': user._id,
+                'emailI': user.emailI,
+                'identify': user.identify,
+                'fullName': user.fullName
+            },
+            // infoUser: user,
         })
     } else {
         return res.status(420).json({

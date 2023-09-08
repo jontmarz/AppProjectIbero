@@ -22,7 +22,7 @@ export default function Goals() {
         "3. El titulo puede ser el mismo objetivo general sin el verbo en infinitivo."
     ]
 
-    /* useEffect(() => {
+    useEffect(() => {
         const loadTree = async () => {
             try {
                 const {data} = await api({
@@ -44,7 +44,7 @@ export default function Goals() {
     
         loadTree()
 
-    }, []) */
+    }, [])
 
 
     const onSubmit = async (data, e) => {
@@ -80,7 +80,7 @@ export default function Goals() {
                     timer: 1500
                 })
                 setLoading(false)
-                navigate("/print-to-pdf")
+                navigate("/justification")
             })
             .catch((e) => {
                 console.error(e)
@@ -101,7 +101,7 @@ export default function Goals() {
             className="goals"
             onSubmit={handleSubmit(onSubmit)}
         >
-            <Grid container spacing={2} sx={{ mb: 3, px: 5, maxWidth: {xl: 1400}, margin: {xl: "auto"} }}>
+            <Grid container spacing={2} sx={{ mb: 3, px: 5, maxWidth: {xl: 1400}, margin: {xl: "0 auto 2em"} }}>
                 <Grid item xs={12} md={6} sx={{display:"grid", gap:2, pr: 3}}>
                     <Typography variant="p" component="p" sx={{ mt: 3 }}>Objetivos específicos:</Typography>
 

@@ -5,7 +5,6 @@ const Img = styled("img")({
     width: 200,
     objectFit: "cover",
     objectPosition: "center",
-    marginTop: "2em"
 })
 
 export default function Logo(props) {

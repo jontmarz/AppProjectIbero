@@ -1,6 +1,6 @@
-import { Grid, List, Typography, ListItem, ListItemText, ListItemIcon, Box } from "@mui/material";
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import Logo from "../components/Logo";
+import React, { useState } from 'react';
+import { Grid, Typography, Box, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import RichTextEditor from "../components/RichTextEditor";
 import CustomButton from "../components/CustomButton";
 import CustomList from "../components/CustomList";
@@ -19,16 +19,31 @@ const listItems = [
     "Buena ortografía",
 ]
 
-const enviarDatos = () => {
-    console.log("datos envidos");
-}
 
 export default function Justification() {
+    const [content, setContent] = useState('');
+    const handleContentChange = (newContent) => {
+        setContent(newContent);
+    }
+    const [checkboxes, setCheckboxes] = useState(new Array(listItems.length).fill(false));
+    const navigate = useNavigate()
+
+    const handleCheckboxChange = (index) => {
+        const updatedCheckboxes = [...checkboxes];
+        updatedCheckboxes[index] = !updatedCheckboxes[index];
+        setCheckboxes(updatedCheckboxes);
+    };
+
+    const isButtonDisabled = checkboxes.filter((checkbox) => checkbox).length < listItems.length;
+
+    const enviarDatos = () => {
+        console.log("datos envidos");
+        navigate("/print-to-pdf")
+    }
     return (
         <>
-            <Grid container spacing={2} sx={{ mb: 3, px: 5, maxWidth: {xl: 1400}, margin: {xl: "auto"} }}>
+            <Grid container spacing={2} sx={{ mb: 3, px: 5, maxWidth: {xl: 1400}, margin: {xl: "0 auto 2em"} }}>
                 <Grid item xs={12} md={5}>
-                    <Logo />
                     <Typography variant="p" component="p" sx={{ mt: 3 }}>
                     La justificación consiste en una explicación argumentada de las razones que motivan a la realización del proyecto, buscando responder a la pregunta “¿Por qué?” o “¿Para qué?”.
                     </Typography>
@@ -45,7 +60,21 @@ export default function Justification() {
                     <Typography variant="p" component="p" sx={{ mt: 2 }}>
                         Después de cumplir con los requisitos puede guardar:
                     </Typography>
-                    <CustomList list={listItems} />
+                    {listItems.map((item, index) => (
+                        <div key={index} style={{ display: 'flex', alignItems: 'center'}}>
+                            <FormGroup>
+                                <FormControlLabel
+                                    required
+                                    control={<Checkbox
+                                        checked={checkboxes[index]}
+                                        onChange={() => handleCheckboxChange(index)}
+                                    />}
+                                />
+                            </FormGroup>
+                        {item}
+                        </div>
+                    ))}
+                    <Typography variant='p' component="p" color="red" sx={{mt: 2, fontSize: 'small'}}>Para continuar, verifique los requisitos y selecione la casilla cuando se haya cumplido</Typography>
                 </Grid>
                 <Grid item xs={12} md={7}>
                     <Box
@@ -58,7 +87,7 @@ export default function Justification() {
                         </Typography>
                         <RichTextEditor />
                         <Box sx={{ display:"flex", justifyContent:"end" }}>
-                            <CustomButton name="Guardar" />
+                            <CustomButton name="Guardar" data={isButtonDisabled} />
                         </Box>
                     </Box>
                 </Grid>

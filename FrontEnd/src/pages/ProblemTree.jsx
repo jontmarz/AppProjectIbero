@@ -54,8 +54,8 @@ export default function ProblemTree() {
                 ci2: data.CI2
             }
         }
-        console.log(tree);
-        /* const res =  await api({
+        // console.log(tree);
+        const res =  await api({
             url: "/api/dataApp/problem-tree",
             method: "PUT",
             headers: { Authorization: `Bearer ${getToken()}` },
@@ -71,7 +71,7 @@ export default function ProblemTree() {
                     confirmButtonColor: "#0098D4"
                 })
                 setLoading(false)
-                navigate("/goals")
+                navigate("/description")
             })
             .catch((e) => {
                 console.error(e)
@@ -82,7 +82,7 @@ export default function ProblemTree() {
                     confirmButtonText: "Aceptar",
                     confirmButtonColor: "#0098D4"
                 })
-            }) */
+            })
     }
 
     return (

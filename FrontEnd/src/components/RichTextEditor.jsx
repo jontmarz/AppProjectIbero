@@ -1,5 +1,5 @@
-import React, { createRef } from 'react';
-import { Editor, EditorState, getDefaultKeyBinding, RichUtils } from "draft-js";
+import React, { Component } from 'react';
+import { Editor, EditorState, getDefaultKeyBinding, ContentState, RichUtils, convertToRaw } from "draft-js";
 import '../assets/sass/Draft.scss';
 import '../../node_modules/draft-js/dist/Draft.css';
 
@@ -8,7 +8,7 @@ class RichTextEditor extends React.Component {
         super(props);
         this.state = { editorState: EditorState.createEmpty() };
 
-        this.focus = () => createRef.editor.focus();
+        // this.focus = () => createRef.editor.focus();
         this.onChange = (editorState) => this.setState({ editorState });
 
         this.handleKeyCommand = this._handleKeyCommand.bind(this);
@@ -19,6 +19,12 @@ class RichTextEditor extends React.Component {
 
     _handleKeyCommand(command, editorState) {
         const newState = RichUtils.handleKeyCommand(editorState, command);
+
+        const contentState = editorState.getCurrentContent();
+        const contentStateJSON = JSON.stringify(convertToRaw(contentState));
+
+        this.props.onContentChange(contentStateJSON);
+
         if (newState) {
             this.onChange(newState);
             return true;
@@ -88,7 +94,7 @@ class RichTextEditor extends React.Component {
                         keyBindingFn={this.mapKeyToEditorCommand}
                         onChange={this.onChange}
                         placeholder="Escribe la descripción del problema..."
-                        ref="editor"
+                        
                         spellCheck={true}
                     />
                 </div>

@@ -3,6 +3,6 @@ import { infoUser } from '../controller/userController.js';
 
 const router = Router();
 
-router.get('/info', infoUser)
+router.get('/info1', infoUser)
 
 export default router;

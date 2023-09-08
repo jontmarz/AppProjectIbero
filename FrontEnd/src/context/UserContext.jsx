@@ -16,20 +16,20 @@ export default function UserContextProvider({ children }) {
         }
 
         try {
-            const { data } = await api({
-                url: "/api/user/info",
+            const {data} = await api({
+                url: "/api/user/info1",
                 method: "GET",
+                headers: { Authorization: `Bearer ${token}` }
             })
             setUser(data.infoUser)
-            navigate("/menu-pages")
-            console.log(data);
+            // console.log(data);
         } catch (e) {
-            console.error('error: ' + e.response);
-            /* if (e.response.status >= 500 || e.response.status >= 400) {
-                deleteToken()
+            console.error('error: ' + e);
+            if (e.response.status >= 500 || e.response.status >= 400) {
+                /* deleteToken()
                 setUser(false)
-                navigate("/")
-            } */
+                navigate("/") */
+            }
         }
     }
     

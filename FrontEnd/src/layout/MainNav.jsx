@@ -16,7 +16,7 @@ export default function MainNav(props) {
   return (
     <>
       <Grid container spacing={4} direction="row" alignItems="center" sx={{maxWidth: 1400, margin: "auto", width: "100%"}}>
-        <Grid item xs={6} sx={{pt:"0 !important"}}>
+        <Grid item xs={6} sx={{ pt:"16px !important" }}>
           <Logo />
         </Grid>
         <Grid item xs={6} display="flex" justifyContent="flex-end" sx={{pr:5}}>

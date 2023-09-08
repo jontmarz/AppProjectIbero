@@ -48,6 +48,7 @@ export default function Signup() {
         const res = await api.post("/api/auth/register", newUser)
             .then((res) => {
                 // setLoading(true)
+                console.log(res);
                 console.log(res.data);
                 Swal.fire({
                     title: "¡Registro exitoso!",
