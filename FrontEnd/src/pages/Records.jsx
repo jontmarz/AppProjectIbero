@@ -73,7 +73,7 @@ export default function Records() {
     };
 
     const records = Object.assign({}, recordValue)
-    console.log(disabled);
+    // console.log(disabled);
     
     const SaveRecords = async() => {
         try {
