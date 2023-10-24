@@ -24,9 +24,9 @@ export default function UserContextProvider({ children }) {
         } catch (e) {
             console.error('error: ' + e, 'message: ' + e.response.data.message);
             if (e.response.status >= 500 || e.response.status >= 400) {
-                deleteToken()
+                /* deleteToken()
                 setUser(false)
-                navigate("/")
+                navigate("/") */
             }
         }
     }

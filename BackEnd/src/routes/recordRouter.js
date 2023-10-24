@@ -4,7 +4,6 @@ import { recordsFields } from '../middlewares/validationDataAppFields.js';
 
 const router = Router();
 
-
 router.get('/', recordView);
 
 router.put('/', recordsFields, recordCreate);

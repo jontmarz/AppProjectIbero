@@ -1,7 +1,6 @@
 import { Users } from "../models/Users.js";
 import { decodeJwt } from '../utils/jwtAuth.js';
 
-
 export const infoUser = async (req, res) => {
 
     try {

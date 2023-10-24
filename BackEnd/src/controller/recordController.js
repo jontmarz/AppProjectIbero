@@ -8,12 +8,12 @@ export const recordView = async (req, res) => {
         const payload = await decodeJwt(token);
         let record = await DataApp.findOne({user: payload.id_User});
         if(record.records == undefined){
-            return res.status(440).json({
+            return res.status(400).json({
                 message: `No se han guardado datos`,
                 code : 440,
             })
         } else {
-            return res.status(240).json({
+            return res.status(200).json({
                 message: `Datos Cargados`,
                 code : 240,
                 records: record.records.recordlist,

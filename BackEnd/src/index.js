@@ -4,11 +4,13 @@ import "../database/dbconexion.js";
 import "dotenv/config"
 import { middlewareToken } from './middlewares/middlewareToken.js';
 import auth from "./routes/authRouter.js";
+import dataApp from "./routes/dataRouter.js";
 import problem from "./routes/problemRouter.js";
 import description from "./routes/descriptionRouter.js";
 import user from "./routes/userRouter.js";
 import goal from "./routes/goalRouter.js";
 import record from "./routes/recordRouter.js";
+import review from "./routes/reviewRouter.js";
 
 const app = express();
 /* const whitelist = [process.env.ORIGIN1];
@@ -33,12 +35,13 @@ const middlewares = [middlewareToken];
 
 // ROUTES
 app.use('/api/auth', auth);
-app.use('/api/user', user);
-// app.use('/api/user', middlewares, user);
+app.use('/api/user', middlewares, user);
+app.use('/api/dataApp', middlewares, dataApp);
 app.use('/api/dataApp/problem-tree', middlewares, problem);
 app.use('/api/dataApp/description', middlewares, description);
 app.use('/api/dataApp/goals', middlewares, goal);
 app.use('/api/dataApp/records', middlewares, record);
+app.use('/api/dataApp/review', middlewares, review);
 
 // SERVER LISTENER
 app.listen(process.env.PORT, () => {

@@ -53,3 +53,8 @@ export const recordsFields = [
     body('records[*].TitleRecord', "campo debe ser tipo texto").isString().trim().notEmpty(),
     validationResExpress
 ]
+
+export const reviewFields = [
+    body('comment', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    validationResExpress
+]
