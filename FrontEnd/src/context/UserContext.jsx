@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext, createContext } from "react";
-import { api } from "../config/axios";
-import { getToken, deleteToken } from "../config/axios";
+import { api, getToken, deleteToken } from "../config/axios";
 import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext()
@@ -16,15 +15,14 @@ export default function UserContextProvider({ children }) {
         }
 
         try {
-            const {data} = await api({
-                url: "/api/user/info1",
+            const { data } = await api({
+                url: "/api/user",
                 method: "GET",
                 headers: { Authorization: `Bearer ${token}` }
             })
             setUser(data.infoUser)
-            // console.log(data);
         } catch (e) {
-            console.error('error: ' + e);
+            console.error('error: ' + e, 'message: ' + e.response.data.message);
             if (e.response.status >= 500 || e.response.status >= 400) {
                 /* deleteToken()
                 setUser(false)

@@ -38,6 +38,7 @@ export const signupValidatorFields = [
     body('emailP', "Coloca un correo personal valido").trim().isEmail().normalizeEmail().notEmpty(),
     body('faculty', "Colocar la facultad o institución").trim().isString().notEmpty(),
     body('academicProgram', "Colocar la facultad o institución").trim().isString().notEmpty(),
+    body('role', "Elija un rol de usuario").trim().isString().isEmpty(),
     body('password', "Mínino 8 caracteres").trim().isLength({min: 8}),
     body('password')
       .custom((e, {req}) => {

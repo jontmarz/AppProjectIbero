@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-// const tokenKey = "appIbero_token";
 const tokenKey = import.meta.env.VITE_TOKEN_KEY;
 var myToken = ''
 
@@ -25,5 +24,6 @@ const api = axios.create({
         'Access-Control-Allow-Origin': '*'
     }
 })
+
 
 export { api, setToken, getToken, deleteToken }

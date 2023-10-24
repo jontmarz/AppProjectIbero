@@ -204,10 +204,13 @@ export default function Signup() {
                                 {errors.password && <Typography component="span" sx={{color: "red", fontSize: 10}}>La contraseña debe tener mínimo 8 caracteres</Typography>}
                             </Box>
 
-                            {/* Botón submit */}
+                            {/* Botones */}
                             <Box sx={{width: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-end", order: 10}}>
-                                <Box sx={{ display:"flex", justifyContent:"end" }}>
-                                    <CustomButton name="Guardar" />
+                                <Box sx={{ display:"flex", justifyContent:"center" }}>
+                                    {/* Botón submit */}
+                                    <CustomButton name="Registrar" />
+                                    {/* Botón login */}
+                                    <CustomButton name="login" anchor="/" />
                                 </Box>
                             </Box>
                         </Grid>

@@ -37,6 +37,7 @@ export default function Justification() {
     const isButtonDisabled = checkboxes.filter((checkbox) => checkbox).length < listItems.length;
 
     const enviarDatos = () => {
+        console.log(content);
         console.log("datos envidos");
         navigate("/print-to-pdf")
     }

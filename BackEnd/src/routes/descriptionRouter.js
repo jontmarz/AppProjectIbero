@@ -7,6 +7,6 @@ const router = Router();
 
 router.get('/', DescriptionView)
 
-router.put('/', descriptionFields ,DescriptionCreate)
+router.put('/', descriptionFields, DescriptionCreate)
 
 export default router;
