@@ -1,32 +1,43 @@
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useUserContext } from "../context/UserContext";
 import { api, getToken } from '../config/axios';
-import { Grid, Typography, Box } from "@mui/material";
+import { useForm } from "react-hook-form";
+import { Grid, Typography, Box, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import styled from "@emotion/styled";
+import DataUserDashboard from "../components/dataUserDashboard";
 import CustomButton from "../components/CustomButton";
-import dialnetLogo from "../assets/logos/dialnet.png";
 
 export default function Dashboard() {
     
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: {
+            searchText: "",
+            searchSelect: "",
+        }
+    });
     const { user } = useUserContext();
+    const [dataApp, setDataApp] = useState([])
+    const [search, setSearch] = useState({})
     const navigate = useNavigate();
     const token = getToken()
-    const [dataApp, setDataApp] = useState([])
+    const dataSelect = [
+        { id: 1, name: "por Proyecto" },
+        { id: 2, name: "por Documento" },
+        { id: 3, name: "por Estudiante" },
+    ]
 
-    console.log(user);
+    // console.log(user);
 
     useEffect(() => {
         const loadDataApp = async () => {
             try {
                 const {data} = await api({
-                    url: "/api/dataApp",
+                    url: "/api/dataApp/",
                     method: "GET",
                     headers: { Authorization: `Bearer ${token}` }
                 })
-    
                 const dataApp = data
-                
                 setDataApp(dataApp)
                 
             } catch (e) {
@@ -35,53 +46,49 @@ export default function Dashboard() {
         }
     
         loadDataApp()
+    }, [token])
 
-    }, [])
+    const onSubmit = (data, e) => {
+        setSearch([...search, data])
+        console.log(data.searchSelect);
+    }
 
     console.log(dataApp);
 
-    const Img = styled("img")({
-        width: '100px',
-        objectFit: "cover",
-        objectPosition: "center"
-    })
-
     return (
         <>
-            <Box sx={{width:"100%", p:"1em 2em", mt:"2em"}}>
-                <Grid container spacing={2} sx={{backgroundColor:"#666", borderRadius:"25px 25px 0 0", p:"1em"}}>
-                    <Grid item xs={12} md={2}>
-                        <Img src={dialnetLogo} alt="Avatar" />
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                        <Typography variant="h4" component="h2" sx={{ mt: 3, mb: 1, color:"#fff" }}>
-                            Hola {user.fullName},
-                        </Typography>
-                        <Typography variant="p" component="p" sx={{ color:"#fff" }}>
-                            {user.emailI}
-                        </Typography>
-                        <Typography variant="p" component="p" sx={{ color:"#fff" }}>
-                            {user.emailP}
-                        </Typography>
-                        <Typography variant="p" component="p" sx={{ color:"#fff" }}>
-                            {user.role}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12} md={3}>
-                        <Typography variant="h6" component="h5" sx={{ mt: 3, color:"#fff" }}>
-                            Facultad de {user.faculty}
-                        </Typography>
-                        <Typography variant="h6" component="h5" sx={{ mt: 3, color:"#fff" }}>
-                            Programa: {user.academicProgram}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12} md={3} sx={{ display: "flex", alignItems: "end"}}>
-                        <CustomButton name="Editar" />
-                    </Grid>
-                    
+            <Grid container spacing={2} sx={{ mb: 3, px: 5, maxWidth: {xl: 1400}, margin: {xl: "0 auto 2em"} }}>
+                <DataUserDashboard user={user} />
+                <Grid item xs={12} sx={{ display: "flex", justifyContent: "end"}}>
+                    <Box
+                        component="form"
+                        onSubmit={handleSubmit(onSubmit)}
+                        sx={{ display: "flex", width: "50%", gap: 2 }}
+                    >
+                        <TextField
+                            id="outlined-basic"
+                            label="Buscar por..."
+                            variant="outlined"
+                            fullWidth
+                            {...register("searchText")}
+                        />
+                        <FormControl fullWidth>
+                            <InputLabel id="search-select-label">Elija el filtro de busq...</InputLabel>
+                            <Select
+                                variant="filled"
+                                {...register("searchSelect")}
+                            >
+                                {dataSelect.map((item, index) => 
+                                    <MenuItem key={index} value={item.id}>{item.name}</MenuItem>
+                                )}
+                            </Select>
+                        </FormControl>
+                        <Grid item xs={12} md={3} sx={{ display: "flex", alignItems: "end"}}>
+                            <CustomButton name="Buscar" />
+                        </Grid>
+                    </Box>
                 </Grid>
-
-            </Box>
+            </Grid>
         </>
     )
 }

@@ -12,6 +12,7 @@ import Justification from '../pages/Justification'
 import ErrorPage from "../pages/ErrorPage";
 import Dashboard from "../pages/Dashboard";
 import MenuPages from "../pages/MenuPages";
+import EditUser from "../pages/user/EditUser";
 import { PrintToPdf } from "../pages/PrintToPdf";
 
 export const router = createBrowserRouter([
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
                     {
                         index: true,
                         element: <Dashboard />
+                    },
+                    {
+                        path: "editUser",
+                        element: <EditUser />
                     }
                 ]
             },

@@ -16,7 +16,7 @@ export default function UserContextProvider({ children }) {
 
         try {
             const { data } = await api({
-                url: "/api/user",
+                url: "/api/user/",
                 method: "GET",
                 headers: { Authorization: `Bearer ${token}` }
             })
