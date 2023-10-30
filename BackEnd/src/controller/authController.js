@@ -9,7 +9,7 @@ export const signup = async ( req , res ) => {
 
         let user = await Users.findOne({emailI: request.emailI})
         if (user) {
-            return res.status(410).json({
+            return res.status(400).json({
                 message: "Este usuario ya existe en base de datos",
                 code: 410
             })
@@ -29,7 +29,7 @@ export const signup = async ( req , res ) => {
 
             const {tokenGenerado, expiresIn} = await generarJwt(payload);
 
-            return res.status(220).json({
+            return res.status(200).json({
                 message: "SING-IN fue realizado con exito",
                 code: 220,
                 token: {

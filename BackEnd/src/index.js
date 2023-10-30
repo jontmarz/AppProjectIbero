@@ -36,6 +36,7 @@ const middlewares = [middlewareToken];
 // ROUTES
 app.use('/api/auth', auth);
 app.use('/api/user', middlewares, user);
+app.use('/api/allUser', middlewares, user);
 app.use('/api/dataApp', middlewares, dataApp);
 app.use('/api/dataApp/problem-tree', middlewares, problem);
 app.use('/api/dataApp/description', middlewares, description);

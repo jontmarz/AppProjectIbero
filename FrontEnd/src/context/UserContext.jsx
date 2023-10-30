@@ -16,17 +16,17 @@ export default function UserContextProvider({ children }) {
 
         try {
             const { data } = await api({
-                url: "/api/user/",
+                url: "/api/user/dataUser",
                 method: "GET",
                 headers: { Authorization: `Bearer ${token}` }
             })
             setUser(data.infoUser)
         } catch (e) {
-            console.error('error: ' + e, 'message: ' + e.response.data.message);
+            console.error('error: ' + e, 'message: ' + e);
             if (e.response.status >= 500 || e.response.status >= 400) {
-                /* deleteToken()
+                deleteToken()
                 setUser(false)
-                navigate("/") */
+                navigate("/")
             }
         }
     }

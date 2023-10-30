@@ -6,3 +6,20 @@
 .printToPdf {
     .css-z5c9v7-MuiGrid-root>.MuiGrid-item { padding-left: 0; }
 }
+.proj-card {
+    .bg-card{
+        color: inherit;
+        transition: all 0.3s ease-in-out;
+        &:hover {
+            background-color: #666 !important;
+            color: #fff;
+        }
+    }
+    &:nth-child(odd) {
+        .bg-card { background-color: rgba(#CCA448, 0.2); }
+        
+    }
+    &:nth-child(even) {
+        .bg-card { background-color: rgba(#4A4A48, 0.2); }
+    }
+}

@@ -13,6 +13,7 @@ import ErrorPage from "../pages/ErrorPage";
 import Dashboard from "../pages/Dashboard";
 import MenuPages from "../pages/MenuPages";
 import EditUser from "../pages/user/EditUser";
+import FichaProject from "../pages/docente/fichaProject";
 import { PrintToPdf } from "../pages/PrintToPdf";
 
 export const router = createBrowserRouter([
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
                     {
                         path: "editUser",
                         element: <EditUser />
+                    },
+                    {
+                        path: ":idProject",
+                        element: <FichaProject />
                     }
                 ]
             },

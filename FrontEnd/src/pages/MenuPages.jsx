@@ -1,11 +1,13 @@
 import React from 'react'
 import { Link, useNavigate } from "react-router-dom";
+import { useUserContext } from "../context/UserContext";
 import { Grid, Typography, Box } from "@mui/material";
 import AdsClickIcon from '@mui/icons-material/AdsClick';
 import CustomButton from '../components/CustomButton';
 
 export default function MenuPages() {
 
+    const { user } = useUserContext();
     const navigate = useNavigate()
     const menuItems = [
         {
@@ -46,6 +48,12 @@ export default function MenuPages() {
         <>
         <Grid container spacing={2} sx={{ justifyContent: "center", my: 5 }}>
             <Grid item xs={12} md={6} sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                <CustomButton name="Docente" anchor="/dashboard" />
+            </Grid>
+            <Grid item xs={12} md={6} sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                <CustomButton name="Estudiante" anchor="/records" />
+            </Grid>
+            {/* <Grid item xs={12} md={6} sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                 {menuItems.map((item, index) =>
                     <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "between", alignItems: "center", width: "100%" }}>
                         <Grid container spacing={2} sx={{ justifyContent: "center", alignItems: "center" }}>
@@ -61,7 +69,7 @@ export default function MenuPages() {
                         </Grid>
                     </Box>
                 )}
-            </Grid>
+            </Grid> */}
         </Grid>
         </>
     )

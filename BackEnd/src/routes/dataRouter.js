@@ -1,8 +1,11 @@
 import { Router } from 'express';
-import { dataView } from '../controller/dataController.js';
+import { dataViews, dataView, profdataView } from '../controller/dataController.js';
+
 
 const router = Router();
 
-router.get('/', dataView);
+router.get('/', dataViews);
+router.get('/dataProject', dataView);
+router.get('/:idProj', profdataView);
 
 export default router;
