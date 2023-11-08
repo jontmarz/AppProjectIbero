@@ -45,6 +45,7 @@ const UsersSchema = new Schema({
         type :      Date,
         default :   Date.now,
     },
+    creationDate: { type: Date, default: Date.now },
 })
 
 // HASHEO DE LA CONTRASEÑA A LA BASE DE DATOS ANTES DE ENVIARSE

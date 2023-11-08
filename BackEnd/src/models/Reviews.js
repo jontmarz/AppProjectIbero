@@ -2,8 +2,7 @@ import { Schema, model } from "mongoose";
 
 export const reviewSchema = new Schema({
     creationDate: { type: Date, default: Date.now },
-    author: { type: Schema.Types.ObjectId, ref: "User" },
-    dataApp: { type: Schema.Types.ObjectId, ref: "DataApp" },
+    author: { type: String },
     comment: { type: String },
 })
 

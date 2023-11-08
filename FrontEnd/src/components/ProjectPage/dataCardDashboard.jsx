@@ -94,6 +94,12 @@ export default function dataCardDashboard(props) {
                     <Typography variant="p" component="p" sx={{pl:3, py:1}}>
                         {dataP && dataP.problems && dataP.problems.dirCauses && dataP.problems.dirCauses.cd1 ? dataP.problems.dirCauses.cd1 : "No hay datos"}
                     </Typography>
+                    <Typography variant="p" component="p" sx={{pl:3, py:1}}>
+                        {dataP && dataP.problems && dataP.problems.dirCauses && dataP.problems.dirCauses.cd2 ? dataP.problems.dirCauses.cd2 : "No hay datos"}
+                    </Typography>
+                    <Typography variant="p" component="p" sx={{pl:3, py:1}}>
+                        {dataP && dataP.problems && dataP.problems.dirCauses && dataP.problems.dirCauses.cd3 ? dataP.problems.dirCauses.cd3 : "No hay datos"}
+                    </Typography>
                 </Box>
             </Grid>
         </Grid>

@@ -4,8 +4,7 @@ import { reviewFields } from "../middlewares/validationDataAppFields.js";
 
 const router = Router();
 
-router.get('/', reviewView)
-
-router.put('/', reviewFields, reviewCreate)
+router.get('/i', reviewView)
+router.put('/:idProject', reviewFields, reviewCreate)
 
 export default router;

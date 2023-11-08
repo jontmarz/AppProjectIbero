@@ -61,7 +61,7 @@ export default function Goals() {
             titleProj: data.titleProject
         }
 
-        console.log(goals);
+        // console.log(goals);
 
         const res = await api({
             url: "/api/dataApp/goals",
@@ -70,7 +70,6 @@ export default function Goals() {
             data: { goals }
         })
             .then((res) => {
-                console.log("datos recibidos " + res);
                 setLoading(true)
                 Swal.fire({
                     title: "¡Datos Guardados!",
