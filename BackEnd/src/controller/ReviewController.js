@@ -13,7 +13,7 @@ export const reviewView = async (req, res) => {
 
         const result = dataApps.map((dataApp) => {
             let dataAppId = dataApp._id;
-            let dataAppReview = dataApp.reviewCreate
+            let dataAppReview = dataApp.review.comment
 
             // return { id: dataAppId}
             return { id: dataAppId, comment: dataAppReview}
