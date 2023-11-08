@@ -13,10 +13,10 @@ export const reviewView = async (req, res) => {
 
         const result = dataApps.map((dataApp) => {
             let dataAppId = dataApp._id;
-            // let dataAppReview = dataApp.review.filter((e) => e.author === payload.id_User);
+            let dataAppReview = dataApp.reviewCreate
 
-            return { id: dataAppId}
-            // return { id: dataAppId, comment: dataAppReview}
+            // return { id: dataAppId}
+            return { id: dataAppId, comment: dataAppReview}
         })
 
         if (dataApps == undefined) {
