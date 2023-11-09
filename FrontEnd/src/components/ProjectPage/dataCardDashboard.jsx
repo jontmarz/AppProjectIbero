@@ -102,6 +102,14 @@ export default function dataCardDashboard(props) {
                     </Typography>
                 </Box>
             </Grid>
+            <Grid item xs={12}  md={6} sx={{}}>
+                <Typography variant="h6" component="h6" sx={{ mt: 1}}>
+                   Comentarios:
+                </Typography>
+                <Typography variant="p" component="p" sx={{mb: 2, border: "1px solid #000", p:1}}>
+                    {dataP && dataP.theoreticalFramework && dataP.theoreticalFramework.mtText ? dataP.theoreticalFramework.mtText : "No hay datos"}
+                </Typography>
+            </Grid>
         </Grid>
       </>
     )

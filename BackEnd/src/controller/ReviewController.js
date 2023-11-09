@@ -3,7 +3,7 @@ import { Users } from '../models/Users.js';
 import { DataApp } from '../models/DataApp.js';
 import { decodeJwt } from '../utils/jwtAuth.js';
 
-export const reviewView = async (req, res) => {
+export const reviewViews = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
@@ -13,10 +13,17 @@ export const reviewView = async (req, res) => {
 
         const result = dataApps.map((dataApp) => {
             let dataAppId = dataApp._id;
+            let dataTitle = dataApp.goals.titleProj;
+            let dataUser = dataApp.user;
             let dataAppReview = dataApp.review.comment
 
             // return { id: dataAppId}
-            return { id: dataAppId, comment: dataAppReview}
+            return {
+                project: dataAppId,
+                title: dataTitle,
+                user: dataUser,
+                comment: dataAppReview
+            }
         })
 
         if (dataApps == undefined) {
@@ -29,7 +36,6 @@ export const reviewView = async (req, res) => {
                 message: `Datos Cargados`,
                 code: 240,
                 data: result,
-                // data: dataApps,
             })
         }
         

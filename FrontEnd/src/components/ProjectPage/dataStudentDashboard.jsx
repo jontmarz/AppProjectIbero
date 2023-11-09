@@ -4,7 +4,7 @@ export default function DataUserDashboard(props) {
 
     const { user } = props
     const { data } = props
-    const goals = data.goals
+    // const goals = data.goals
 
     return (
         <>

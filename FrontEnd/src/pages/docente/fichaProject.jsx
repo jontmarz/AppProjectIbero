@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import CustomButton from "../../components/CustomButton";
 import DataStudentDashboard from "../../components/ProjectPage/dataStudentDashboard";
 import DataCardDashboard from "../../components/ProjectPage/dataCardDashboard";
+import { load } from "npm";
 
 export default function fichaProject() {
 
@@ -16,7 +17,7 @@ export default function fichaProject() {
     const [loading, setLoading] = useState(false)
     const token = getToken()
     const [dataProj, setDataProj] = useState([])
-    const [dataStudent, setSataStudent] = useState([])
+    const [dataStudent, setDataStudent] = useState([])
     const [commentData, setCommentData] = useState([])
     let { idProject } = useParams();
 
@@ -41,7 +42,7 @@ export default function fichaProject() {
                             headers: { Authorization: `Bearer ${token}` }
                         })
                         const dataStudent = response.data.infoUser
-                        setSataStudent(dataStudent)
+                        setDataStudent(dataStudent)
                         
                     } catch (e) {
                         console.error(e);
@@ -57,6 +58,8 @@ export default function fichaProject() {
 
         loadDataProj()
     }, [token, idProject])
+
+    console.log(dataProj);
 
     const onSubmit = async (data, e) => {
         setCommentData([...commentData, data])
