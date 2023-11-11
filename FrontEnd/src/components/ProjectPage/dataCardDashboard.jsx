@@ -94,12 +94,6 @@ export default function dataCardDashboard(props) {
                     <Typography variant="p" component="p" sx={{pl:3, py:1}}>
                         {dataP && dataP.problems && dataP.problems.dirCauses && dataP.problems.dirCauses.cd1 ? dataP.problems.dirCauses.cd1 : "No hay datos"}
                     </Typography>
-                    <Typography variant="p" component="p" sx={{pl:3, py:1}}>
-                        {dataP && dataP.problems && dataP.problems.dirCauses && dataP.problems.dirCauses.cd2 ? dataP.problems.dirCauses.cd2 : "No hay datos"}
-                    </Typography>
-                    <Typography variant="p" component="p" sx={{pl:3, py:1}}>
-                        {dataP && dataP.problems && dataP.problems.dirCauses && dataP.problems.dirCauses.cd3 ? dataP.problems.dirCauses.cd3 : "No hay datos"}
-                    </Typography>
                 </Box>
             </Grid>
             <Grid item xs={12}  md={6} sx={{}}>
@@ -107,7 +101,7 @@ export default function dataCardDashboard(props) {
                    Comentarios:
                 </Typography>
                 <Typography variant="p" component="p" sx={{mb: 2, border: "1px solid #000", p:1}}>
-                    {dataP && dataP.theoreticalFramework && dataP.theoreticalFramework.mtText ? dataP.theoreticalFramework.mtText : "No hay datos"}
+                    {dataP && dataP.review && dataP.comment ? dataP.comment : "No hay datos"}
                 </Typography>
             </Grid>
         </Grid>

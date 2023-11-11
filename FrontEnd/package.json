@@ -6,21 +6,20 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "author": "Jon TMarz",
-  "license": "ISC",
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
-    "@fontsource/kanit": "^4.5.10",
-    "@fontsource/montserrat-alternates": "^4.5.11",
+    "@fontsource/kanit": "^5.0.17",
+    "@fontsource/montserrat-alternates": "^5.0.8",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.3",
     "@mui/x-data-grid": "^6.4.0",
     "axios": "^1.4.0",
     "draft-js": "^0.11.7",
-    "npm": "^9.6.6",
+    "npm": "^10.2.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.44.2",
@@ -31,7 +30,7 @@
   "devDependencies": {
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
-    "@vitejs/plugin-react": "^3.0.0",
+    "@vitejs/plugin-react": "^4.1.1",
     "sass": "^1.62.1",
     "vite": "^4.0.0"
   }

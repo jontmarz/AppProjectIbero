@@ -7,11 +7,10 @@ export const reviewViews = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
-        const reviews = await DataApp.findOne({ user: payload.id_User });
-        // const dataApp = await DataApp.findOne({ user: payload.id_User });
+        const dataApps = await DataApp.find({ "review.author": payload.id_User });
+        // const dataApps = await DataApp.find();
         // let reviews = await dataApp.findOne({ dataApp: payload.id_DataApp });
 
-<<<<<<< HEAD
         const result = dataApps.map((dataApp) => {
             let dataAppId = dataApp._id;
             let dataTitle = dataApp.goals.titleProj;
@@ -28,9 +27,6 @@ export const reviewViews = async (req, res) => {
         })
 
         if (dataApps == undefined) {
-=======
-        if (reviews.review == undefined) {
->>>>>>> parent of 092d66e (reviews docente)
             return res.status(400).json({
                 message: `Ya se ha realizado una reseña`,
                 code: 440,
@@ -39,11 +35,8 @@ export const reviewViews = async (req, res) => {
             return res.status(200).json({
                 message: `Datos Cargados`,
                 code: 240,
-<<<<<<< HEAD
                 data: result,
-=======
-                review: reviews.review,
->>>>>>> parent of 092d66e (reviews docente)
+                // data: dataApps,
             })
         }
         
