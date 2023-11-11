@@ -9,7 +9,7 @@ export const problemSchema = new Schema({
     },
     dirCauses:{type : Object},
     indCauses:{type : Object},
-    creationDate: { type: Date, default: Date.now }
+
 })
 
 export const Problem = model("Problem", problemSchema);

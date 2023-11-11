@@ -7,10 +7,11 @@ export const reviewViews = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
-        const dataApps = await DataApp.find({ "review.author": payload.id_User });
-        // const dataApps = await DataApp.find();
+        const reviews = await DataApp.findOne({ user: payload.id_User });
+        // const dataApp = await DataApp.findOne({ user: payload.id_User });
         // let reviews = await dataApp.findOne({ dataApp: payload.id_DataApp });
 
+<<<<<<< HEAD
         const result = dataApps.map((dataApp) => {
             let dataAppId = dataApp._id;
             let dataTitle = dataApp.goals.titleProj;
@@ -27,15 +28,22 @@ export const reviewViews = async (req, res) => {
         })
 
         if (dataApps == undefined) {
+=======
+        if (reviews.review == undefined) {
+>>>>>>> parent of 092d66e (reviews docente)
             return res.status(400).json({
-                message: `No se ha realizado una reseña`,
+                message: `Ya se ha realizado una reseña`,
                 code: 440,
             })
         } else {
             return res.status(200).json({
                 message: `Datos Cargados`,
                 code: 240,
+<<<<<<< HEAD
                 data: result,
+=======
+                review: reviews.review,
+>>>>>>> parent of 092d66e (reviews docente)
             })
         }
         
@@ -50,18 +58,17 @@ export const reviewViews = async (req, res) => {
 
 export const reviewCreate = async (req, res) => {
     try {
-        const { idProject } = req.params;
         const data = req.body;
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
-        const review = new Review({comment: data.comment, author: payload.id_User});
-        await DataApp.findOneAndUpdate({_id: idProject}, { "review": review });
+
+        const review = new Review(data);
+        await DataApp.findOneAndUpdate({user: payload.id_User}, { "review": review });
 
         return res.status(200).json({
             message: `Guardado exitoso de la reseña`,
             code: 230,
-            data: review,
-            user: payload.id_User
+            data: review.comment
         })
 
     } catch (error) {
