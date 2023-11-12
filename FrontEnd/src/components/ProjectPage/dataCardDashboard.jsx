@@ -98,10 +98,10 @@ export default function dataCardDashboard(props) {
             </Grid>
             <Grid item xs={12}  md={6} sx={{}}>
                 <Typography variant="h6" component="h6" sx={{ mt: 1}}>
-                   Comentarios:
+                   Comentarios Anteriores:
                 </Typography>
                 <Typography variant="p" component="p" sx={{mb: 2, border: "1px solid #000", p:1}}>
-                    {dataP && dataP.review && dataP.comment ? dataP.comment : "No hay datos"}
+                    {dataP && dataP.review && dataP.review.comment ? dataP.review.comment : "No hay datos"}
                 </Typography>
             </Grid>
         </Grid>

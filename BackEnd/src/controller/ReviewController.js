@@ -7,17 +7,24 @@ export const reviewViews = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
-        const dataApps = await DataApp.find({ "review.author": payload.id_User });
+        const dataApps = await DataApp.find({review: {$exists: true}});
+        // const dataApps = await DataApp.find({ "review.author": payload.id_User });
         // const dataApps = await DataApp.find();
         // let reviews = await dataApp.findOne({ dataApp: payload.id_DataApp });
 
-        const result = dataApps.map((dataApp) => {
+        const review = dataApps.filter((dataApp) => {
+            return dataApp.review.author == payload.id_User
+        })
+        // console.log(`user: ${payload.id_User}, reviews ${review}`);
+
+
+        const result = review.map((dataApp) => {
+        // const result = dataApps.map((dataApp) => {
             let dataAppId = dataApp._id;
             let dataTitle = dataApp.goals.titleProj;
             let dataUser = dataApp.user;
             let dataAppReview = dataApp.review.comment
 
-            // return { id: dataAppId}
             return {
                 project: dataAppId,
                 title: dataTitle,
@@ -51,17 +58,18 @@ export const reviewViews = async (req, res) => {
 
 export const reviewCreate = async (req, res) => {
     try {
+        const { idProject } = req.params;
         const data = req.body;
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
 
-        const review = new Review(data);
-        await DataApp.findOneAndUpdate({user: payload.id_User}, { "review": review });
+        const review = new Review({comment: data.comment, author: payload.id_User});
+        await DataApp.findOneAndUpdate({_id: idProject}, { "review": review });
 
         return res.status(200).json({
             message: `Guardado exitoso de la reseña`,
             code: 230,
-            data: review.comment
+            data: review
         })
 
     } catch (error) {

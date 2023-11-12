@@ -34,7 +34,7 @@ export const dataViews = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
-        const queryDoce = false
+        // const queryDoce = false
         const docente = Users.find({_id : payload.id_User, role: 'Docente'}, (err, docente) => {
             if (err) {
                 console.error('Error al consultar los datos ' + err);
