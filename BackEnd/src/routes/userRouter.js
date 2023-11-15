@@ -3,8 +3,8 @@ import { dataUsers, infoUser, editUser, dataUser } from '../controller/userContr
 
 const router = Router();
 
-router.get('/', dataUsers)
 router.get('/dataUser/', infoUser)
+router.get('/', dataUsers)
 router.get('/:idUser', dataUser)
 router.put('/', editUser)
 

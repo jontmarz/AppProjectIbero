@@ -4,7 +4,6 @@ export default function DataUserDashboard(props) {
 
     const { user } = props
     const { data } = props
-    // const goals = data.goals
 
     return (
         <>
@@ -13,15 +12,15 @@ export default function DataUserDashboard(props) {
                     <Grid item xs={12} md={4} sx={{ display: "flex", justifyContent: "flex-start", alignItems: "start", flexDirection: "column"}}>
                         
                         <Typography variant="h6" component="h6" sx={{ mt: 1, mb: 1, color:"#fff"}}>
-                            <b>Nombre: </b> <i>{user.fullName ? user.fullName : "N/D" }</i>,
+                            <b>Nombre: </b> <i>{user.fullName ? user.fullName : "N/D" }</i>
                         </Typography>
                         
                         <Typography variant="h6" component="h6" sx={{ mt: 1, mb: 1, color:"#fff"}}>
-                            <b>Título Proyecto: </b> <i>{data && data.goals && data.goals.titleProj ? data.goals.titleProj: "N/D"}</i>,
+                            <b>Título Proyecto: </b> <i>{data && data.goals && data.goals.titleProj ? data.goals.titleProj: "N/D"}</i>
                         </Typography>
                         
                         <Typography variant="h6" component="h6" sx={{ mt: 1, mb: 1, color:"#fff"}}>
-                            <b>Tipo Proyecto: </b> <i>{data.type ? data.typeProj : "Básico"}</i>,
+                            <b>Tipo Proyecto: </b> <i>{data.type ? data.typeProj : "Básico"}</i>
                         </Typography>
                     </Grid>
                     <Grid item xs={12} md={4}>

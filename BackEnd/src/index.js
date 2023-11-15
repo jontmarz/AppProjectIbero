@@ -11,6 +11,7 @@ import user from "./routes/userRouter.js";
 import goal from "./routes/goalRouter.js";
 import record from "./routes/recordRouter.js";
 import review from "./routes/reviewRouter.js";
+import search from "./routes/searchRouter.js";
 
 const app = express();
 /* const whitelist = [process.env.ORIGIN1];
@@ -43,6 +44,7 @@ app.use('/api/dataApp/description', middlewares, description);
 app.use('/api/dataApp/goals', middlewares, goal);
 app.use('/api/dataApp/records', middlewares, record);
 app.use('/api/dataApp/review', middlewares, review);
+app.use('/api/search', middlewares, search);
 
 // SERVER LISTENER
 app.listen(process.env.PORT, () => {

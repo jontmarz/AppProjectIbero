@@ -13,18 +13,7 @@ export const infoUser = async (req, res) => {
         return res.status(200).json({
             message: `Información Personal`,
             code : 220,
-            infoUser: {
-                '_id': user._id,
-                'emailI': user.emailI,
-                'emailP': user.emailP,
-                'identify': user.identify,
-                'fullName': user.fullName,
-                'typeDoc': user.typeDoc,
-                'faculty': user.faculty,
-                'academicProgram': user.academicProgram,
-                'role': user.role,
-                'creationDate': user.creationDate,
-            },
+            infoUser: user
         })
         
     } catch (error) {
@@ -44,13 +33,20 @@ export const dataUsers = async (req, res) => {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
     
-        let user = await Users.find();
+        if (payload) {
+            let user = await Users.find();
         
-        return res.status(200).json({
-            message: `Información Usuarios`,
-            code : 220,
-            infoUser: user,
-        })
+            return res.status(200).json({
+                message: `Información Usuarios`,
+                code : 220,
+                infoUser: user,
+            })
+        } else {
+            return res.status(400).json({
+                message: `El usuario debe iniciar sesión`,
+                code : 430,
+            })
+        }
         
     } catch (error) {
         return res.status(400).json({

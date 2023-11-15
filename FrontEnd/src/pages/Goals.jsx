@@ -61,7 +61,7 @@ export default function Goals() {
             titleProj: data.titleProject
         }
 
-        console.log(goals);
+        // console.log(goals);
 
         const res = await api({
             url: "/api/dataApp/goals",
