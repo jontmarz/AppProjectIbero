@@ -1,14 +1,9 @@
 import { Users } from '../models/Users.js';
 import { DataApp } from '../models/DataApp.js';
-import { decodeJwt } from '../utils/jwtAuth.js';
 
 export const searchdata = async (req, res) => {
     try {
-        // const { nameUser, idUser, titleProj } = req.query;
-
         const dataSearch = req.query;
-
-        console.log(dataSearch.idUser);
 
         if (dataSearch.nameUser || dataSearch.idUser) {
             let user = await Users.find({
@@ -26,7 +21,7 @@ export const searchdata = async (req, res) => {
             }
             
             let student = user[0]._id.toString();
-            let data = await DataApp.findOne({ user: student });
+            let data = await DataApp.find({ user: student });
             
             if (data) {
                 return res.status(200).json({
@@ -41,14 +36,20 @@ export const searchdata = async (req, res) => {
                 })
             }
         } else if (dataSearch.titleProj) {
-            let data = await DataApp.findOne({ "goals.titleProj": dataSearch.titleProj });
+            let data = await DataApp.find({ "goals.titleProj": dataSearch.titleProj });
             
-            if (data) {
+            if (data.length === 0) {
+                return res.status(400).json({
+                    message: `El proyecto no existe`,
+                    code : 440,
+                })
+            } else if(data) {
                 return res.status(200).json({
                     message: `Estos son los datos de la ficha`,
                     code : 240,
                     data: data,
                 })
+
             } else {
                 return res.status(400).json({
                     message: `El proyecto no existe`,
@@ -58,9 +59,16 @@ export const searchdata = async (req, res) => {
         }
         
     } catch (error) {
-        return res.status(400).json({
-            message: `Hubo un error en la consulta`,
-            code : 430,
-        })
+        if (error.response && error.response.status === 400) {
+            return res.status(400).json({
+                message: `El proyecto no existe`,
+                code : 440,
+            })
+        } else {
+            return res.status(400).json({
+                message: `Hubo un error en la consulta`,
+                code : 430,
+            })
+        }
     }
 }

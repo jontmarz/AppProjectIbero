@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 import { api, getToken } from '../config/axios';
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { Grid, Typography, Card, Box, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import Swal from 'sweetalert2';
 import CustomButton from "../components/CustomButton";
@@ -10,7 +10,7 @@ import DataUserDashboard from "../components/dataUserDashboard";
 
 export default function Dashboard() {
     
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
         defaultValues: {
             searchText: "",
             searchSelect: "",
@@ -20,6 +20,7 @@ export default function Dashboard() {
     const { user } = useUserContext();
     const [dataApp, setDataApp] = useState([])
     const [searchData, setSearchData] = useState([])
+    const [loading, setLoading] = useState(false)
     const token = getToken()
     const dataSelect = [
         { id: 1, name: "Proyecto" },
@@ -33,7 +34,7 @@ export default function Dashboard() {
         const loadDataApp = async () => {
             try {
                 const {data} = await api({
-                    url: "/api/dataApp/",
+                    url: "/api/dataApp",
                     method: "GET",
                     headers: { Authorization: `Bearer ${token}` }
                 })
@@ -61,19 +62,33 @@ export default function Dashboard() {
 
         try {
             const res = await api({
-                url: "/api/search",
+                url: "/api/search/",
                 method: "GET",
                 headers: { Authorization: `Bearer ${token}` },
                 params: dataSearch
             })
-            let dataApp = res.data
-            navigate(`/dashboard/${dataApp.data._id}`)
-            console.log(dataApp.data._id);
+            let searchQuery = res.data
+            searchData.length > 0 ? setLoading(true) : setLoading(false)
+            searchQuery.data.length > 0 ? setDataApp(searchQuery.data) : setDataApp()
             
         } catch (e) {
             console.error(e);
+            Swal.fire({
+                title: "¡Error!",
+                text: e.response.data.message,
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                confirmButtonColor: "#0098D4"
+            })
         }
+        reset();
     }
+
+    const resetButton = () => {
+        return window.location.reload()
+    }
+
+    // console.log(dataApp);
 
     return (
         <>
@@ -107,12 +122,16 @@ export default function Dashboard() {
                         </FormControl>
                         <Grid item xs={12} md={3} sx={{ display: "flex", alignItems: "end"}}>
                             <CustomButton name="Buscar" disabled={Object.keys(errors).length > 0} />
+                            <CustomButton name="Reset" action={resetButton} />
                         </Grid>
                     </Box>
                 </Grid>
                 {user.role === 'Docente' ?
                 <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", mt:5 }}>
                     <Grid container spacing={2} sx={{  }}>
+                        {loading ? <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
+                            <Typography variant="h6" component="h6" sx={{ mb: 3 }}>Resultados de la Búsqueda</Typography>
+                        </Grid> : ''}
                         {user.role === 'Docente' ? dataApp.map((item, index) =>
                             <Grid item xs={12} md={3} key={index} className="proj-card" >
                                 <Box component={Link} to={item._id} className="bg-card" sx={{ display: 'flex', justifyContent: "center", alignItems: 'center', padding: 2, textDecoration: "none" }}>
