@@ -34,7 +34,7 @@ export const decodeJwt = async ( token ) =>{
         return payload;
 
     } catch (error) {
-        throw new Error ( "Error al generar el Token " )
+        throw new Error ( "Error al decodificar el Token " )
     }
 }
 

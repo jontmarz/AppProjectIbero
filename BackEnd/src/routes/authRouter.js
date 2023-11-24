@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import {signup, login, logout} from '../controller/authController.js';
+import {signup, login, logout} from '../controllers/authController.js';
 import { signupValidatorFields, logInValidatorFields } from '../middlewares/validationFields.js';
 
 // CREACION DEL USUARIO (SING-UP)

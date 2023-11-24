@@ -45,6 +45,7 @@ export default function Login() {
                 setToken(res.data.token.tokenid)
                 setLoading(false)
                 // navigate("/dashboard")
+                // location.reload()
                 navigate("/menu-pages")
             })
             .catch((e) => {

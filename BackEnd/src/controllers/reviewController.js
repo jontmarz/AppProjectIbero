@@ -8,18 +8,18 @@ export const reviewViews = async (req, res) => {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
         const dataApps = await DataApp.find({review: {$exists: true}});
-        // const dataApps = await DataApp.find({ "review.author": payload.id_User });
-        // const dataApps = await DataApp.find();
-        // let reviews = await dataApp.findOne({ dataApp: payload.id_DataApp });
+
+        // Otra forma de hacerlo
+        /* const dataApps = await DataApp.find({ "review.author": payload.id_User });
+        const dataApps = await DataApp.find();
+        let reviews = await dataApp.findOne({ dataApp: payload.id_DataApp }); */
 
         const review = dataApps.filter((dataApp) => {
             return dataApp.review.author == payload.id_User
         })
-        // console.log(`user: ${payload.id_User}, reviews ${review}`);
 
 
         const result = review.map((dataApp) => {
-        // const result = dataApps.map((dataApp) => {
             let dataAppId = dataApp._id;
             let dataTitle = dataApp.goals.titleProj;
             let dataUser = dataApp.user;
@@ -43,7 +43,6 @@ export const reviewViews = async (req, res) => {
                 message: `Datos Cargados`,
                 code: 240,
                 data: result,
-                // data: dataApps,
             })
         }
         

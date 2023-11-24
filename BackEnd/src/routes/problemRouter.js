@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { problemCreate, problemView} from '../controller/problemController.js';
+import { problemCreate, problemView} from '../controllers/problemController.js';
 import { problemFields } from '../middlewares/validationDataAppFields.js';
 
 const router = Router();

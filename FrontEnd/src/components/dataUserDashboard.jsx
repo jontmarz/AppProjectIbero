@@ -42,7 +42,7 @@ export default function DataUserDashboard(props) {
                         </Typography>
                     </Grid>
                     <Grid item xs={12} md={3} sx={{ display: "flex", alignItems: "end"}}>
-                        <CustomButton name="Editar" />
+                        {/* <CustomButton name="Editar" /> */}
                     </Grid>
                     
                 </Grid>

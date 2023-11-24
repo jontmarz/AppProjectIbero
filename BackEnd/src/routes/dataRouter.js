@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { dataViews, dataView, profdataView } from '../controller/dataController.js';
+import { dataViews, dataView, profdataView } from '../controllers/dataController.js';
 
 
 const router = Router();

@@ -34,7 +34,7 @@ export default function Dashboard() {
         const loadDataApp = async () => {
             try {
                 const {data} = await api({
-                    url: "/api/dataApp",
+                    url: "/api/dataApp/",
                     method: "GET",
                     headers: { Authorization: `Bearer ${token}` }
                 })

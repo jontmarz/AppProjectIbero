@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { recordCreate, recordView } from '../controller/recordController.js';
+import { recordCreate, recordView } from '../controllers/recordController.js';
 import { recordsFields } from '../middlewares/validationDataAppFields.js';
 
 const router = Router();
