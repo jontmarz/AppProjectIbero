@@ -47,12 +47,15 @@ export default function MenuPages() {
     return (
         <>
         <Grid container spacing={2} sx={{ justifyContent: "center", my: 5 }}>
-            <Grid item xs={12} md={6} sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                <CustomButton name="Docente" anchor="/dashboard" />
-            </Grid>
-            <Grid item xs={12} md={6} sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                <CustomButton name="Estudiante" anchor="/records" />
-            </Grid>
+            {user && user.role === "Docente" ?
+                <Grid item xs={12} md={6} sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                    <CustomButton name="Docente" anchor="/dashboard" />
+                </Grid>
+            :
+                <Grid item xs={12} md={6} sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                    <CustomButton name="Estudiante" anchor="/records" />
+                </Grid>
+            }
             {/* <Grid item xs={12} md={6} sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                 {menuItems.map((item, index) =>
                     <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "between", alignItems: "center", width: "100%" }}>
