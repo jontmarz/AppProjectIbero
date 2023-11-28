@@ -5,6 +5,7 @@ import { Grid } from "@mui/material";
 import DataStudentDashboard from "../../components/ProjectPage/dataStudentDashboard";
 import DataCardDashboard from "../../components/ProjectPage/dataCardDashboard";
 import Comment from "../../components/ProjectPage/comment";
+import HistoryBack from "../../components/historyBack";
 
 export default function fichaProject() {
 
@@ -60,6 +61,7 @@ export default function fichaProject() {
                     <DataCardDashboard dataP={dataProj} />
                 </Grid>
                 <Comment idProj={idProject} />
+                <HistoryBack />
             </Grid>
         </>
     )
