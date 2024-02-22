@@ -47,6 +47,6 @@ app.use('/api/dataApp/review', middlewares, review);
 app.use('/api/search', middlewares, search);
 
 // SERVER LISTENER
-app.listen(process.env.PORT, () => {
-    console.log("EL SERVIDOR SE INICIO CORRECTAMENTE EN EL PUERTO : " + process.env.PORT);
+app.listen(process.env.APPSETTING_PORT, () => {
+    console.log("EL SERVIDOR SE INICIO CORRECTAMENTE EN EL PUERTO : " + process.env.APPSETTING_PORT);
 });

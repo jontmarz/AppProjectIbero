@@ -6,7 +6,7 @@ export const generarJwt = async (payload) =>{
         const expiresIn = '5h'
         const tokenGenerado = jwt.sign(
             payload,
-            "" + process.env.SECRETPRIVATEKEY,
+            "" + process.env.APPSETTING_SECRETPRIVATEKEY,
             { expiresIn }
         )
         return {tokenGenerado, expiresIn};
@@ -20,7 +20,7 @@ export const generarJwt = async (payload) =>{
 //AUTORIZACION TOKEN ENVIADO
 export const verificarJwt = async ( token ) =>{
     try {
-        const payload = jwt.verify(token, "" + process.env.SECRETPRIVATEKEY);
+        const payload = jwt.verify(token, "" + process.env.APPSETTING_SECRETPRIVATEKEY);
         return payload;
     } catch (error) {
         throw new Error ( "Error al verificar el Token " )

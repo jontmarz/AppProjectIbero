@@ -4,7 +4,7 @@ dotenv.config();
 
 try {
 	mongoose.set("strictQuery", false);
-    await mongoose.connect(process.env.URI_MONGO);
+    await mongoose.connect(process.env.APPSETTING_URI_MONGO);
     console.log("DATABASE CONEXION SUCESSFULL")
 } catch (e) {
     console.log("ERROR CONEXION :" + e);
