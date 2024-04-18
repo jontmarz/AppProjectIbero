@@ -5,17 +5,29 @@ import styled from "@emotion/styled";
 export default function CustomButton(props) {
 
     var color = props.color ? props.color : "#000";
+    var padding = props.padding ? props.padding : "0.5em 4em";
+    var margin = props.margin ? props.margin : "0 0.5em";
+    var height = props.height ? props.height : "auto";
+    var width = props.width ? props.width : "auto";
+    var txtHovColor = props.txtHovColor ? props.txtHovColor : "#000";
 
     const BtnStyles = styled(Button)`
         background-color: ${color};
         color: #fff;
+        padding: ${padding};
+        margin: ${margin};
+        height: ${height};
+        width: ${width};
+        border-style: solid;
+        border-width: 1px;
+        border-color: ${color};
         transition: all 0.3s ease-in-out;
-        padding: 0.5em 4em;
-        margin: 0 0.5em;
         &:hover {
             background-color: transparent;
-            color: #000;
-            border: 1px solid #000;
+            color: ${txtHovColor};
+            border-style: solid;
+            border-width: 1px;
+            border-color: ${txtHovColor};
         }
         &.Mui-disabled { color: #fff; }
     `;

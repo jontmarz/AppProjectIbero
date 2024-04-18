@@ -2,7 +2,6 @@ import { Description } from "../models/Description.js";
 import { DataApp } from "../models/DataApp.js";
 import { decodeJwt } from '../utils/jwtAuth.js';
 
-
 export const DescriptionView = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
@@ -41,8 +40,7 @@ export const DescriptionCreate = async (req, res) => {
 
         return res.status(200).json({
             message: `Guardado exitoso la descripción`,
-            code : 230,
-            data: description.desText
+            code : 230
         })
 
     } catch (error) {

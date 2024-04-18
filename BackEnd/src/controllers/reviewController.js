@@ -34,7 +34,7 @@ export const reviewViews = async (req, res) => {
         })
 
         if (dataApps == undefined) {
-            return res.status(400).json({
+            return res.status(410).json({
                 message: `Ya se ha realizado una reseña`,
                 code: 440,
             })
@@ -47,7 +47,56 @@ export const reviewViews = async (req, res) => {
         }
         
     } catch (error) {
-        res.status(400).json({
+        res.status(410).json({
+            message: "El dato no existe o ocurrio un error con los datos de cliente",
+            code: 440,
+            error: error,
+        })
+    }
+}
+
+export const reviewView = async (req, res) => {
+    try {
+        const { idProject } = req.params;
+        const token = req.headers.authorization.split(' ').pop()
+        const payload = await decodeJwt(token);
+
+        if (payload.id_User == undefined) {
+            return res.status(410).json({
+                message: `El usuario no existe`,
+                code: 430
+            })
+        } else {
+            const comment = await DataApp.findOne({ _id: idProject });
+
+            if (comment.review === undefined) {
+                return res.status(200).json({
+                    message: `No se ha realizado una reseña`,
+                    code: 230,
+                })
+            } else {
+                return res.status(200).json({
+                    message: `Datos Cargados`,
+                    code: 240,
+                    data: {
+                        comment: comment.review.comment,
+                        state: comment.review.state,
+                        autor: comment.review.author
+                    }
+                })
+            }
+            /* Verifica si tiene permisos para acceder a los comentarios, autor o estudiante (Por revisar) 
+            } else if (payload.id_User === comment.user) {
+            // else if (payload.id_User === comment.user || payload.id_User === comment.review.author) {
+            } else {
+                return res.status(410).json({
+                    message: `El usuario no tiene permisos para ver la reseña`,
+                    code: 430
+                })
+            } */
+        }
+    } catch (error) {
+        res.status(410).json({
             message: "El dato no existe o ocurrio un error con los datos de cliente",
             code: 440,
             error: error,
@@ -62,7 +111,9 @@ export const reviewCreate = async (req, res) => {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
 
-        const review = new Review({comment: data.comment, author: payload.id_User});
+        console.log(data)
+
+        const review = new Review({comment: data.comment, author: payload.id_User, state: data.state});
         await DataApp.findOneAndUpdate({_id: idProject}, { "review": review });
 
         return res.status(200).json({
@@ -72,7 +123,7 @@ export const reviewCreate = async (req, res) => {
         })
 
     } catch (error) {
-        res.status(400).json({
+        res.status(410).json({
             message: "Fallo en el guardado del formulario",
             code: 430
         })

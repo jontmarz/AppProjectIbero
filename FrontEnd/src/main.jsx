@@ -6,16 +6,28 @@ import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import './assets/sass/main.scss'
 
 const theme = createTheme({
-  pallete: {
+  palette: {
     mode: 'light',
     primary: {
-      main: '#4a4848'
+      main: '#4a4848' // Black
     },
-    secondary: {},
-    warning: {},
-    danger: {},
+    secondary: {
+      main: '#0098D4' // Light Blue
+    },
+    warning: {
+      main: '#F4C504'// Yellow
+    },
     success: {
-      main: '#d0ab4b'
+      main: '#d0ab4b' // Gold
+    },
+    white: {
+      main: '#fff' // White
+    },
+    green: {
+      main: '#135413' // Green
+    },
+    redN: {
+      main: '#de0d0d' // Red
     },
   },
   typography: {

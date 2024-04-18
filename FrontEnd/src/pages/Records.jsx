@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Grid, Typography, Box, Dialog, DialogTitle, DialogContent, DialogContentText } from "@mui/material";
-import Swal from 'sweetalert2';
-import { api, getToken } from '../config/axios';
-import PropTypes from 'prop-types';
-import CustomButton from "../components/CustomButton";
-import QueryDB from "../components/records/QueryDB";
-import { TableRecords } from "../components/records/TableRecords";
-import { FormRecords } from "../components/records/FormRecords";
+import { Grid, Typography, Box, Dialog, DialogTitle, DialogContent, DialogContentText } from "@mui/material"
+import { api, getToken } from '../config/axios'
+import Swal from 'sweetalert2'
+import PropTypes from 'prop-types'
+import CustomButton from "../components/CustomButton"
+import QueryDB from "../components/records/QueryDB"
+import { TableRecords } from "../components/records/TableRecords"
+import { FormRecords } from "../components/records/FormRecords"
 
 function SimpleDialog(props) {
     const { onClose, recordValue, open, formRecord } = props;
@@ -44,24 +44,46 @@ export default function Records() {
         return storedData ? JSON.parse(storedData) : []
     }
     const [recordValue, setrecordValue] = useState(() => initTableData())
+    // const [rloadValue, setrloadValue] = useState([])
 
     const handleData = (data) => {
         var idData = recordValue.length + 1
         const newData = { id: idData, ...data }
         setrecordValue([...recordValue, newData]);
         setOpen(false);
-        /* if (recordValue.length > 0) {
-            setDisabled(false)
-        } else {
-            setDisabled(true)
-        } */
     }
 
     useEffect(() => {
         const token = getToken()
-        if(!token) {
-        } else localStorage.setItem('rowsData', JSON.stringify(recordValue))
-    }, [recordValue])
+        if(token) {
+            localStorage.setItem('rowsData', JSON.stringify(recordValue))
+        } else { localStorage.removeItem("rowsData")}
+
+        const loadRecords = async() => {
+            try {
+                const res = await api({
+                    url: "/api/dataApp/records",
+                    method: "GET",
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+                // setrloadValue(res.data.records)
+                setrecordValue(Object.values(res.data.records))
+                if (localStorage.getItem('rowsData') === null) {
+                    localStorage.setItem('rowsData', recordValue)
+                }
+            } catch (e) {
+                Swal.fire({
+                    title: "¡Error!",
+                    text: e.response.data.message,
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#0098D4"
+                })
+            }
+        }
+
+        loadRecords()
+    }, [])
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -73,7 +95,8 @@ export default function Records() {
     };
 
     const records = Object.assign({}, recordValue)
-    // console.log(disabled);
+
+    console.log(recordValue);
     
     const SaveRecords = async() => {
         try {
@@ -90,10 +113,10 @@ export default function Records() {
                 confirmButtonText: "Aceptar",
                 confirmButtonColor: "#0098D4"
             })
-            localStorage.removeItem('rowsData')
+            localStorage.removeItem("rowsData")
             navigate("/problem-tree")
+            
         } catch (e) {
-            console.log(e);
             Swal.fire({
                 title: "¡Error!",
                 text: e.response.data.message,
@@ -102,6 +125,11 @@ export default function Records() {
                 confirmButtonColor: "#0098D4"
             })
         }
+    }
+
+    const quitRecords = () => {
+        localStorage.removeItem("rowsData")
+        navigate("/dashboard")
     }
 
     return (
@@ -118,7 +146,7 @@ export default function Records() {
                     <CustomButton name="Agregar Antecedente" action={handleClickOpen} color="#cca448" />
 
                     <SimpleDialog
-                        recordValue={recordValue}
+                        recordValue={Object.values(recordValue)}
                         open={open}
                         onClose={handleClose}
                         formRecord={handleData}
@@ -126,6 +154,7 @@ export default function Records() {
                     
                     <Box sx={{ display:"flex", justifyContent:"space-around", mt:3 }}>
                         <CustomButton name="Guardar Datos" action={SaveRecords} data={disabled} />
+                        {recordValue.length !== 0 ? <CustomButton action={quitRecords} name="Menu" sx={{mx: 2}}/> : null }
                     </Box>
                 </Box>
             </Box>

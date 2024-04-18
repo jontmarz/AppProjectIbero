@@ -32,6 +32,12 @@ export const descriptionFields = [
     validationResExpress
 ]
 
+export const ethicalImpactsFields = [
+    body('ethicals', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('impacts', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    validationResExpress
+]
+
 export const goalFields = [
     body('goals.objEspe.oe1', "campo debe ser tipo texto").isString().trim().notEmpty(),
     body('goals.objEspe.oe2', "campo debe ser tipo texto").isString().trim().notEmpty(),
@@ -56,5 +62,23 @@ export const recordsFields = [
 
 export const reviewFields = [
     body('comment', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('state', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    validationResExpress
+]
+
+export const JustificationFields = [
+    body('justification', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    validationResExpress
+]
+
+export const methodologyFields = [
+    body('methodology.summary', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('methodology.approachResearch', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('methodology.scopeResearch', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('methodology.designResearch', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('methodology.techSPickupInfo', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('methodology.explainGoals.eg1', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('methodology.explainGoals.eg2', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    body('methodology.explainGoals.eg3', "campo debe ser tipo texto").isString().trim().notEmpty(),
     validationResExpress
 ]

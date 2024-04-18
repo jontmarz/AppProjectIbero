@@ -1,9 +1,18 @@
 import { Schema, model } from 'mongoose';
 
 export const goalSchema = new Schema({
-    objEspe : {type : Object},
-    objGen : {type : String},
-    titleProj : { type: String }
+    objEspe : { // Objetivo Especifico
+        type : Object,
+        require: true
+    },
+    objGen : { // Objetivo General
+        type : String,
+        require: true
+    },
+    titleProj : { // Titulo del Proyecto
+        type: String,
+        require: true
+    }
 })
 
 export const Goal = model("Goal", goalSchema);

@@ -7,8 +7,14 @@ export const recordView = async (req, res) => {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
         let record = await DataApp.findOne({user: payload.id_User});
-        if(record.records == undefined){
-            return res.status(400).json({
+        if (!record) {
+            return res.status(200).json({
+                message: `No hay datos`,
+                code : 220,
+            })
+        }
+        else if (record.records == undefined){
+            return res.status(440).json({
                 message: `No se han guardado datos`,
                 code : 440,
             })
@@ -37,13 +43,13 @@ export const recordCreate = async (req, res) => {
 
         const record = new Record({recordlist:data});
         await DataApp.findOneAndUpdate({user: payload.id_User}, {"records": record});
-        return res.status(230).json({
+        return res.status(200).json({
             message: `Guardado exitoso de Records`,
             code : 230,
         })
 
     } catch (error) {
-        res.status(430).json({
+        res.status(410).json({
             message: "Fallo en el guardado del formulario",
             code: 430
         })

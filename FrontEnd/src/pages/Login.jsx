@@ -20,7 +20,7 @@ const ImgBG = styled("img")({
 
 export default function Login() {
 
-    var disabled = false;
+    // var disabled = false;
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate()
@@ -35,6 +35,22 @@ export default function Login() {
         const res = await api.post("/api/auth/login", logUser)
             .then((res) => {
                 setLoading(true)
+                setToken(res.data.token.tokenid)
+                let url = ''
+                
+                switch (res.data.code) {
+                    case 210:
+                        url = "/dashboard"
+                    break;
+                    case 220:
+                        url = "/dashboard"
+                    break;
+                    case 230:
+                        url = "/records"
+                    default:
+                        break;
+                }
+                
                 Swal.fire({
                     title: "¡Registro exitoso!",
                     text: res.data.message,
@@ -42,11 +58,8 @@ export default function Login() {
                     confirmButtonText: "Aceptar",
                     confirmButtonColor: "#0098D4"
                 })
-                setToken(res.data.token.tokenid)
+                navigate(url)
                 setLoading(false)
-                // navigate("/dashboard")
-                // location.reload()
-                navigate("/menu-pages")
             })
             .catch((e) => {
                 console.log(e);
@@ -107,13 +120,15 @@ export default function Login() {
                         {errors.password && <Typography component="span" sx={{color: "red", fontSize: 10}}>La contraseña debe tener mínimo 8 caracteres</Typography>}
 
                         <Box sx={{ display:"flex", justifyContent:"end" }}>
-                            <CustomButton name="Ingresar" data={disabled} />
+                            <CustomButton name="Ingresar" />
+                            {/* <CustomButton name="Ingresar" data={disabled} /> */}
                         </Box>
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={6} sx={{ p:4 }}>
                     <Box sx={{ display:"flex", justifyContent:"end" }}>
-                        <CustomButton data={disabled} name='Registrarse' anchor='/signup' />
+                        <CustomButton name='Registrarse' anchor='/signup' />
+                        {/* <CustomButton data={disabled} name='Registrarse' anchor='/signup' /> */}
                     </Box>
                     <Box sx={{ display:"flex", justifyContent:"end" }}>
                         <Logo />

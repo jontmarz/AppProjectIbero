@@ -2,46 +2,70 @@ import { Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 const UsersSchema = new Schema({
-    fullName: {
+    fullName: { // Nombre completo
         type :      String,
         required :  true,
     },
-    typeDoc: {
+    typeDoc: { // Tipo de documento
         type :       String,
         required :   true,
     },
-    identify: {
+    identify: { // Numero de documento
         type :      Number,
         unique:     true,
         required :   true,
     },
-    emailI: {
+    emailI: { // Correo institucional
         type :      String,
         required :  true,
         unique:     true,
         index:      { unique: true }
     },
-    emailP: {
+    emailP: { // Correo personal
         type :      String,
         required :  true,
     },
-    faculty: {
+    faculty: { // Facultad
+        type :      String,
+        required :  false,
+    },
+    academicProgram: { // Programa academico
+        type :      String,
+        required :  false,
+    },
+    code: { // Codigo de estudiante
+        type : Number,
+        required : false,
+    },
+    phone : { // Telefono
+        type : Number,
+        required : false,
+    },
+    typeProj : { // Tipo de proyecto
+        type : String,
+        required : false,
+    },
+    instLine: { // Linea de investigacion
+        type : String,
+        required : false,
+    },
+    ResearchGroup: { // Grupo de investigacion
+        type : String,
+        required : false,
+    },
+    seedLine: { // Linea de semillero de Investigación
+        type : String,
+        required : false,
+    },
+    role: { // Rol
         type :      String,
         required :  true,
     },
-    academicProgram: {
+    password: { // Contraseña
         type :      String,
         required :  true,
     },
-    role: {
-        type :      String,
-        required :  true,
-    },
-    password: {
-        type :      String,
-        required :  true,
-    },
-    creationDate: {
+    creationDate: { // Fecha de creacion
         type :      Date,
         default :   Date.now,
     },

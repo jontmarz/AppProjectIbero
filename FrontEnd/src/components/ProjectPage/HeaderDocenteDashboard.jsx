@@ -1,9 +1,9 @@
 import { Grid, Typography, Box } from "@mui/material";
 import styled from "@emotion/styled";
-import CustomButton from "../components/CustomButton";
-import dialnetLogo from "../assets/img-profile.png";
+// import CustomButton from "./CustomButton";
+import dialnetLogo from "../../assets/img-profile.png";
 
-export default function DataUserDashboard(props) {
+export default function HeaderDocenteDashboard(props) {
 
     const Img = styled("img")({
         width: '150px',

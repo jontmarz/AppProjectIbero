@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "start": "node /dist/index.html",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -19,6 +20,7 @@
     "@mui/x-data-grid": "^6.4.0",
     "axios": "^1.4.0",
     "draft-js": "^0.11.7",
+    "html-to-draftjs": "^1.5.0",
     "npm": "^10.2.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

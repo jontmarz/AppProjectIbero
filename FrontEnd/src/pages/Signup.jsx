@@ -42,14 +42,12 @@ export default function Signup() {
             faculty: data.faculty,
             academicProgram: data.academicProgram,
             password: data.password,
-            repassword: data.repassword
+            repassword: data.repassword,
+            role: "Estudiante"
         }
         
         const res = await api.post("/api/auth/register", newUser)
             .then((res) => {
-                // setLoading(true)
-                console.log(res);
-                console.log(res.data);
                 Swal.fire({
                     title: "¡Registro exitoso!",
                     text: res.data.message,

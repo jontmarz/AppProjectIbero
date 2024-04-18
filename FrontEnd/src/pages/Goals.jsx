@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Box, Grid, TextField, Typography } from "@mui/material";
-import { useForm } from "react-hook-form";
-import { api, getToken } from '../config/axios';
-import Swal from 'sweetalert2';
-import CustomButton from "../components/CustomButton";
-import CustomList from "../components/CustomList";
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { Box, Grid, TextField, Typography } from "@mui/material"
+import { useForm } from "react-hook-form"
+import { api, getToken } from '../config/axios'
+import Swal from 'sweetalert2'
+import CustomButton from "../components/CustomButton"
+import CustomList from "../components/CustomList"
 
 export default function Goals() {
+
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
@@ -15,6 +16,7 @@ export default function Goals() {
     const [loadCausesD, setLoadCausesD] = useState([])
     const [loadProblem, setLoadProblem] = useState([])
     const [goalsData, setGoalsData] = useState([])
+    const [loadGoals, setLoadGoals] = useState([])
 
     const listItems = [
         "1. Teniendo en cuenta las causas del árbol del problema se deben generar los objetivos específicos.",
@@ -44,8 +46,18 @@ export default function Goals() {
     
         loadTree()
 
-    }, [])
+        const fetchData = async () => {
+            const { data } = await api({
+                url: "/api/dataApp/goals",
+                method: "GET",
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            setLoadGoals(data.goals)
+        }
 
+        fetchData()
+
+    }, [])
 
     const onSubmit = async (data, e) => {
         setGoalsData([...goalsData, data])
@@ -60,8 +72,6 @@ export default function Goals() {
             objGen: data.mainGoal,
             titleProj: data.titleProject
         }
-
-        // console.log(goals);
 
         const res = await api({
             url: "/api/dataApp/goals",
@@ -80,7 +90,7 @@ export default function Goals() {
                     timer: 1500
                 })
                 setLoading(false)
-                navigate("/justification")
+                navigate("/ethicalimpacts")
             })
             .catch((e) => {
                 console.error(e)
@@ -107,7 +117,6 @@ export default function Goals() {
 
                     {/* Causa Directa 1 */}
                     <TextField
-                        type="text"
                         label="Primera causa directa del árbol del problema"
                         value={loadCausesD.cd1 || ''}
                         variant="filled"
@@ -119,10 +128,10 @@ export default function Goals() {
 
                     {/* Primer Objetivo */}
                     <TextField
-                        type="text"
                         label="Primer objetivo específico"
+                        multiline
                         variant="filled"
-                        className="Main-Goals"
+                        defaultValue={loadGoals ? loadGoals?.objEspe?.oe1 : ""}
                         { ...register("firstGoal", { required: true }) }
                     />
                     {errors.firstGoal && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el primer efecto indirecto</Typography>}
@@ -130,7 +139,6 @@ export default function Goals() {
                     {/* Causa Directa 2 */}
                     <TextField
                         sx={{ mt: 2 }}
-                        type="text"
                         label="Segunda causa directa del árbol del problema"
                         value={loadCausesD.cd2 || ''}
                         variant="filled"
@@ -142,10 +150,10 @@ export default function Goals() {
 
                     {/* Segundo objetivo */}
                     <TextField
-                        type="text"
                         label="Segundo objetivo específico"
+                        multiline
                         variant="filled"
-                        className="Main-Goals"
+                        defaultValue={loadGoals ? loadGoals?.objEspe?.oe2 : ""}
                         { ...register("secondGoal", { required: true }) }
                     />
                     {errors.secondGoal && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el primer efecto indirecto</Typography>}
@@ -165,22 +173,20 @@ export default function Goals() {
 
                     {/* Tercer objetivo */}
                     <TextField
-                        sx={{ mt: 2 }}
-                        type="text"
                         label="Tercer objetivo específico"
+                        multiline
                         variant="filled"
-                        className="Main-Goals"
+                        defaultValue={loadGoals ? loadGoals?.objEspe?.oe3 : ""}
                         { ...register("thirdGoal", { required: true }) }
                     />
                     {errors.thirdGoal && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el primer efecto indirecto</Typography>}
 
                     {/* Cuarto Objetivo */}
                     <TextField
-                        sx={{ mt: 2 }}
-                        type="text"
                         label="Objetivo específico 4 opcional:"
+                        multiline
                         variant="filled"
-                        className="Main-Goals"
+                        defaultValue={loadGoals ? loadGoals?.objEspe?.oe4 : ""}
                         { ...register("forthGoal") }
                     />
                     {errors.forthGoal && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el primer efecto indirecto</Typography>}
@@ -203,10 +209,9 @@ export default function Goals() {
                     {/* Objetivo General */}
                     <Typography variant="p" component="p" sx={{ mt: 3 }}>Objetivo general:</Typography>
                     <TextField
-                        type="text"
                         label="Aquí debe salir el problema central guardado para la comprobación"
                         variant="filled"
-                        className="Main-Goals"
+                        defaultValue={loadGoals ? loadGoals?.objGen : ""}
                         minRows={5}
                         multiline
                         { ...register("mainGoal", { required: true }) }
@@ -214,16 +219,17 @@ export default function Goals() {
                     {errors.mainGoal && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el primer efecto indirecto</Typography>}
                     <Typography variant="p" component="p" sx={{ mt: 3 }}>Titulo del proyecto:</Typography>
                     <TextField
-                        type="text"
                         label="Título proyectado para el proyecto"
                         variant="filled"
-                        className="Main-Goals"
+                        multiline
+                        defaultValue={loadGoals ? loadGoals?.titleProj : ""}
                         { ...register("titleProject", { required: true }) }
                     />
                     {errors.titleProject && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el primer efecto indirecto</Typography>}
                     <CustomList list={listItems} order />
                     <Box sx={{ display:"flex", justifyContent:"end", mt:5 }}>
                         <CustomButton name="Guardar"  />
+                        {Object.entries(loadGoals).length !== 0 ? <CustomButton anchor='/dashboard' name="Menu" sx={{mx: 2}}/> : null }
                     </Box>
                 </Grid>
             </Grid>

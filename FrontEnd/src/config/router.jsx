@@ -2,6 +2,10 @@ import { createBrowserRouter } from "react-router-dom";
 // import { Login, Records, Problemtree, Description, Goals, Justification } from '../pages/'
 import RootLayout from '../layout/RootLayout'
 import PrivateLayout from '../layout/PrivateLayout'
+import PrivateLayoutDoce from '../layout/PrivateLayoutDoce'
+import PrivateLayoutDash from '../layout/PrivateLayoutDash'
+import PrivateLayoutPDF from '../layout/PrivateLayoutPDF'
+import Home from '../pages/WebPage/Home'
 import Login from '../pages/Login'
 import Signup from '../pages/Signup'
 import Records from '../pages/Records'
@@ -9,10 +13,12 @@ import Problemtree from '../pages/ProblemTree'
 import Description from '../pages/Description'
 import Goals from '../pages/Goals'
 import Justification from '../pages/Justification'
+import Methodology from "../pages/Methodology";
 import ErrorPage from "../pages/ErrorPage";
 import Dashboard from "../pages/Dashboard";
-import MenuPages from "../pages/MenuPages";
-import EditUser from "../pages/user/EditUser";
+import DashboardDocente from "../pages/docente/DashboardDocente";
+import DashboardEstu from "../pages/estudiante/DashboardEstudiante";
+import EthicalImpacts from "../pages/EthicalImpacts";
 import FichaProject from "../pages/docente/fichaProject";
 import { PrintToPdf } from "../pages/PrintToPdf";
 
@@ -24,32 +30,33 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 element: <Login />
+                // element: <Home />
             },
+            /* {
+                path: "login",
+                element: <Login />
+            }, */
             {
                 path: "signup",
                 element: <Signup />
             },
             {
-                path: "menu-pages",
-                element: <PrivateLayout />,
-                children: [
-                    {
-                        index: true,
-                        element: <MenuPages />
-                    }
-                ]
-            },
-            {
                 path: "dashboard",
-                element: <PrivateLayout />,
+                element: <PrivateLayoutDash />,
                 children: [
                     {
                         index: true,
                         element: <Dashboard />
-                    },
+                    }
+                ]
+            },
+            {
+                path: "docente",
+                element: <PrivateLayoutDoce />,
+                children: [
                     {
-                        path: "editUser",
-                        element: <EditUser />
+                        index: true,
+                        element: <DashboardDocente/>
                     },
                     {
                         path: ":idProject",
@@ -57,6 +64,20 @@ export const router = createBrowserRouter([
                     }
                 ]
             },
+            /* {
+                path: "estudiante",
+                element: <PrivateLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <DashboardEstu />
+                    },
+                    {
+                        path: ":idProject",
+                        element: <FichaProject />
+                    }
+                ]
+            }, */
             {
                 path: "problem-tree",
                 element: <PrivateLayout />,
@@ -104,6 +125,26 @@ export const router = createBrowserRouter([
                     {
                         index: true,
                         element: <Justification />
+                    }
+                ]
+            },
+            {
+                path: "ethicalimpacts",
+                element: <PrivateLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <EthicalImpacts />
+                    }
+                ]
+            },
+            {
+                path: "methodology",
+                element: <PrivateLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <Methodology />
                     }
                 ]
             },

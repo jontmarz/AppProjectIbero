@@ -1,4 +1,3 @@
-
 import { Goal } from "../models/Goal.js";
 import { DataApp } from "../models/DataApp.js";
 import { decodeJwt } from '../utils/jwtAuth.js';
@@ -33,15 +32,16 @@ export const goalCreate = async (req, res) => {
         const payload = await decodeJwt(token);
 
         const goal = new Goal(data);
-        await DataApp.findOneAndUpdate({user: payload.id_User}, {"goals":goal});
+        const id_User = payload.id_User;
+        await DataApp.findOneAndUpdate({user: id_User}, {"goals":goal});
 
-        return res.status(230).json({
+        return res.status(200).json({
             message: `Guardado exitoso de objetivos`,
             code : 230,
         })
 
     } catch (error) {
-        res.status(430).json({
+        res.status(410).json({
             message: "Fallo en el guardado del formulario",
             code: 430
         })

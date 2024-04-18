@@ -8,7 +8,7 @@
     "dev": "nodemon src/index.js",
     "start": "node src/index.js"
   },
-  "author": "Yosman Santiago Fiquitiva Sanchez",
+  "author": "John Edwin Torres Martínez - Jon Tmarz",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",

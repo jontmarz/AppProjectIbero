@@ -7,6 +7,7 @@ export const infoUser = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
+        const role = payload.role
     
         let user = await Users.findOne({_id : payload.id_User});
         
@@ -17,7 +18,7 @@ export const infoUser = async (req, res) => {
         })
         
     } catch (error) {
-        return res.status(400).json({
+        return res.status(410).json({
             message: `El usuario no existe`,
             code : 430,
             error: error,
@@ -42,14 +43,14 @@ export const dataUsers = async (req, res) => {
                 infoUser: user,
             })
         } else {
-            return res.status(400).json({
+            return res.status(410).json({
                 message: `El usuario debe iniciar sesión`,
                 code : 430,
             })
         }
         
     } catch (error) {
-        return res.status(400).json({
+        return res.status(410).json({
             message: `El usuario no existe`,
             code : 430,
             error: error,

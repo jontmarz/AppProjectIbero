@@ -13,7 +13,7 @@ export const problemView = async (req, res) => {
                 code : 440,
             })
         } else {
-            return res.status(240).json({
+            return res.status(200).json({
                 message: `Datos Cargados`,
                 code : 240,
                 problemas: problem.problems,
@@ -38,13 +38,13 @@ export const problemCreate = async (req, res) => {
         const problema = new Problem(data);
         await DataApp.findOneAndUpdate({user: payload.id_User}, {"problems":problema});
 
-        return res.status(230).json({
+        return res.status(200).json({
             message: `Guardado exitoso de arbol de problemas`,
             code : 230,
         })
 
     } catch (error) {
-        res.status(430).json({
+        res.status(410).json({
             message: "Fallo en el guardado del formulario",
             code: 430
         })

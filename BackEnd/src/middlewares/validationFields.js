@@ -36,8 +36,14 @@ export const signupValidatorFields = [
       }        
     }).isEmail().normalizeEmail().notEmpty(),
     body('emailP', "Coloca un correo personal valido").trim().isEmail().normalizeEmail().notEmpty(),
-    body('faculty', "Colocar la facultad o institución").trim().isString().notEmpty(),
-    body('academicProgram', "Colocar la facultad o institución").trim().isString().notEmpty(),
+    body('faculty', "Colocar la facultad o institución").trim().isString().isEmpty(),
+    body('academicProgram', "Colocar la facultad o institución").trim().isString().isEmpty(),
+    body('code', "Colocar código de estudiante").trim().isString().isEmpty(),
+    body('phone', "Colocar número de teléfono de contacto").trim().isString().isEmpty(),
+    body('typeProj', "Colocar el tipo de proyecto").trim().isString().isEmpty(),
+    body('instLine', "Colocar la línea de investigación").trim().isString().isEmpty(),
+    body('ResearchGroup', "Colocar el grupo de investigación").trim().isString().isEmpty(),
+    body('seedLine', "Colocar la línea del semillero de investigación").trim().isString().isEmpty(),
     body('role', "Elija un rol de usuario").trim().isString().isEmpty(),
     body('password', "Mínino 8 caracteres").trim().isLength({min: 8}),
     body('password')

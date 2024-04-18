@@ -10,7 +10,6 @@ export const FormRecords = ({ uploadData }) => {
     const onSubmit = async (data, e) => {
 
         uploadData(data)
-        console.log(data);
 
         Swal.fire({
             icon: 'success',

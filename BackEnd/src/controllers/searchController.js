@@ -14,7 +14,7 @@ export const searchdata = async (req, res) => {
             });
 
             if (user.length == 0) {
-                return res.status(400).json({
+                return res.status(410).json({
                     message: `El usuario no existe`,
                     code : 440,
                 })
@@ -30,7 +30,7 @@ export const searchdata = async (req, res) => {
                     data: data,
                 })
             } else {
-                return res.status(400).json({
+                return res.status(410).json({
                     message: `El usuario no tiene ficha registrada`,
                     code : 440,
                 })
@@ -39,7 +39,7 @@ export const searchdata = async (req, res) => {
             let data = await DataApp.find({ "goals.titleProj": dataSearch.titleProj });
             
             if (data.length === 0) {
-                return res.status(400).json({
+                return res.status(410).json({
                     message: `El proyecto no existe`,
                     code : 440,
                 })
@@ -51,7 +51,7 @@ export const searchdata = async (req, res) => {
                 })
 
             } else {
-                return res.status(400).json({
+                return res.status(410).json({
                     message: `El proyecto no existe`,
                     code : 440,
                 })
@@ -60,12 +60,12 @@ export const searchdata = async (req, res) => {
         
     } catch (error) {
         if (error.response && error.response.status === 400) {
-            return res.status(400).json({
+            return res.status(410).json({
                 message: `El proyecto no existe`,
                 code : 440,
             })
         } else {
-            return res.status(400).json({
+            return res.status(410).json({
                 message: `Hubo un error en la consulta`,
                 code : 430,
             })

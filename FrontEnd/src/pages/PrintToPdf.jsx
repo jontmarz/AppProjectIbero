@@ -1,210 +1,146 @@
-import React, { useEffect, useRef, useState} from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
-import { ReactPdf } from '../components/ReactPdf'
 import { api, getToken } from '../config/axios';
-import { Grid, Typography, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import CustomButton from "../components/CustomButton";
-import Logo from "../components/Logo";
+import { Grid, Typography, Box } from '@mui/material'
+import { HeaderSheet } from '../components/SheetPDF/HeaderSheet'
+import { ProponentData } from '../components/SheetPDF/ProponentData'
+import { DataSumaryRecords } from '../components/SheetPDF/DataSumaryRecords'
+import { DataProject } from '../components/SheetPDF/DataProject'
+import { DataProblem } from '../components/SheetPDF/DataProblem'
+import { DataGoals } from '../components/SheetPDF/DataGoals'
+import { DataMethodology } from '../components/SheetPDF/DataMethodology'
+import { EthicalChronoImpact } from '../components/SheetPDF/EthicalChronoImpact'
+import { BioReferences } from '../components/SheetPDF/BioReferences'
+import CustomButton from "../components/CustomButton"
+import Logo from "../components/Logo"
+import signupImg from "../assets/img-signup.jpg"
 
 export const PrintToPdf = () => {
+
+    const navigate = useNavigate()
     const componentRef = useRef()
     const token = getToken()
+    const [dataApp, setDataApp] = useState([{}])
     const [goalsData, setGoalsData] = useState([])
-    const [goalsEspect, setGoalsEspect] = useState([])
+    const [description, setDescription] = useState([])
+    const [justification, setJustification] = useState([])
+    const [methodology, setMethodology] = useState([])
+    const [problems, setProblems] = useState([])
+    const [records, setRecords] = useState([])
+    const [ethicalImpacts, setEthicalImpacts] = useState([])
+    const [userData, setUserData] = useState([])
 
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
-        documentTitle: "Presentación de Proyecto",
-        onAfterPrint: () => alert("Se ha generado el PDF"),
-        // onAfterPrint: () => window.close()
+        documentTitle: `Ficha de Proyecto - ${userData.fullName}`,
+        margin: { top: 20, right: 20, bottom: 20, left: 20 },
+        pageStyle: `
+            @page {
+                size: letter;
+                margin-top: 20mm; margin-right: 5mm; margin-bottom: 20mm; margin-left: 5mm;
+                background-image: url(${signupImg});
+                background-repeat: repeat;
+                background-position: center;
+            }
+            body { width: 100%; overflow: hidden; }`,
+        // onAfterPrint: () => alert("Se ha generado el PDF"),
+        ignoreElements: [".ignore-on-pdf"],
+        onAfterPrint: () => window.close()
     })
 
-    function createData(id, name, code, email, phone) {
-        return { id, name, code, email, phone };
-    }
-
-    const rowsTable = [
-        createData('1', 'Shakira Mebarak', '100102005', 'smebarak@uni.edu.co', '315555555'),
-    ]
+    
 
     useEffect(() => {
         const loadDoc = async() => {
             try {
                 const { data } = await api({
-                    url: "/api/dataApp/goals",
+                    url: "/api/dataApp/dataProject",
                     method: "GET",
                     headers: { Authorization: `Bearer ${token}` }
                 })
-                setGoalsData(data.goals)
-                setGoalsEspect(data.goals.objEspe)
+                setDataApp(data.data)
+                setGoalsData(data.data.goals)
+                setDescription(data.data.description)
+                setJustification(data.data.justification.justification)
+                setMethodology(data.data.methodology)
+                setProblems(data.data.problems)
+                setRecords(data.data.records.recordlist)
+                setEthicalImpacts(data.data.ethicalImpacts)
+
+                const user = data.data.user
+
+                const loadUser = async() => {
+                    try {
+                        const res = await api({
+                            url: `/api/user/${user}`,
+                            method: "GET",
+                            headers: { Authorization: `Bearer ${token}` }
+                        })
+                        setUserData(res.data.infoUser)
+                    } catch (e) {
+                        console.error(e);
+                    }
+                }
+        
+                loadUser()
             } catch (e) {
                 console.error(e);
             }
         }
-
-        loadDoc()
+        
+        loadDoc()        
     }, [])
-
-    const forthGoal = goalsEspect.oe4
-
-    // console.log(goalsData);
-
+    
     return (
         <>
-            <Box ref={componentRef} sx={{width: '1000px', mx: "auto", my: 2, pt: 2 }} className="printToPdf">
-                <Grid container spacing={4}>
-                    <Grid item xs={4} sx={{ textAlign: 'center', border:1, pl: "0 !important", pt: "0 !important" }}>
-                        <Logo sx={{ mt:0 }} />
-                    </Grid>
-                    <Grid item xs={8} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
-                        <Typography variant="h5" component="h1" sx={{ mt: 1, textAlign: 'center', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>FICHA RESUMEN DE PROYECTO PARTICULAR O DE SEMILLERO DE INVESTIGACIÓN</Typography>
-                    </Grid>
+        <Box ref={componentRef} sx={{width:"1200px", mx: "auto", my: '3em', display: 'block' }} className="printToPdf">
+            <Grid container spacing={4} sx={{width: '1100px', mx: 'auto' }} >
+                <Grid item xs={4} sx={{ textAlign: 'center', border:1, pl: "0 !important", pt: "0 !important" }}>
+                    <Logo sx={{ mt:0 }} />
                 </Grid>
-                <Grid container spacing={4} sx={{ mt: 4 }}>
-                    <Grid item xs={9} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
-                        <Typography variant="h6" component="h1" sx={{ mt: 1, textAlign: 'left', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>Facultad, Programa / Semillero de Investigación</Typography>
-                        <Typography variant="h6" component="h1" sx={{ mt: 1, textAlign: 'left', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>Ingeniería Ciencias Básicas - <span className="f-weight">ingenieria</span></Typography>
-                    </Grid>
-                    <Grid item xs={3} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
-                        <Typography variant="h6" component="h1" sx={{ mt: 1, textAlign: 'center', mb: 1, px: 3, fontWeight:700 }}>Fecha de entrega a Comité Focal: </Typography>
-                    </Grid>
+                <Grid item xs={8} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
+                    <Typography variant="h5" component="h1" sx={{ mt: 1, textAlign: 'center', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>FICHA RESUMEN DE PROYECTO PARTICULAR O DE SEMILLERO DE INVESTIGACIÓN</Typography>
                 </Grid>
-                <Grid container spacing={4} sx={{ mt: 0 }}>
-                    <Grid item xs={12} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
-                        <Typography variant="h6" component="h1" sx={{ mt: 1, textAlign: 'center', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>Título del Proyecto: <span className="f-weight">{goalsData.titleProj}</span></Typography>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={4} sx={{ mt: 0 }}>
-                    <Grid item xs={12} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
-                        <Typography variant="h6" component="h1" sx={{ mt: 1, textAlign: 'left', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>Proponentes del proyecto:</Typography>
-                        <TableContainer component={Paper} sx={{mx:2, my:2, maxWidth: 1000 }}>
-                            <Table sx={{ minWidth: 600 }} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell sx={{border:1, fontWeight: 700, fontSize: 18}}>Nombre Completo</TableCell>
-                                        <TableCell sx={{border:1, fontWeight: 700, fontSize: 18}}>Código</TableCell>
-                                        <TableCell sx={{border:1, fontWeight: 700, fontSize: 18}}>Correo Electrónico</TableCell>
-                                        <TableCell sx={{border:1, fontWeight: 700, fontSize: 18}}>Teléfono de Contacto</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {rowsTable.map((row) => (
-                                        <TableRow
-                                            key={row.name}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 1, fontSize: 16 } }}
-                                        >
-                                            <TableCell component="th" scope="row">{row.id + '. ' + row.name}</TableCell>
-                                            <TableCell align="right">{row.code}</TableCell>
-                                            <TableCell align="right">{row.email}</TableCell>
-                                            <TableCell align="right">{row.phone}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={4} sx={{ mt: 0 }}>
-                    <Grid item xs={12} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
-                        <Typography variant="h6" component="h1" sx={{ mt: 1, textAlign: 'left', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>Tipo del Proyecto: <span className="f-weight"></span></Typography>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={4} sx={{ mt: 0 }}>
-                    <Grid item xs={12} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
-                        <Typography variant="h6" component="h1" sx={{ mt: 1, textAlign: 'left', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>Línea Institucional de Investigación a la que pertenece: <span className="f-weight"></span></Typography>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={4} sx={{ mt: 0 }}>
-                    <Grid item xs={12} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
-                        <Typography variant="h6" component="h1" sx={{ mt: 1, textAlign: 'left', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>Grupo de Investigación al que se vincularía: <span className="f-weight"></span></Typography>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={4} sx={{ mt: 0 }}>
-                    <Grid item xs={12} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
-                        <Typography variant="h6" component="h1" sx={{ mt: 1, textAlign: 'left', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>Semillero de Investigación (aplica para los estudiantes en categoría de MASTER vinculados a un semillero activo): <span className="f-weight"></span></Typography>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={4} sx={{ mt: 0 }}>
-                    <Grid item xs={12} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
-                        <Typography variant="h6" component="h1" sx={{ mt: 1, textAlign: 'left', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>1. Resumen de la propuesta:</Typography>
-                        <Typography variant="p" component="p" sx={{ mt: 1, textAlign: 'left', mb: 1, px: 3 }}>Lorem Ipsum</Typography>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={4} sx={{ mt: 0 }}>
-                    <Grid item xs={12} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
-                        <Typography variant="h6" component="h1" sx={{ mt: 1, textAlign: 'left', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>2. Antecedentes y Justificación:</Typography>
-                        <Typography variant="p" component="p" sx={{ mt: 1, textAlign: 'left', mb: 1, px: 3 }}>Lorem Ipsum</Typography>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={4} sx={{ mt: 0 }}>
-                    <Grid item xs={12} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
-                        <Typography variant="h6" component="h1" sx={{ mt: 1, textAlign: 'left', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>3. Problema de Investigación:</Typography>
-                        <Typography variant="p" component="p" sx={{ mt: 1, textAlign: 'left', mb: 1, px: 3 }}>Lorem Ipsum</Typography>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={4} sx={{ mt: 0 }}>
-                    <Grid item xs={12} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
-                        <Typography variant="h6" component="h1" sx={{ mt: 1, textAlign: 'left', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>4. Objetivo General y Objetivos Específicos:</Typography>
-                        <Typography variant="h6" component="h1" sx={{ mt: 1, textAlign: 'left', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>Objetivo General: <span className="f-weight">Lorem Ipsum</span></Typography>
-                        <Typography variant="h6" component="h1" sx={{ mt: 1, textAlign: 'left', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>Objetivos específicos: <span className="f-weight">Lorem Ipsum</span></Typography>
-                    </Grid>
-                </Grid>
-                {/* <Grid container spacing={4} sx={{px: 10, mx: "auto" }}>
-                    <Grid item xs={12} md={6} sx={{ py: 3 }}>
-                            <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>Objetivo General</Typography>
-                    </Grid>
-                    <Grid item xs={12} md={6} sx={{ py: 3 }}>
-                    <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>{goalsData.objGen}</Typography>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={4} sx={{px: 10, mx: "auto" }}>
-                    <Grid item xs={12} md={6} sx={{ py: 3 }}>
-                        <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>Primer Objetivo</Typography>
-                    </Grid>
-                    <Grid item xs={12} md={6} sx={{ py: 3}}>
-                    <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>{goalsEspect.oe1}</Typography>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={4} sx={{px: 10, mx: "auto" }}>
-                    <Grid item xs={12} md={6} sx={{ py: 3}}>
-                        <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>Segundo Objetivo</Typography>
-                    </Grid>
-                    <Grid item xs={12} md={6} sx={{ py: 3}}>
-                    <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>{goalsEspect.oe2}</Typography>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={4} sx={{px: 10, mx: "auto" }}>
-                    <Grid item xs={12} md={6} sx={{ py: 3}}>
-                        <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>Tercer Objetivo</Typography>
-                    </Grid>
-                    <Grid item xs={12} md={6} sx={{ py: 3}}>
-                    <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>{goalsEspect.oe3}</Typography>
-                    </Grid>
-                </Grid>
+            </Grid>
 
-                { forthGoal ? (
-                    <Grid container spacing={4} sx={{px: 10, mx: "auto" }}>
-                        <Grid item xs={12} md={6} sx={{ py: 3}}>
-                            <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>Cuarto Objetivo</Typography>
-                        </Grid>
-                        <Grid item xs={12} md={6} sx={{ py: 3}}>
-                        <Typography variant="p" component="p" sx={{ border: "1px solid #000", p: 1 }}>{goalsEspect.oe4}</Typography>
-                        </Grid>
-                    </Grid>
-                    
-                ) : '' } */}
-                {/* <Grid container spacing={4} sx={{ mb: 5, ml: 5 }}>
-                    <Grid item xs={12}>
-                        <CustomButton name='Editar Objetivos' anchor='/goals'/>
-                    </Grid>
-                </Grid> */}
-                <Grid container spacing={4} sx={{ ml: 5, mt: 1 }}>
-                    <Grid item xs={12}>
-                        <CustomButton action={handlePrint} name="Imprimir PDF"/>
-                        <CustomButton anchor='/menu-pages' name="Menu" sx={{mx: 2}}/>
-                    </Grid>
+            <HeaderSheet userData={userData} dataApp={dataApp} />
+
+            <Grid container spacing={4} sx={{ mt: 0, width: '1100px', mx: 'auto' }}>
+                <Grid item xs={12} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
+                    <Typography variant="h6" component="h2" sx={{ mt: 1, textAlign: 'center', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>Título del Proyecto: <span className="f-weight">{goalsData.titleProj ? goalsData.titleProj : "S/D"}</span></Typography>
                 </Grid>
-            </Box>
+            </Grid>
+
+            <ProponentData userData={userData} />
+
+            <DataProject userData={userData} />
+            
+            <DataSumaryRecords description={description} records={records} justification={justification} />
+
+            <DataProblem problems={problems} />
+
+            <DataGoals goalsData={goalsData} />
+            
+            <DataMethodology methodology={methodology} />
+
+            <EthicalChronoImpact ethicalImpacts={ethicalImpacts} />
+            {/* <Grid container spacing={4} sx={{ mt: 0, width: '1100px', mx: 'auto' }}>
+                <Grid item xs={12} sx={{ border:1, pl: "0 !important", pt: "0 !important" }}>
+                    <Typography variant="h6" component="h2" sx={{ mt: 1, textAlign: 'left', mb: 1, textTransform: 'capitalize', px: 3, fontWeight:700 }}>7. Cronograma:</Typography>
+                    <Typography variant="p" component="p" sx={{ mt: 1, textAlign: 'left', px: 3 }}>Crono</Typography>
+                </Grid>
+            </Grid> */}
+
+            <BioReferences records={records} />
+
+            <Grid container spacing={4} sx={{ ml: 5, mt: 1 }} className="ignore-on-pdf">
+                <Grid item xs={12}>
+                    <CustomButton action={handlePrint} name="Imprimir PDF"/>
+                    <CustomButton anchor='/estudiante/dashboard' name="Menu" sx={{mx: 2}}/>
+                </Grid>
+            </Grid>
+        </Box>
         </>
     )
 }

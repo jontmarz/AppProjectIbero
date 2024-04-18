@@ -13,7 +13,7 @@ const getToken = () => {
 }
 
 const deleteToken = () => {
-    return localStorage.removeItem(tokenKey)
+    return localStorage.clear()
 }
 
 const api = axios.create({

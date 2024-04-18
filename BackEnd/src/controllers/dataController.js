@@ -6,7 +6,7 @@ export const dataView = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
-        // let data = await DataApp.find();
+        
         let data = await DataApp.findOne({user: payload.id_User});
         if(data == undefined){
             return res.status(400).json({
