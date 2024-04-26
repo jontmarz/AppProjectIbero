@@ -1,26 +1,23 @@
 import { createBrowserRouter } from "react-router-dom";
-// import { Login, Records, Problemtree, Description, Goals, Justification } from '../pages/'
 import RootLayout from '../layout/RootLayout'
 import PrivateLayout from '../layout/PrivateLayout'
-import PrivateLayoutDoce from '../layout/PrivateLayoutDoce'
-import PrivateLayoutDash from '../layout/PrivateLayoutDash'
 import PrivateLayoutPDF from '../layout/PrivateLayoutPDF'
-import Home from '../pages/WebPage/Home'
+import Home from '../pages/Home'
 import Login from '../pages/Login'
 import Signup from '../pages/Signup'
-import Records from '../pages/Records'
-import Problemtree from '../pages/ProblemTree'
-import Description from '../pages/Description'
-import Goals from '../pages/Goals'
-import Justification from '../pages/Justification'
-import Methodology from "../pages/Methodology";
+import Records from '../pages/Sheet/Records'
+import Problemtree from '../pages/Sheet/ProblemTree'
+import Description from '../pages/Sheet/Description'
+import Goals from '../pages/Sheet/Goals'
+import Justification from '../pages/Sheet/Justification'
+import Methodology from "../pages/Sheet/Methodology";
 import ErrorPage from "../pages/ErrorPage";
 import Dashboard from "../pages/Dashboard";
-import DashboardDocente from "../pages/docente/DashboardDocente";
-import DashboardEstu from "../pages/estudiante/DashboardEstudiante";
-import EthicalImpacts from "../pages/EthicalImpacts";
-import FichaProject from "../pages/docente/fichaProject";
-import { PrintToPdf } from "../pages/PrintToPdf";
+import DashboardDocente from "../pages/Docente/DashboardDocente";
+import EthicalImpacts from "../pages/Sheet/EthicalImpacts";
+import FichaProject from "../pages/Docente/fichaProject";
+import PrintToPdf from "../pages/Sheet/PrintToPdf";
+import SettingsApp from "../pages/superUser/SettingsApp";
 
 export const router = createBrowserRouter([
     {
@@ -29,20 +26,21 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Login />
-                // element: <Home />
+                // element: <Login />
+                element: <Home />
             },
-            /* {
+            {
                 path: "login",
                 element: <Login />
-            }, */
+            },
             {
                 path: "signup",
                 element: <Signup />
             },
             {
                 path: "dashboard",
-                element: <PrivateLayoutDash />,
+                element: <PrivateLayout />,
+                // element: <PrivateLayoutDash />,
                 children: [
                     {
                         index: true,
@@ -52,7 +50,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "docente",
-                element: <PrivateLayoutDoce />,
+                element: <PrivateLayout />,
                 children: [
                     {
                         index: true,
@@ -150,11 +148,21 @@ export const router = createBrowserRouter([
             },
             {
                 path: "print-to-pdf",
-                element: <PrivateLayout />,
+                element: <PrivateLayoutPDF />,
                 children: [
                     {
                         index: true,
                         element: <PrintToPdf />
+                    }
+                ]
+            },
+            {
+                path: "settings",
+                element: <PrivateLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <SettingsApp />
                     }
                 ]
             },

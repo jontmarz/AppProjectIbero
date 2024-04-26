@@ -29,6 +29,9 @@ const theme = createTheme({
     redN: {
       main: '#de0d0d' // Red
     },
+    transparent: {
+      main: 'transparent'
+    },
   },
   typography: {
     fontFamily: "Montserrat Alternates",

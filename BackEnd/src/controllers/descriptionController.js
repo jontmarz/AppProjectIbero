@@ -2,6 +2,7 @@ import { Description } from "../models/Description.js";
 import { DataApp } from "../models/DataApp.js";
 import { decodeJwt } from '../utils/jwtAuth.js';
 
+// Ver descripción de la ficha
 export const DescriptionView = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
@@ -29,6 +30,7 @@ export const DescriptionView = async (req, res) => {
     }
 }
 
+// Guardar descripción de la ficha
 export const DescriptionCreate = async (req, res) => {
     try {
         const data = req.body;

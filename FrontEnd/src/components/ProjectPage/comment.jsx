@@ -2,39 +2,42 @@ import { useState, useEffect } from "react";
 import { api, getToken} from '../../config/axios';
 import { useForm } from "react-hook-form";
 import { Grid, Typography, Box, TextField, Radio, RadioGroup } from "@mui/material";
+import { typeStatus } from "../../config/assets";
 import Swal from 'sweetalert2';
-import CustomButton from "../../components/CustomButton";
+import CustomButton from "../CustomButton";
 
-export default function comment(props) {
+export default function Comment(props) {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [commentData, setCommentData] = useState([])
     const [loadComment, setLoadComment] = useState([])
-    const [loading, setLoading] = useState(false)
+    // const [loading, setLoading] = useState(false)
     const token = getToken()
     const { idProj } = props
-    const typeStatus = [
-        { value: "Approved", label: "Aprobado", color: "#135413", colorR: "green" },
-        { value: "Corrections", label: "Aprobado con correcciones", color: "#0098D4", colorR: "secondary" },
-        { value: "No_Approved", label: "No aprobado", color: "#de0d0d", colorR: "redN"}
-    ]
     
-    useEffect(() => {
-        const fetch = async () => {
-            try {
-                const res = await api({
-                    url: `/api/dataApp/review/${idProj}`,
-                    method: "GET",
-                    headers: { Authorization: `Bearer ${token}` }
-                })
-                const data = res.data.data
-                setLoadComment(data)
-            } catch (e) {
-                console.error(e.response.data);
-            }
+    const fetch = async () => {
+        try {
+            const res = await api({
+                url: `/api/dataApp/review/${idProj}`,
+                method: "GET"
+            })
+            const data = res.data.data
+            setLoadComment(data)
+        } catch (e) {
+            console.error(e.response.data);
         }
-        fetch()
+    }
+
+    useEffect(() => {
+        if (token) {
+            fetch()
+        } else {
+            loadComment(null)
+        }
     }, [])
+
+    const focus = loadComment ? true : false
+    const label = loadComment ? "último comentario" : "Dejar un comentario"
 
     const onSubmit = async (data, e) => {
         setCommentData([...commentData, data])
@@ -46,7 +49,6 @@ export default function comment(props) {
         const res = await api({
             url: `/api/dataApp/review/${idProj}`,
             method: "PUT",
-            headers: { Authorization: `Bearer ${token}` },
             data: comment
         })
             .then((res) => {
@@ -73,15 +75,13 @@ export default function comment(props) {
             })
     }
 
-    if (loadComment.state !== undefined) {	
+    if (loadComment?.state !== undefined) {	
         var findValue = (valueToFind) => {
             const status = typeStatus.find(status => status.value === valueToFind);
             return status ? { RGlabel: status.label, RGcolor: status.colorR } : null;
         }
-        const valueToFind = loadComment.state
+        const valueToFind = loadComment?.state
         var { RGlabel, RGcolor } = findValue(valueToFind)
-    
-        console.log(RGlabel, RGcolor);
     }
 
     
@@ -100,16 +100,23 @@ export default function comment(props) {
                 <Grid container spacing={2} sx={{mt: 1}}>
                     <Grid item xs={12} md={8} sx={{}}>
                         <TextField
-                            label="Dejar un comentario"
+                            label={label}
                             multiline
                             rows={3}
                             fullWidth
+                            focused={focus}
                             defaultValue={loadComment ? loadComment.comment : ""}
                             { ...register("commentItem", { required: true }) }
                         />
                         {errors.commentItem && <Typography component="span" sx={{color: "red", fontSize: 10}}>Por favor dejar un comentario</Typography>}
-                        <Typography variant="h6" component="h6" sx={{ mt: 2, mb:1 }}>Estado de la Ficha:</Typography>
-                        <Typography variant="p" component="p" sx={{ mb: 1, fontWeight: 500, color: RGcolor }}><span className="c-black">Estado actual: </span>{RGlabel}</Typography>
+                        {loadComment && loadComment?.state ? 
+                        <>
+                            <Typography variant="h6" component="h6" sx={{ mt: 2, mb:1 }}>Estado de la Ficha:</Typography>
+
+                            <Typography variant="p" component="p" sx={{ mb: 1, fontWeight: 500, color: RGcolor }}><span className="c-black">Estado actual: </span>{RGlabel}</Typography>
+                        </> : null}
+
+                        <Typography variant="h6" component="h6" sx={{ mt: 2, mb:1 }}>Elija un estado</Typography>
                         <RadioGroup
                             row aria-label
                             sx={{ maxWidth: "600px", width: "auto", display: "flex", justifyContent: "center"}}

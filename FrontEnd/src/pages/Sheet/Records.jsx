@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Grid, Typography, Box, Dialog, DialogTitle, DialogContent, DialogContentText } from "@mui/material"
-import { api, getToken } from '../config/axios'
+import { api, getToken } from '../../config/axios'
 import Swal from 'sweetalert2'
 import PropTypes from 'prop-types'
-import CustomButton from "../components/CustomButton"
-import QueryDB from "../components/records/QueryDB"
-import { TableRecords } from "../components/records/TableRecords"
-import { FormRecords } from "../components/records/FormRecords"
+import CustomButton from "../../components/CustomButton"
+import QueryDB from "../../components/records/QueryDB"
+import { TableRecords } from "../../components/records/TableRecords"
+import { FormRecords } from "../../components/records/FormRecords"
 
 function SimpleDialog(props) {
     const { onClose, recordValue, open, formRecord } = props;
@@ -53,25 +53,21 @@ export default function Records() {
         setOpen(false);
     }
 
-    useEffect(() => {
-        const token = getToken()
-        if(token) {
-            localStorage.setItem('rowsData', JSON.stringify(recordValue))
-        } else { localStorage.removeItem("rowsData")}
-
-        const loadRecords = async() => {
-            try {
-                const res = await api({
-                    url: "/api/dataApp/records",
-                    method: "GET",
-                    headers: { Authorization: `Bearer ${token}` }
-                })
-                // setrloadValue(res.data.records)
-                setrecordValue(Object.values(res.data.records))
-                if (localStorage.getItem('rowsData') === null) {
-                    localStorage.setItem('rowsData', recordValue)
-                }
-            } catch (e) {
+    const loadRecords = async() => {
+        try {
+            const res = await api({
+                url: "/api/dataApp/records",
+                method: "GET"
+            })
+            // setrloadValue(res.data.records)
+            setrecordValue(Object.values(res.data.records))
+            if (localStorage.getItem('rowsData') === null) {
+                localStorage.setItem('rowsData', recordValue)
+            }
+        } catch (e) {
+            if (e.reponse.data.message === "No hay registros") {
+                return null
+            } else {
                 Swal.fire({
                     title: "¡Error!",
                     text: e.response.data.message,
@@ -81,6 +77,13 @@ export default function Records() {
                 })
             }
         }
+    }
+
+    useEffect(() => {
+        const token = getToken()
+        if(token) {
+            localStorage.setItem('rowsData', JSON.stringify(recordValue))
+        } else { localStorage.removeItem("rowsData")}
 
         loadRecords()
     }, [])
@@ -95,15 +98,12 @@ export default function Records() {
     };
 
     const records = Object.assign({}, recordValue)
-
-    console.log(recordValue);
     
     const SaveRecords = async() => {
         try {
             const res = await api({
                 url: "/api/dataApp/records",
                 method: "PUT",
-                headers: { Authorization: `Bearer ${token}` },
                 data: { records }
             })
             Swal.fire({

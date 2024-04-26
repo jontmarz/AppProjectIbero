@@ -6,8 +6,7 @@ import { set, useForm } from "react-hook-form";
 import { Grid, Typography, Card, Box, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import Swal from 'sweetalert2';
 import CustomButton from "../../components/CustomButton";
-/* import DataUserDashboard from "../../components/dataUserDashboard";
-import HeaderDocenteDashboard from "../../components/ProjectPage/HeaderDocenteDashboard"; */
+import { searchSelect } from "../../config/assets";
 
 export default function DashboardDocente() {
     
@@ -23,21 +22,13 @@ export default function DashboardDocente() {
     const [searchData, setSearchData] = useState([])
     const [loading, setLoading] = useState(false)
     const token = getToken()
-    const dataSelect = [
-        { id: 1, name: "Proyecto" },
-        { id: 2, name: "Identificación" },
-        { id: 3, name: "Nombre Estudiante" },
-    ]
-
-    // console.log(user);
 
     useEffect(() => {
         const loadDataApp = async () => {
             try {
                 const {data} = await api({
                     url: "/api/dataApp/",
-                    method: "GET",
-                    headers: { Authorization: `Bearer ${token}` }
+                    method: "GET"
                 })
                 let dataApp = data.data
                 setDataApp(dataApp)
@@ -53,11 +44,11 @@ export default function DashboardDocente() {
     const onSubmit = async (data, e) => {
         setSearchData([...searchData, data])
         var dataSearch = {}
-        if (data.searchSelect == 1) {
+        if (data.searchSelect == 3) {
             dataSearch = { titleProj : data.searchText }
-        } else if (data.searchSelect == 2) {
+        } else if (data.searchSelect == 1) {
             dataSearch = { idUser : data.searchText }
-        } else if (data.searchSelect == 3) {
+        } else if (data.searchSelect == 2) {
             dataSearch = { nameUser : data.searchText }
         }
 
@@ -65,7 +56,6 @@ export default function DashboardDocente() {
             const res = await api({
                 url: "/api/search/",
                 method: "GET",
-                headers: { Authorization: `Bearer ${token}` },
                 params: dataSearch
             })
             let searchQuery = res.data
@@ -89,8 +79,6 @@ export default function DashboardDocente() {
         return window.location.reload()
     }
 
-    // console.log(dataApp);
-
     return (
         <>
             <Grid container spacing={2} className="headerDocente" sx={{ mt: 3, px: 5, maxWidth: {xl: 1400}, width: "100%", margin: "0 auto"}}>
@@ -112,9 +100,10 @@ export default function DashboardDocente() {
                             <InputLabel id="search-select-label">Elija el filtro de busq...</InputLabel>
                             <Select
                                 variant="filled"
+                                defaultValue="1"
                                 {...register("searchSelect", { required: true })}
                             >
-                                {dataSelect.map((item, index) => 
+                                {searchSelect.map((item, index) => 
                                     <MenuItem key={index} value={item.id}>{item.name}</MenuItem>
                                 )}
                             </Select>
@@ -131,13 +120,25 @@ export default function DashboardDocente() {
                         {loading ? <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
                             <Typography variant="h6" component="h6" sx={{ mb: 3 }}>Resultados de la Búsqueda</Typography>
                         </Grid> : ''}
-                        {user.role === 'Docente' ? dataApp.map((item, index) =>
-                            <Grid item xs={12} md={3} key={index} className="proj-card" >
-                                <Box component={Link} to={`../docente/${item._id}`} className="bg-card" sx={{ display: 'flex', justifyContent: "center", alignItems: 'center', padding: 2, textDecoration: "none" }}>
-                                    <Typography variant="h6" component="h6" sx={{ my: 3 }}>{item.goals.titleProj}</Typography>
-                                </Box>
-                            </Grid>
-                        ) : <Typography variant="h6" component="h6" sx={{ mt: 3 }}>No hay proyectos registrados</Typography>}
+
+                        {dataApp.length === 0 ? (
+                            <Typography variant="h6" component="h6" sx={{ mt: 3 }}>No hay proyectos registrados</Typography>
+                        ) : (
+                            dataApp.map((item, index) => (
+                                <Grid item xs={12} md={3} key={index} className="proj-card">
+                                    <Box
+                                        component={Link}
+                                        to={`../docente/${item._id}`}
+                                        className="bg-card"
+                                        sx={{ display: 'flex', justifyContent: "center", alignItems: 'center', padding: 2, textDecoration: "none" }}
+                                    >
+                                        <Typography variant="h6" component="h6" sx={{ my: 3 }}>
+                                            {item.goals ? item.goals.titleProj : "No hay título de proyecto"}
+                                        </Typography>
+                                    </Box>
+                                </Grid>
+                            ))
+                        )}
                     </Grid>
                 </Grid>
             </Grid>

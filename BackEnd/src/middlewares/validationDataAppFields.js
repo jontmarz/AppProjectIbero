@@ -82,3 +82,18 @@ export const methodologyFields = [
     body('methodology.explainGoals.eg3', "campo debe ser tipo texto").isString().trim().notEmpty(),
     validationResExpress
 ]
+
+export const settingsAppFields = [
+    body('faculties').isArray().withMessage('El campo "faculties" debe ser un array').notEmpty().withMessage('El campo "faculties" no puede estar vacío'),
+    body('faculties.*.name', "El campo 'name' de 'faculties' debe ser un texto").isString().trim().notEmpty(),
+    body('faculties.*.academicPrograms').isArray().withMessage('El campo "academicPrograms" de "faculties" debe ser un array').notEmpty().withMessage('El campo "academicPrograms" de "faculties" no puede estar vacío'),
+    body('faculties.*.academicPrograms.*', "El campo 'academicPrograms' debe ser un texto").isString().trim().notEmpty(),
+    body('projectTypes').isArray().withMessage('El campo "projectTypes" debe ser un array').notEmpty().withMessage('El campo "projectTypes" no puede estar vacío'),
+    body('projectTypes.*', "El campo 'projectTypes' debe ser un texto").isString().trim().notEmpty(),
+    body('researchLines').isArray().withMessage('El campo "researchLines" debe ser un array'),
+    body('researchLines.*', "El campo 'researchLines' debe ser un texto").isString().trim().notEmpty(),
+    body('researchGroups').isArray().withMessage('El campo "researchGroups" debe ser un array'),
+    body('researchGroups.*', "El campo 'researchGroups' debe ser un texto").isString().trim().notEmpty(),
+    body('seedLine').isArray().withMessage('El campo "seedLine" debe ser un array'),
+    body('seedLine.*', "El campo 'seedLine' debe ser un texto").isString().trim().notEmpty(),
+]

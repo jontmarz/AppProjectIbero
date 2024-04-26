@@ -2,7 +2,7 @@ import { Justification } from "../models/Justification.js";
 import { DataApp } from "../models/DataApp.js";
 import { decodeJwt } from '../utils/jwtAuth.js';
 
-
+// Ver justificación de la ficha
 export const JustificationView = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
@@ -30,6 +30,7 @@ export const JustificationView = async (req, res) => {
     }
 }
 
+// Guardar justificación de la ficha
 export const JustificationCreate = async (req, res) => {
     try {
         const data = req.body;

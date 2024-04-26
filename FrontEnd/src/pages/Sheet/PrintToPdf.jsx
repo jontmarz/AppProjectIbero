@@ -1,24 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useNavigate } from "react-router-dom";
+// import { useDataContext } from '../context/DataContext'
 import { useReactToPrint } from "react-to-print";
-import { api, getToken } from '../config/axios';
+import { api, getToken } from '../../config/axios';
 import { Grid, Typography, Box } from '@mui/material'
-import { HeaderSheet } from '../components/SheetPDF/HeaderSheet'
-import { ProponentData } from '../components/SheetPDF/ProponentData'
-import { DataSumaryRecords } from '../components/SheetPDF/DataSumaryRecords'
-import { DataProject } from '../components/SheetPDF/DataProject'
-import { DataProblem } from '../components/SheetPDF/DataProblem'
-import { DataGoals } from '../components/SheetPDF/DataGoals'
-import { DataMethodology } from '../components/SheetPDF/DataMethodology'
-import { EthicalChronoImpact } from '../components/SheetPDF/EthicalChronoImpact'
-import { BioReferences } from '../components/SheetPDF/BioReferences'
-import CustomButton from "../components/CustomButton"
-import Logo from "../components/Logo"
-import signupImg from "../assets/img-signup.jpg"
+import { HeaderSheet } from '../../components/SheetPDF/HeaderSheet'
+import { ProponentData } from '../../components/SheetPDF/ProponentData'
+import { DataSumaryRecords } from '../../components/SheetPDF/DataSumaryRecords'
+import { DataProject } from '../../components/SheetPDF/DataProject'
+import { DataProblem } from '../../components/SheetPDF/DataProblem'
+import { DataGoals } from '../../components/SheetPDF/DataGoals'
+import { DataMethodology } from '../../components/SheetPDF/DataMethodology'
+import { EthicalChronoImpact } from '../../components/SheetPDF/EthicalChronoImpact'
+import { BioReferences } from '../../components/SheetPDF/BioReferences'
+import CustomButton from "../../components/CustomButton"
+import Logo from "../../components/Logo"
+import signupImg from "../../assets/img-signup.jpg"
+import FixedButton from '../../components/FixedButton';
 
-export const PrintToPdf = () => {
+export default function PrintToPdf() {
 
-    const navigate = useNavigate()
+    // const { dataApp } = useDataContext()
     const componentRef = useRef()
     const token = getToken()
     const [dataApp, setDataApp] = useState([{}])
@@ -56,8 +57,7 @@ export const PrintToPdf = () => {
             try {
                 const { data } = await api({
                     url: "/api/dataApp/dataProject",
-                    method: "GET",
-                    headers: { Authorization: `Bearer ${token}` }
+                    method: "GET"
                 })
                 setDataApp(data.data)
                 setGoalsData(data.data.goals)
@@ -74,8 +74,7 @@ export const PrintToPdf = () => {
                     try {
                         const res = await api({
                             url: `/api/user/${user}`,
-                            method: "GET",
-                            headers: { Authorization: `Bearer ${token}` }
+                            method: "GET"
                         })
                         setUserData(res.data.infoUser)
                     } catch (e) {
@@ -137,10 +136,11 @@ export const PrintToPdf = () => {
             <Grid container spacing={4} sx={{ ml: 5, mt: 1 }} className="ignore-on-pdf">
                 <Grid item xs={12}>
                     <CustomButton action={handlePrint} name="Imprimir PDF"/>
-                    <CustomButton anchor='/estudiante/dashboard' name="Menu" sx={{mx: 2}}/>
+                    <CustomButton anchor='/dashboard' name="Menu" sx={{mx: 2}}/>
                 </Grid>
             </Grid>
         </Box>
+        <FixedButton />
         </>
     )
 }

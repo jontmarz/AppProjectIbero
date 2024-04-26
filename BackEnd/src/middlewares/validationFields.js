@@ -7,44 +7,38 @@ export const validationResExpress = (req, res, next) => {
     const errores = errors.formatWith( error => error.msg)
 
     if (!errors.isEmpty()) {
-        return res.status(410).json({
-            message: "Error en el registro de usuario",
-            code: 410,
-            errors: errores.mapped()
-        });
+      
+      return res.status(410).json({
+          message: "Error en el registro de usuario",
+          code: 410,
+          errors: errores.mapped()
+      });
     }
 
     next()
 }
 
 export const signupValidatorFields = [
-    body('fullName', "Coloca tu nombre completo").trim().isString().notEmpty(),
-    body('typeDoc', "Coloca tu tipo de documento").trim().isString().notEmpty(),
+    body('fullName', "Coloca tu nombre completo").trim().isString().notEmpty(), // Nombre completo
+    body('typeDoc', "Coloca tu tipo de documento").trim().isString().notEmpty(), // Tipo de documento
     body('identify', "Coloca tu documento").trim().notEmpty().custom(async(value) => {
 
-      let user =  await Users.findOne({ identify: value })    
+      let user =  await Users.findOne({ documento: value })    
 
       if (user) {
-        return Promise.reject('Este Documento ya esta registrado');
+        return Promise.reject('Este dato ya esta registrado');
       }
-    }),
+    }), // Documento
     body('emailI', "Coloca un correo institucional valido").trim().custom(async(value) => {
-      let email = await Users.findOne({ emailI: value })
+      let email = await Users.findOne({ email: value })
       
       if (email) {
-        return Promise.reject('Este correo ya esta registrado')
+        return Promise.reject('Este dato ya esta registrado')
       }        
-    }).isEmail().normalizeEmail().notEmpty(),
-    body('emailP', "Coloca un correo personal valido").trim().isEmail().normalizeEmail().notEmpty(),
-    body('faculty', "Colocar la facultad o institución").trim().isString().isEmpty(),
-    body('academicProgram', "Colocar la facultad o institución").trim().isString().isEmpty(),
-    body('code', "Colocar código de estudiante").trim().isString().isEmpty(),
-    body('phone', "Colocar número de teléfono de contacto").trim().isString().isEmpty(),
-    body('typeProj', "Colocar el tipo de proyecto").trim().isString().isEmpty(),
-    body('instLine', "Colocar la línea de investigación").trim().isString().isEmpty(),
-    body('ResearchGroup', "Colocar el grupo de investigación").trim().isString().isEmpty(),
-    body('seedLine', "Colocar la línea del semillero de investigación").trim().isString().isEmpty(),
-    body('role', "Elija un rol de usuario").trim().isString().isEmpty(),
+    }).isEmail().normalizeEmail().notEmpty(), // Correo institucional
+    body('emailP', "Coloca un correo personal valido").trim().isEmail().normalizeEmail().notEmpty(), // Correo personal
+    body('faculty', "Colocar la facultad o institución").trim().isString().notEmpty(), // Facultad
+    body('role', "Colocar el rol de usuario").trim().isString().notEmpty(), // rol
     body('password', "Mínino 8 caracteres").trim().isLength({min: 8}),
     body('password')
       .custom((e, {req}) => {
@@ -53,7 +47,7 @@ export const signupValidatorFields = [
         }
         return e
       }
-    ),
+    ), // Contraseña
     validationResExpress
   ]
 
@@ -62,3 +56,18 @@ export const logInValidatorFields = [
   body('password', "colocar la contraseña").trim(),
   validationResExpress
 ] 
+
+export const userFields = [
+  body('fullName', "Coloca tu nombre completo").trim().isString(),
+  body('typeDoc', "Coloca tu tipo de documento").trim().isString(),
+  body('emailP', "Coloca un correo personal valido").trim().isEmail().normalizeEmail(),
+  body('faculty', "Colocar la facultad o institución").trim().isString(),
+  body('academicProgram', "Colocar la facultad o institución").trim().isString(),
+  body('code', "Colocar código de estudiante").trim().isString(),
+  body('phone', "Colocar número de teléfono de contacto").trim().isString(),
+  body('typeProj', "Colocar el tipo de proyecto").trim().isString(),
+  body('instLine', "Colocar la línea de investigación").trim().isString(),
+  body('ResearchGroup', "Colocar el grupo de investigación").trim().isString(),
+  body('seedLine', "Colocar la línea del semillero de investigación").trim().isString(),
+  body('role', "Elija un rol de usuario").trim().isString()
+]

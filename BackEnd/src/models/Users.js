@@ -8,7 +8,7 @@ const UsersSchema = new Schema({
     },
     typeDoc: { // Tipo de documento
         type :       String,
-        required :   true,
+        required :   false,
     },
     identify: { // Numero de documento
         type :      Number,
@@ -59,7 +59,7 @@ const UsersSchema = new Schema({
     },
     role: { // Rol
         type :      String,
-        required :  true,
+        required :  false,
     },
     password: { // Contraseña
         type :      String,

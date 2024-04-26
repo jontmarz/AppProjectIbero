@@ -47,6 +47,9 @@ export default function Login() {
                     break;
                     case 230:
                         url = "/records"
+                    break;
+                    case 240:
+                        url = "/settings"
                     default:
                         break;
                 }

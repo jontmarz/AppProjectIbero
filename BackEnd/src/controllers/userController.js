@@ -1,4 +1,5 @@
 import { Users } from "../models/Users.js";
+import { DataApp } from "../models/DataApp.js";
 import { decodeJwt } from '../utils/jwtAuth.js';
 
 // FUNCION PARA VER DATOS DE USUARIO
@@ -35,12 +36,12 @@ export const dataUsers = async (req, res) => {
         const payload = await decodeJwt(token);
     
         if (payload) {
-            let user = await Users.find();
+            let users = await Users.find();
         
             return res.status(200).json({
                 message: `Información Usuarios`,
                 code : 220,
-                infoUser: user,
+                infoUsers: users,
             })
         } else {
             return res.status(410).json({
@@ -99,17 +100,64 @@ export const editUser = async ( req , res ) => {
                 code: 410
             })
         } else {
-            user = new Users(req.body);
+            // Verifica si se ha proporcionado la contraseña
+            if (req.body.password) delete req.body.password // Elimina la contraseña si no se proporciona
+            delete req.body.identify // Elimina el documento porque no se puede modificar
+            delete req.body.emailI // Elimina el correo institucional porque no se puede modificar
+            delete req.body.creationDate // Elimina la fecha de creación si no se proporciona
+            delete req.body.role // Elimina el rol si no se proporciona
+
+            // Actualiza los campos del usuario
+            Object.assign(user, req.body)
             await user.save();
+
+            //Actualiza el campo de deadline en DataApp
+            let dataApp = await DataApp.findOne({user: user._id})
+            if(!dataApp) {
+                dataApp = await DataApp.findOne({user: user._id, deadline: req.body.deadline})
+            } else {
+                dataApp.deadline = req.body.deadline
+            }
+            await dataApp.save();
 
             return res.status(200).json({
                 message: "UPDATE ha sido realizado con exito",
-                code: 220,
-                user: user
+                code: 220
             })
             
         }
 
+    } catch (e) {
+        return res.status(420).json({
+            message: e.message,
+            code: 420
+        })
+    }
+}
+
+// FUNCION PARA EDITAR USUARIO POR SUPERUSER
+export const editUserAdmin = async ( req , res ) => {
+    let { idUser } = req.params;
+
+    try {
+        const token = req.headers.authorization.split(' ').pop();
+        const payload = await decodeJwt(token);
+
+        if(payload.role === 'SuperUser') {
+            let user = await Users.findByIdAndUpdate(idUser, req.body, { new: true})
+
+            return res.status(200).json({
+                message: "SuperUser ha actualizado los datos con exito",
+                code: 220,
+                user
+            })
+
+        } else {
+            return res.status(410).json({
+                message: "El usuario no tiene permisos para realizar esta acción",
+                code: 410
+            })
+        }
     } catch (e) {
         return res.status(420).json({
             message: e.message,

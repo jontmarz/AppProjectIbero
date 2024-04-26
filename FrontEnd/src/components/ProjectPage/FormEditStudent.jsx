@@ -1,31 +1,28 @@
 import { useState } from "react";
+import { api, getToken } from '../../config/axios';
+import { useDataContext } from "../../context/DataContext"
 import { Box, TextField, Typography, Grid } from '@mui/material'
-import { useForm } from "react-hook-form";
-import Swal from 'sweetalert2';
-import CustomButton from "../CustomButton";
+import { useForm, Controller } from "react-hook-form"
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import CustomButton from "../CustomButton"
 
-export const FormEditStudent = ({uploadUserData}) => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const [edit, setEdit] = useState(false)
-    
-    console.log(uploadUserData)
+export const FormEditStudent = ({ uploadUserData, onSubmit }) => {
 
-    const onSubmit = async (data, e) => {
+    const { dataApp } = useDataContext()
+    const { register, handleSubmit, formState: { errors }, control } = useForm()
+    const token = getToken()
 
-        uploadUserData(data)
-        /* const editUser = {
-            fullName: data.fullName,
-            email: data.email,
-            password: data.password
-        
-        } */
+    const submitForm = (data, e) => {
+        onSubmit(data);
     }
+
   return (
     <>
     <Box
         component="form"
         className="editUser"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(submitForm)}
     >
         <Grid container spacing={2} >
             <Grid
@@ -60,7 +57,6 @@ export const FormEditStudent = ({uploadUserData}) => {
                     defaultValue={uploadUserData.identify ? uploadUserData.identify : ""}
                     inputProps={{readOnly: true}}
                     sx={{ my: 2, width: {xs: "90%", md: "80%"} }}
-                    {...register("identify")}
                 />
 
                 <TextField
@@ -162,6 +158,22 @@ export const FormEditStudent = ({uploadUserData}) => {
                     {...register("seedLine")}
                 />
                 {errors.seedLine && <Typography component="span" sx={{ color: "red", fontSize: 10 }}>Digita un número de teléfono de contacto</Typography>}
+
+                <Controller
+                    control={control}
+                    name="deadline"
+                    defaultValue={dataApp.deadLine ? dataApp.deadLine : new Date()}
+                    render={({ field }) => (
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                {...field}
+                                label="Fecha de Entrega"
+                                className="deadLine"
+                                sx={{ my: 2, width: { xs: "90%", md: "80%" } }}
+                            />
+                        </LocalizationProvider>
+                    )}
+                />
 
                 <TextField
                     type="text"

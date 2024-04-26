@@ -2,6 +2,7 @@ import { EthicalImpacts } from "../models/EthicalImpacts.js";
 import { DataApp } from "../models/DataApp.js";
 import { decodeJwt } from '../utils/jwtAuth.js';
 
+// Ver éticas e impactos de la ficha
 export const ethicalImpactsView = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
@@ -29,6 +30,7 @@ export const ethicalImpactsView = async (req, res) => {
     }
 }
 
+// Guardar éticas e impactos de la ficha
 export const ethicalImpactsCreate = async (req, res) => {
     try {
         const data = req.body;

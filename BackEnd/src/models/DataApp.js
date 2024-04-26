@@ -17,8 +17,12 @@ export const dataAppSchema = new Schema({
     goals: { type: goalSchema }, // Objetivos
     records: { type: recordSchema }, // Registros
     review :  { type: reviewSchema }, // Revisiones
-    deadline: {type: Date}, // Fecha de entrega
-    user: {type: String} // Usuario
+    deadline: { type: Date }, // Fecha de entrega
+    user: { type: String }, // Usuario
+    creationDate: { // Fecha de creacion
+        type :      Date,
+        default :   Date.now,
+    },
 
 })
 export const DataApp = model("DataApp", dataAppSchema);

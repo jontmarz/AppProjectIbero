@@ -2,6 +2,7 @@ import { Record } from "../models/Record.js";
 import { DataApp } from "../models/DataApp.js";
 import { decodeJwt } from '../utils/jwtAuth.js';
 
+// Ver Antecedentes de la ficha
 export const recordView = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
@@ -35,6 +36,7 @@ export const recordView = async (req, res) => {
     }
 }
 
+// Guardar Antecedentes de la ficha
 export const recordCreate = async (req, res) => {
     try {
         const data = req.body.records;

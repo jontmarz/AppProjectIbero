@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { api, getToken } from '../config/axios'
+import { api, getToken } from '../../config/axios'
 import { Grid, Typography, Box, FormGroup, FormControlLabel, Checkbox, TextField } from "@mui/material"
 import { useForm } from "react-hook-form";
-import CustomButton from "../components/CustomButton"
+import { listItemsDescr } from '../../config/assets'
+import CustomButton from "../../components/CustomButton"
 import { useNavigate } from "react-router-dom"
 import Swal from 'sweetalert2'
-
-const listItems = [
-    "Citas en norma APA.",
-    "Mínimo 1000 palabras.",
-    "Minimo 5 citas o referentes.",
-    "Buena coherencias",
-    "Buena ortografía",
-    "Relación coherente con el árbol del problema",
-]
 
 export default function Description({state}) {
 
@@ -21,7 +13,7 @@ export default function Description({state}) {
     const [loadDescribe, setLoadDescribe] = useState('');
     const { register, handleSubmit, formState: { errors } } = useForm();
     const token = getToken()
-    const [checkboxes, setCheckboxes] = useState(new Array(listItems.length).fill(false));
+    const [checkboxes, setCheckboxes] = useState(new Array(listItemsDescr.length).fill(false));
     const navigate = useNavigate()
 
     const handleCheckboxChange = (index) => {
@@ -30,14 +22,13 @@ export default function Description({state}) {
         setCheckboxes(updatedCheckboxes);
     };
 
-    const isButtonDisabled = checkboxes.filter((checkbox) => checkbox).length < listItems.length;
+    const isButtonDisabled = checkboxes.filter((checkbox) => checkbox).length < listItemsDescr.length;
 
     useEffect(() => {
         const fetchData = async () => {
             const { data } = await api({
                 url: "/api/dataApp/description",
-                method: "GET",
-                headers: { Authorization: `Bearer ${token}` }
+                method: "GET"
             })
             setLoadDescribe(data.description)
         }
@@ -54,7 +45,6 @@ export default function Description({state}) {
         const res = await api({
             url: "/api/dataApp/description",
             method: "PUT",
-            headers: { Authorization: `Bearer ${token}` },
             data: description
         })
             .then((res) => {
@@ -66,6 +56,15 @@ export default function Description({state}) {
                     confirmButtonColor: "#0098D4"
                 })
                 navigate("/justification")
+            })
+            .catch((e) => {
+                Swal.fire({
+                    title: "¡Error!",
+                    text: e.response.data.message,
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#0098D4"
+                })
             })
     }
 
@@ -80,7 +79,7 @@ export default function Description({state}) {
                     <Typography variant="p" component="p" sx={{ mt: 3, mb:2 }}>
                         Después de cumplir con los requisitos puede guardar:
                     </Typography>
-                    {listItems.map((item, index) => (
+                    {listItemsDescr.map((item, index) => (
                         <div key={index} style={{ display: 'flex', alignItems: 'center'}}>
                             <FormGroup>
                                 <FormControlLabel
@@ -108,8 +107,9 @@ export default function Description({state}) {
                     </Typography>
                     <TextField
                         id="Description-field"
-                        label="Incluya la descripción del problema"
+                        label={loadDescribe ? "Descripción" : "Incluya la descripción del problema"}
                         multiline
+                        focused={loadDescribe ? true : false}
                         defaultValue={loadDescribe ? loadDescribe?.desText : ""}
                         minRows={13}
                         sx={{ width: "100%", mb: 2 }}
@@ -117,7 +117,7 @@ export default function Description({state}) {
                     />
                     {errors.description && <Typography component="span" sx={{color: "red", fontSize: 10}}>Ingresa la descripción del problema</Typography>}
                     <CustomButton name="Guardar" data={isButtonDisabled} />
-                    {loadDescribe ? <CustomButton anchor='/estudiante/dashboard' name="Menu" sx={{mx: 2}}/> : null}
+                    {loadDescribe ? <CustomButton anchor='/dashboard' name="Menu" sx={{mx: 2}}/> : null}
                 </Box>
             </Grid>
         </Grid>

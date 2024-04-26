@@ -15,8 +15,11 @@ import record from "./routes/recordRouter.js";
 import ethicalImpacts from "./routes/ethicalImpactRouter.js";
 import review from "./routes/reviewRouter.js";
 import search from "./routes/searchRouter.js";
+import settingsApp from './routes/settingsAppRouter.js';
 
 const app = express();
+
+// CORS
 const whitelist = [process.env.APPSETTING_ORIGIN1];
 const corsOptions = {
     origin: function (origin, callback) {
@@ -29,9 +32,7 @@ const corsOptions = {
     },
     credentials: true,
 };
-
 app.use('*', cors(corsOptions));
-// app.use(cors());
 app.use(express.json());
 
 // MIDDLEWARES
@@ -51,6 +52,7 @@ app.use('/api/dataApp/ethicalImpacts', middlewares, ethicalImpacts);
 app.use('/api/dataApp/review', middlewares, review);
 app.use('/api/dataApp', middlewares, dataApp);
 app.use('/api/search', middlewares, search);
+app.use('/api/settings', middlewares, settingsApp);
 
 // SERVER LISTENER
 app.listen(process.env.APPSETTING_PORT, () => {

@@ -2,10 +2,10 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Box, Grid, TextField, Typography } from "@mui/material"
 import { useForm } from "react-hook-form"
-import { api, getToken } from '../config/axios'
+import { api, getToken } from '../../config/axios'
 import Swal from 'sweetalert2'
-import CustomButton from "../components/CustomButton"
-import CustomList from "../components/CustomList"
+import CustomButton from "../../components/CustomButton"
+import CustomList from "../../components/CustomList"
 
 export default function Goals() {
 
@@ -29,8 +29,7 @@ export default function Goals() {
             try {
                 const {data} = await api({
                     url: "/api/dataApp/problem-tree",
-                    method: "GET",
-                    headers: { Authorization: `Bearer ${token}` }
+                    method: "GET"
                 })
     
                 const CausesD = data.problemas.dirCauses
@@ -49,8 +48,7 @@ export default function Goals() {
         const fetchData = async () => {
             const { data } = await api({
                 url: "/api/dataApp/goals",
-                method: "GET",
-                headers: { Authorization: `Bearer ${token}` }
+                method: "GET"
             })
             setLoadGoals(data.goals)
         }
@@ -76,7 +74,6 @@ export default function Goals() {
         const res = await api({
             url: "/api/dataApp/goals",
             method: "PUT",
-            headers: { Authorization: `Bearer ${token}` },
             data: { goals }
         })
             .then((res) => {
@@ -129,6 +126,7 @@ export default function Goals() {
                     {/* Primer Objetivo */}
                     <TextField
                         label="Primer objetivo específico"
+                        focused={loadGoals?.objEspe?.oe1 ? true : false}
                         multiline
                         variant="filled"
                         defaultValue={loadGoals ? loadGoals?.objEspe?.oe1 : ""}
@@ -151,6 +149,7 @@ export default function Goals() {
                     {/* Segundo objetivo */}
                     <TextField
                         label="Segundo objetivo específico"
+                        focused={loadGoals?.objEspe?.oe2 ? true : false}
                         multiline
                         variant="filled"
                         defaultValue={loadGoals ? loadGoals?.objEspe?.oe2 : ""}
@@ -174,6 +173,7 @@ export default function Goals() {
                     {/* Tercer objetivo */}
                     <TextField
                         label="Tercer objetivo específico"
+                        focused={loadGoals?.objEspe?.oe3 ? true : false}
                         multiline
                         variant="filled"
                         defaultValue={loadGoals ? loadGoals?.objEspe?.oe3 : ""}
@@ -184,6 +184,7 @@ export default function Goals() {
                     {/* Cuarto Objetivo */}
                     <TextField
                         label="Objetivo específico 4 opcional:"
+                        focused={loadGoals?.objEspe?.oe4 ? true : false}
                         multiline
                         variant="filled"
                         defaultValue={loadGoals ? loadGoals?.objEspe?.oe4 : ""}
@@ -209,7 +210,8 @@ export default function Goals() {
                     {/* Objetivo General */}
                     <Typography variant="p" component="p" sx={{ mt: 3 }}>Objetivo general:</Typography>
                     <TextField
-                        label="Aquí debe salir el problema central guardado para la comprobación"
+                        label={loadGoals?.objGen ? "Objetivo general" : "Aquí debe salir el problema central guardado para la comprobación"}
+                        focused={loadGoals?.objGen ? true : false}
                         variant="filled"
                         defaultValue={loadGoals ? loadGoals?.objGen : ""}
                         minRows={5}
@@ -219,7 +221,8 @@ export default function Goals() {
                     {errors.mainGoal && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el primer efecto indirecto</Typography>}
                     <Typography variant="p" component="p" sx={{ mt: 3 }}>Titulo del proyecto:</Typography>
                     <TextField
-                        label="Título proyectado para el proyecto"
+                        label={loadGoals?.titleProj ? "Título del proyecto" : "Título proyectado para el proyecto"}
+                        focused={loadGoals?.titleProj ? true : false}
                         variant="filled"
                         multiline
                         defaultValue={loadGoals ? loadGoals?.titleProj : ""}

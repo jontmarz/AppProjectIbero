@@ -1,62 +1,33 @@
-import { useEffect, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import React from "react"
 import { useUserContext } from "../context/UserContext"
-import { api, getToken } from '../config/axios'
-import { set, useForm } from "react-hook-form"
-import { Grid, Typography, Table, Card, Box } from "@mui/material"
-import HeaderStudentDashboard from "../components/ProjectPage/HeaderStudentDashboard"
-import HeaderDocenteDashboard from "../components/ProjectPage/HeaderDocenteDashboard"
-import DashboardEstudiante from "./estudiante/DashboardEstudiante"
-import DashboardDocente from "./docente/DashboardDocente"
-// import AdsClickIcon from '@mui/icons-material/AdsClick';
+import DataContextProvider from "../context/DataContext"
+import { Grid } from "@mui/material"
+import HeaderStudentDashboard from "./Estudiante/HeaderStudentDashboard"
+import DashboardEstudiante from "./Estudiante/DashboardEstudiante"
+import HeaderDocenteDashboard from "./Docente/HeaderDocenteDashboard"
+import DashboardDocente from "./Docente/DashboardDocente"
 
 export default function Dashboard() {
     
     const { user } = useUserContext()
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({
-        defaultValues: {
-            searchText: "",
-            searchSelect: "",
-        }
-    });
-    const navigate = useNavigate()
-    const [dataProj, setDataProj] = useState([])
-    const [dataUser, setDataUser] = useState([])
-    const [loading, setLoading] = useState(false)
-    const token = getToken()
 
-    
-    useEffect(() => {
-        const loadDataApp = async () => {
-            try {
-                const res = await api({
-                    url: `/api/dataApp/dataProject/`,
-                    method: "GET",
-                    headers: { Authorization: `Bearer ${token}` }
-                })
-                const dataApp = res.data.data
-                setDataProj(dataApp)
-                
-            } catch (e) {
-                console.error(e);
-            }
-        }
-        
-        loadDataApp()
-    }, [])
+    if (!user) return null
 
     return (
         <>
         <Grid container spacing={2} className="dashboard" sx={{ mt: 3, px: 5, maxWidth: {xl: 1400}, width: "100%", margin: "2em auto"}}>
-            {user.role === "Estudiante" ? 
-            <HeaderStudentDashboard data={dataProj} sx={{width: "100%", mx:"auto"}} />
+            {user && user.role === "Estudiante" || user.role === "" ?
+            <>
+                <DataContextProvider>
+                    <HeaderStudentDashboard user={user} />
+                    <DashboardEstudiante />
+                </DataContextProvider>
+            </> 
             :
-            <HeaderDocenteDashboard user={user} sx={{width: "100%", mx:"auto"}} />}
-            
-            {user.role === "Estudiante" ?
-            <DashboardEstudiante />
-            : 
-            <DashboardDocente />
+            <>
+                <HeaderDocenteDashboard user={user} />
+                <DashboardDocente />
+            </>
             }
         </Grid>
         </>

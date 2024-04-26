@@ -2,12 +2,14 @@ import { DataApp } from "../models/DataApp.js";
 import { Users } from "../models/Users.js";
 import { decodeJwt } from '../utils/jwtAuth.js';
 
+// Ver datos de la ficha
 export const dataView = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
         
         let data = await DataApp.findOne({user: payload.id_User});
+
         if(data == undefined){
             return res.status(400).json({
                 message: `No se han guardado datos`,
@@ -30,6 +32,7 @@ export const dataView = async (req, res) => {
     }
 }
 
+// Guardar datos de todas las fichas
 export const dataViews = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
@@ -73,6 +76,7 @@ export const dataViews = async (req, res) => {
     }
 }
 
+// Ver datos en el perfil docente
 export const profdataView = async (req, res) => {
     try {
         /* const token = req.headers.authorization.split(' ').pop();

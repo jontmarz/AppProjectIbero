@@ -21,24 +21,24 @@ export default function HeaderDocenteDashboard(props) {
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <Typography variant="h4" component="h2" sx={{ mt: 3, mb: 1, color:"#fff" }}>
-                            Hola {user.fullName},
+                            Hola {user.fullName ? user.fullName : "N/D"},
                         </Typography>
                         <Typography variant="p" component="p" sx={{ color:"#fff" }}>
-                            {user.emailI}
+                            {user.emailI ? user.emailI : "N/D"}
                         </Typography>
                         <Typography variant="p" component="p" sx={{ color:"#fff" }}>
-                            {user.emailP}
+                            {user.emailP ? user.emailP : "N/D"}
                         </Typography>
                         <Typography variant="p" component="p" sx={{ color:"#fff" }}>
-                            {user.role}
+                            {user.role ? user.role : "N/D"}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} md={3}>
                         <Typography variant="h6" component="h5" sx={{ mt: 3, color:"#fff" }}>
-                            Facultad de {user.faculty}
+                            Facultad de {user.faculty ? user.faculty : "N/D"}
                         </Typography>
                         <Typography variant="h6" component="h5" sx={{ mt: 3, color:"#fff" }}>
-                            Programa: {user.academicProgram}
+                            Programa: {user.academicProgram ? user.academicProgram: "N/D"}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} md={3} sx={{ display: "flex", alignItems: "end"}}>

@@ -2,6 +2,7 @@ import { Problem } from "../models/Problem.js";
 import { DataApp } from "../models/DataApp.js";
 import { decodeJwt } from '../utils/jwtAuth.js';
 
+// Ver sección problemas de la ficha
 export const problemView = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
@@ -29,6 +30,7 @@ export const problemView = async (req, res) => {
     }
 }
 
+// Guardar sección problemas de la ficha
 export const problemCreate = async (req, res) => {
     try {
         const data = req.body.tree;

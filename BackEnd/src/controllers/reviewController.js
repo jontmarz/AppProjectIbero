@@ -3,6 +3,7 @@ import { Users } from '../models/Users.js';
 import { DataApp } from '../models/DataApp.js';
 import { decodeJwt } from '../utils/jwtAuth.js';
 
+// Ver reseñas de la ficha
 export const reviewViews = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
@@ -55,6 +56,7 @@ export const reviewViews = async (req, res) => {
     }
 }
 
+// Ver reseña de la ficha
 export const reviewView = async (req, res) => {
     try {
         const { idProject } = req.params;
@@ -104,6 +106,7 @@ export const reviewView = async (req, res) => {
     }
 }
 
+// Guardar reseña de la ficha
 export const reviewCreate = async (req, res) => {
     try {
         const { idProject } = req.params;

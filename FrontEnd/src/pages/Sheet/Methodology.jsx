@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Grid, Typography, Box, Chip, TextField } from '@mui/material'
 import styled from '@emotion/styled'
 import { useForm, Controller, set } from "react-hook-form"
-import { api, getToken } from '../config/axios'
+import { api, getToken } from '../../config/axios'
+import { listTPickupInfo } from '../../config/assets'
 import Swal from 'sweetalert2'
-import CustomButton from "../components/CustomButton"
-import methodImg from "../assets/methodology.png"
+import CustomButton from "../../components/CustomButton"
+import methodImg from "../../assets/methodology.png"
 
 export default function Methodology() {
 
@@ -16,15 +17,14 @@ export default function Methodology() {
   const [Method, setMethod] = useState([])
   const [loadMethod, setLoadMethod] = useState([])
   const [loadGoals, setLoadGoals] = useState([])
-  const listTPickupInfo = ["Encuesta", "Observación", "Entrevista", "Revisión Bibliográfica", "Otros"]
+  
 
   useEffect(() => {
     const loadGoals = async () => {
       try {
         const { data } = await api({
           url: "/api/dataApp/goals",
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` }
+          method: "GET"
         })
 
         const goals = data.goals.objEspe
@@ -42,8 +42,7 @@ export default function Methodology() {
       try {
         const { data } = await api({
           url: "/api/dataApp/methodology",
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` }
+          method: "GET"
         })
         setLoadMethod(data.data)
       } catch (e) {
@@ -84,7 +83,6 @@ export default function Methodology() {
     const res = await api({
       url: "/api/dataApp/methodology/",
       method: "PUT",
-      headers: { Authorization: `Bearer ${token}` },
       data: { methodology }
     })
       .then((res) => {
@@ -141,6 +139,7 @@ export default function Methodology() {
               <TextField
                 type="text"
                 label="Enfoque de la investigación"
+                focused={loadMethod.approachResearch ? true : false}
                 multiline
                 defaultValue={loadMethod ? loadMethod.approachResearch : ""}
                 rows={2}
@@ -152,6 +151,7 @@ export default function Methodology() {
               <TextField
                 type="text"
                 label="Alcance de la investigación"
+                focused={loadMethod.scopeResearch ? true : false}
                 multiline
                 defaultValue={loadMethod ? loadMethod.scopeResearch : ""}
                 rows={2}
@@ -163,6 +163,7 @@ export default function Methodology() {
               <TextField
                 type="text"
                 label="Diseño de la investigación"
+                focused={loadMethod.designResearch ? true : false}
                 multiline
                 defaultValue={loadMethod ? loadMethod.designResearch : ""}
                 rows={2}
@@ -216,6 +217,7 @@ export default function Methodology() {
               <TextField
                 type="text"
                 label="Explicación de uso de la técnica objetivo 1:"
+                focused={loadMethod.explainGoals?.eg1 ? true : false}
                 multiline
                 defaultValue={loadMethod ? loadMethod?.explainGoals?.eg1 : ""}
                 rows={2}
@@ -228,6 +230,7 @@ export default function Methodology() {
               <TextField
                 type="text"
                 label="Explicación de uso de la técnica objetivo 2:"
+                focused={loadMethod.explainGoals?.eg2 ? true : false}
                 multiline
                 defaultValue={loadMethod ? loadMethod?.explainGoals?.eg2 : ""}
                 rows={2}
@@ -240,6 +243,7 @@ export default function Methodology() {
               <TextField
                 type="text"
                 label="Explicación de uso de la técnica objetivo 3:"
+                focused={loadMethod.explainGoals?.eg3 ? true : false}
                 multiline
                 defaultValue={loadMethod ? loadMethod?.explainGoals?.eg3 : ""}
                 rows={2}

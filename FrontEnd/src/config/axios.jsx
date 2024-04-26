@@ -1,10 +1,8 @@
 import axios from 'axios'
 
-const tokenKey = import.meta.env.VITE_TOKEN_KEY;
-var myToken = ''
+const tokenKey = import.meta.env.VITE_TOKEN_KEY
 
 const setToken = (token) => {
-    myToken = token;
     return localStorage.setItem(tokenKey, token)
 }
 
@@ -25,5 +23,15 @@ const api = axios.create({
     }
 })
 
+api.interceptors.request.use((config) => {
+    if (!config.url.endsWith('/')) {
+        config.url += '/'
+    }
+    const token = getToken()
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+})
 
 export { api, setToken, getToken, deleteToken }

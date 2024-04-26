@@ -1,6 +1,7 @@
 import { Users } from '../models/Users.js';
 import { DataApp } from '../models/DataApp.js';
 
+// Buscar ficha por nombre de usuario o cédula o por nombre de proyecto
 export const searchdata = async (req, res) => {
     try {
         const dataSearch = req.query;

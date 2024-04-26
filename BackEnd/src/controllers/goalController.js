@@ -2,6 +2,7 @@ import { Goal } from "../models/Goal.js";
 import { DataApp } from "../models/DataApp.js";
 import { decodeJwt } from '../utils/jwtAuth.js';
 
+// Ver objetivos de la ficha
 export const goalView = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
@@ -25,6 +26,7 @@ export const goalView = async (req, res) => {
     }
 }
 
+// Guardar objetivos de la ficha
 export const goalCreate = async (req, res) => {
     try {
         const data = req.body.goals;

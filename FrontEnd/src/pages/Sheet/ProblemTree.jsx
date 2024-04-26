@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Grid, Typography, Box, TextField } from "@mui/material";
 import styled from "@emotion/styled";
 import { set, useForm } from "react-hook-form"
-import { api, getToken } from '../config/axios'
+import { api, getToken } from '../../config/axios'
 import Swal from 'sweetalert2';
-import CustomButton from "../components/CustomButton"
-import treeImg from "../assets/arbol-problema-img.png"
-import CustomList from "../components/CustomList"
+import CustomButton from "../../components/CustomButton"
+import treeImg from "../../assets/arbol-problema-img.png"
+import CustomList from "../../components/CustomList"
 
 const Img = styled("img")({
     width: '100%',
@@ -129,6 +129,7 @@ export default function ProblemTree() {
                             <Typography variant="p" component="p" sx={{  }}>Efectos Indirectos</Typography>
                             <TextField
                                 label="1"
+                                focused={loadTree?.indEffect?.ei1 ? true : false}
                                 multiline
                                 defaultValue={loadTree ? loadTree?.indEffect?.ei1 : ""}
                                 rows={3}
@@ -138,6 +139,7 @@ export default function ProblemTree() {
 
                             <TextField
                                 label="2"
+                                focused={loadTree?.indEffect?.ei2 ? true : false}
                                 multiline
                                 defaultValue={loadTree ? loadTree?.indEffect?.ei2 : ""}
                                 rows={3}
@@ -151,6 +153,7 @@ export default function ProblemTree() {
                             <Typography variant="p" component="p" sx={{  }}>Efectos directos</Typography>
                             <TextField
                                 label="1"
+                                focused={loadTree?.dirEffect?.ed1 ? true : false}
                                 multiline
                                 defaultValue={loadTree ? loadTree?.dirEffect?.ed1 : ""}
                                 rows={3}
@@ -159,6 +162,7 @@ export default function ProblemTree() {
                             {errors.ED1 && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el primer efecto directo</Typography>}
                             <TextField
                                 label="2"
+                                focused={loadTree?.dirEffect?.ed2 ? true : false}
                                 multiline
                                 defaultValue={loadTree ? loadTree?.dirEffect?.ed2 : ""}
                                 rows={3}
@@ -167,6 +171,7 @@ export default function ProblemTree() {
                             {errors.EI2 && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita el segundo efecto directo</Typography>}
                             <TextField
                                 label="3"
+                                focused={loadTree?.dirEffect?.ed3 ? true : false}
                                 multiline
                                 defaultValue={loadTree ? loadTree?.dirEffect?.ed3 : ""}
                                 rows={3}
@@ -182,6 +187,7 @@ export default function ProblemTree() {
                             <Typography variant="p" component="p" sx={{  }}>Problema central</Typography>
                             <TextField
                                 label="Problema central"
+                                focused={loadTree?.centralProb ? true : false}
                                 multiline
                                 defaultValue={loadTree ? loadTree?.centralProb : ""}
                                 rows={3}
@@ -198,6 +204,7 @@ export default function ProblemTree() {
                             <Typography variant="p" component="p" sx={{  }}>Causas directas</Typography>
                             <TextField
                                 label="1"
+                                focused={loadTree?.dirCauses?.cd1 ? true : false}
                                 multiline
                                 defaultValue={loadTree ? loadTree?.dirCauses?.cd1 : ""}
                                 rows={3}
@@ -206,6 +213,7 @@ export default function ProblemTree() {
                             {errors.CD1 && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita la primera causa directa</Typography>}
                             <TextField
                                 label="2"
+                                focused={loadTree?.dirCauses?.cd2 ? true : false}
                                 multiline
                                 defaultValue={loadTree ? loadTree?.dirCauses?.cd2 : ""}
                                 rows={3}
@@ -214,6 +222,7 @@ export default function ProblemTree() {
                             {errors.CD2 && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita la segunda causa directa</Typography>}
                             <TextField
                                 label="3"
+                                focused={loadTree?.dirCauses?.cd3 ? true : false}
                                 multiline
                                 defaultValue={loadTree ? loadTree?.dirCauses?.cd3 : ""}
                                 rows={3}
@@ -227,6 +236,7 @@ export default function ProblemTree() {
                             <Typography variant="p" component="p" sx={{  }}>Causas indirectas</Typography>
                             <TextField
                                 label="1"
+                                focused={loadTree?.indCauses?.ci1 ? true : false}
                                 multiline
                                 defaultValue={loadTree ? loadTree?.indCauses?.ci1 : ""}
                                 rows={3}
@@ -235,6 +245,7 @@ export default function ProblemTree() {
                             {errors.CI1 && <Typography component="span" sx={{color: "red", fontSize: 10}}>Digita la primera causa indirecta</Typography>}
                             <TextField
                                 label="2"
+                                focused={loadTree?.indCauses?.ci2 ? true : false}
                                 multiline
                                 defaultValue={loadTree ? loadTree?.indCauses?.ci2 : ""}
                                 rows={3}

@@ -2,6 +2,7 @@ import { Methodology } from "../models/Methodology.js";
 import { DataApp } from "../models/DataApp.js";
 import { decodeJwt } from '../utils/jwtAuth.js';
 
+// Ver metodología de la ficha
 export const methodologyView = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
@@ -30,6 +31,7 @@ export const methodologyView = async (req, res) => {
     }
 }
 
+// Guardar metodología de la ficha
 export const methodologyCreate = async (req, res) => {
     try {
         const data = req.body.methodology;
