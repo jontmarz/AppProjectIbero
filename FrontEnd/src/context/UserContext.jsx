@@ -57,7 +57,7 @@ export default function UserContextProvider({ children }) {
     }, [isLoggedIn])
 
     const contextValue = { user, setUser, isLoggedIn, setIsLoggedIn, logIn, logOut }
-
+    
     return (
         <UserContext.Provider value={ contextValue }>{children}</UserContext.Provider>
     )

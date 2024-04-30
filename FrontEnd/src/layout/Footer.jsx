@@ -14,14 +14,12 @@ export default function Footer() {
 
     const { user } = useUserContext()
     const socialIcon = [FacebookIcon, TwitterIcon, InstagramIcon, YouTubeIcon]
-
-    if (!user) return null
     
     return (
         <>
         <footer id="footer">
             {user ?
-            <Grid container spacing={4} direction="row" alignItems="center" sx={{maxWidth: 1400, margin: "auto", width: "100%", mb:3}}>
+            !user ? null: <Grid container spacing={4} direction="row" alignItems="center" sx={{maxWidth: 1400, margin: "auto", width: "100%", mb:3}}>
                 <Grid item xs={12} md={4} >
                     <Typography variant="h4" component="h3">Contacto</Typography>
                     <Typography variant="p" component="p">Si tienes alguna duda o sugerencia, no dudes en contactarnos.</Typography>
