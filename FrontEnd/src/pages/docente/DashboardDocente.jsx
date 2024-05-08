@@ -115,7 +115,10 @@ export default function DashboardDocente() {
                         </Grid>
                     </Box>
                 </Grid>
-                <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", mt:5 }}>
+                <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+                    <Typography variant="h3" component="h3" sx={{ my: 3 }}>Proyectos de Investigación</Typography>
+                </Grid>
+                <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", my:5 }}>
                     <Grid container spacing={2} sx={{  }}>
                         {loading ? <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
                             <Typography variant="h6" component="h6" sx={{ mb: 3 }}>Resultados de la Búsqueda</Typography>
