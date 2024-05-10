@@ -77,7 +77,6 @@ export default function Goals() {
             data: { goals }
         })
             .then((res) => {
-                console.log("datos recibidos " + res);
                 setLoading(true)
                 Swal.fire({
                     title: "¡Datos Guardados!",

@@ -77,8 +77,6 @@ export default function HeaderStudentDashboard(props) {
             })
     }
 
-    console.log(user);
-
     return (
         <>
         <Box>

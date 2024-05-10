@@ -78,8 +78,6 @@ export default function Methodology() {
       }
     }
 
-    console.log(methodology);
-
     const res = await api({
       url: "/api/dataApp/methodology/",
       method: "PUT",
