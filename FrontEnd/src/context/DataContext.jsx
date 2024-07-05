@@ -36,8 +36,6 @@ export default function DataContextProvider({ children }) {
         }
     }, [])
 
-    console.log(dataApp);
-
     return (
         <DataContext.Provider value={{ dataApp, setDataApp }}>{children}</DataContext.Provider>
     )
