@@ -96,4 +96,10 @@ export const settingsAppFields = [
     body('researchGroups.*', "El campo 'researchGroups' debe ser un texto").isString().trim().notEmpty(),
     body('seedLine').isArray().withMessage('El campo "seedLine" debe ser un array'),
     body('seedLine.*', "El campo 'seedLine' debe ser un texto").isString().trim().notEmpty(),
+    validationResExpress
+]
+
+export const TutorFields = [
+    body('tutor', "campo debe ser tipo texto").isString().trim().notEmpty(),
+    validationResExpress
 ]

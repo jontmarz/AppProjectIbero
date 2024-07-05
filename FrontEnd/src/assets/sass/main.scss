@@ -10,9 +10,26 @@
     .bg-card{
         color: inherit;
         transition: all 0.3s ease-in-out;
+        position: relative;
+        border-radius: 5px;
         &:hover {
             background-color: #666 !important;
-            color: #fff;
+            color: #666;
+            box-shadow: 0 0 10px 5px rgba(#666, 0.2);
+            &::after {
+                content: attr(title);
+                position: absolute;
+                width: 100%;
+                height: auto;
+                color: #fff;
+                padding: 0.8em 1em;
+                top: 15%;
+                left: 50%;
+                transform: translateX(-50%);
+                white-space: pre-wrap;
+                z-index: 99;
+                font-size: 0.8em;
+            }
         }
     }
     &:nth-child(odd) {
@@ -22,6 +39,10 @@
     &:nth-child(even) {
         .bg-card { background-color: rgba(#4A4A48, 0.2); }
     }
+    /* .title-card {
+        position: relative;
+        &:hover
+    } */
 }
 #footer {
     background-color: #f7f3f36f;

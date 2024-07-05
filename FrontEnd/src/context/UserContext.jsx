@@ -34,7 +34,7 @@ export default function UserContextProvider({ children }) {
 
         try {
             const { data } = await api({
-                url: "/api/user/dataUser/",
+                url: "/api/user/dataUser",
                 method: "GET"
             })
             setUser(data.infoUser)

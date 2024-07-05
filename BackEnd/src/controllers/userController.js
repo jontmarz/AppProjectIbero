@@ -8,7 +8,7 @@ export const infoUser = async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
-        const role = payload.role
+        // const role = payload.role
     
         let user = await Users.findOne({_id : payload.id_User});
         
@@ -35,7 +35,7 @@ export const dataUsers = async (req, res) => {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
     
-        if (payload) {
+        if (payload && payload.role === 'SuperUser') {
             let users = await Users.find();
         
             return res.status(200).json({
@@ -45,7 +45,7 @@ export const dataUsers = async (req, res) => {
             })
         } else {
             return res.status(410).json({
-                message: `El usuario debe iniciar sesión`,
+                message: `El usuario debe iniciar sesión y Superuser para realizar esta acción`,
                 code : 430,
             })
         }
@@ -68,14 +68,21 @@ export const dataUser = async (req, res) => {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
     
-        let user = await Users.findOne({_id : idUser});
-        
-        return res.status(200).json({
-            message: `Información del Usuario`,
-            code : 220,
-            infoUser: user,
-        })
-        
+        if(payload && payload.role !== 'Estudiante') {
+            let user = await Users.findOne({_id : idUser});
+            
+            return res.status(200).json({
+                message: `Información del Usuario`,
+                code : 220,
+                infoUser: user,
+            })
+        } else {
+            return res.status(410).json({
+                message: `El usuario debe iniciar sesión y no debe ser estudiante para realizar esta acción`,
+                code : 430,
+            })
+        }
+
     } catch (error) {
         return res.status(400).json({
             message: `El usuario no existe`,
@@ -159,6 +166,65 @@ export const editUserAdmin = async ( req , res ) => {
             })
         }
     } catch (e) {
+        return res.status(420).json({
+            message: e.message,
+            code:420
+        })
+    }
+}
+
+// FUNCION PARA OBTENER LOS DATOS DEL TUTOR
+export const getTutorData = async (req, res) => {
+    const { tutorId } = req.params;
+
+    try {
+        const token = req.headers.authorization.split(' ').pop();
+        const payload = await decodeJwt(token);
+
+        if(payload.role !== 'SuperUser') {
+            let tutor = await DataApp.find({  tutor: tutorId  }, '_id goals.titleProg');
+
+            if (!tutor) return res.status(404).json({ message: 'No hay proyectos asignados al docente' });
+            
+            return res.status(200).json({
+                message: `Proyectos asignados al docente`,
+                code : 220,
+                infoUser: tutor,
+            })
+        } else {
+            return res.status(410).json({
+                message: `El usuario debe iniciar sesión y debe ser SuperUser para realizar esta acción`,
+                code : 430,
+            })
+        }
+        
+    } catch (error) {
+        return res.status(400).json({
+            message: `No hay datos del docente`,
+            code : 430,
+            error: error,
+        })
+    }
+}
+
+// FUNCION PARA ASIGNAR USUARIO TUTOR AL PROYECTO
+export const updateTutor = async (req, res) => {
+    const { dataAppId, userId } = req.body;
+
+    if( !userId || !dataAppId || !Array.isArray(dataAppId) ) return res.status(410).json({ message: 'Faltan datos', code: 410 });
+
+    try {
+        tutor = await Users.findById(userId);
+
+        if (!tutor) return res.status(404).json({ message: 'Tutor not found' });
+
+        const dataApp = await DataApp.updateMany({ _id: { $in: dataAppId } }, { $set: {tutor: userId} })
+        return res.status(200).json({
+            message: 'Tutor updated successfully',
+            code: 220,
+            dataApp
+        });
+    } catch (error) {
         return res.status(420).json({
             message: e.message,
             code:420
