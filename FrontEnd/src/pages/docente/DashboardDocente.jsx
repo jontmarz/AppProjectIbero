@@ -40,6 +40,11 @@ export default function DashboardDocente() {
         
         loadDataApp()
     }, [token])
+
+    const userProjects = user.projects.map(item => item.toString())
+    const filterProjects = dataApp.filter(item =>
+        item.goals && item.goals.titleProj && userProjects.includes(item._id.toString())
+    )
     
     const onSubmit = async (data, e) => {
         setSearchData([...searchData, data])
@@ -74,6 +79,9 @@ export default function DashboardDocente() {
         }
         reset();
     }
+
+    console.log(user, userProjects, filterProjects);
+    
 
     const resetButton = () => {
         return window.location.reload()
@@ -124,25 +132,23 @@ export default function DashboardDocente() {
                             <Typography variant="h6" component="h6" sx={{ mb: 3 }}>Resultados de la Búsqueda</Typography>
                         </Grid> : ''}
 
-                        {dataApp.length === 0 ? (
-                            <Typography variant="h6" component="h6" sx={{ mt: 3 }}>No hay proyectos registrados</Typography>
+                        {filterProjects.length === 0 ? (
+                            <Typography variant="h6" component="h6" sx={{ mt: 3 }}>El docente no Tiene proyectos asignados</Typography>
                         ) : (
-                            dataApp.map((item, index) => (
-                                item.goals && item.goals.titleProj ?
-                                    <Grid item xs={12} md={3} key={index} className="proj-card">
-                                        <Box
-                                            component={Link}
-                                            to={`../docente/${item._id}`}
-                                            className="bg-card title-card"
-                                            title={item.goals.titleProj}
-                                            sx={{ display: 'flex', justifyContent: "center", alignItems: 'center', padding: 2, textDecoration: "none", height: '100%' }}
-                                        >
-                                            <Typography variant="h6" component="h6" sx={{ my: 3 }}>
-                                                {item.goals ? item.goals.titleProj.length > 25 ? item.goals.titleProj.substring(0, 25) + '...' : item.goals.titleProj : "No hay título de proyecto"}
-                                            </Typography>
-                                        </Box>
-                                    </Grid>
-                                : ''
+                            filterProjects.map((item, index) => (
+                                <Grid item xs={12} md={3} key={index} className="proj-card">
+                                    <Box
+                                        component={Link}
+                                        to={`../docente/${item._id}`}
+                                        className="bg-card title-card"
+                                        title={item.goals.titleProj}
+                                        sx={{ display: 'flex', justifyContent: "center", alignItems: 'center', padding: 2, textDecoration: "none", height: '100%' }}
+                                    >
+                                        <Typography variant="h6" component="h6" sx={{ my: 3 }}>
+                                            {item.goals ? item.goals.titleProj.length > 25 ? item.goals.titleProj.substring(0, 25) + '...' : item.goals.titleProj : "No hay título de proyecto"}
+                                        </Typography>
+                                    </Box>
+                                </Grid>
                             ))
                         )}
                     </Grid>

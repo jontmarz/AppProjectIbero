@@ -19,6 +19,7 @@ export default function DataContextProvider({ children }) {
             })
             setDataApp(data.data)
             
+            
         } catch (e) {
             console.error('error: ' + e, 'message: ' + e);
             if (e.response.status >= 500 || e.response.status >= 400) {
@@ -35,6 +36,7 @@ export default function DataContextProvider({ children }) {
             setDataApp(null)
         }
     }, [])
+    
 
     return (
         <DataContext.Provider value={{ dataApp, setDataApp }}>{children}</DataContext.Provider>

@@ -98,8 +98,3 @@ export const settingsAppFields = [
     body('seedLine.*', "El campo 'seedLine' debe ser un texto").isString().trim().notEmpty(),
     validationResExpress
 ]
-
-export const TutorFields = [
-    body('tutor', "campo debe ser tipo texto").isString().trim().notEmpty(),
-    validationResExpress
-]

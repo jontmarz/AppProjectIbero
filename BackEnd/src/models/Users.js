@@ -61,6 +61,11 @@ const UsersSchema = new Schema({
         type :      String,
         required :  false,
     },
+    projects: { // Proyectos asignados
+        type :      [Schema.Types.ObjectId],
+        ref :       "DataApp",
+        required :  function() { return this.role === "Docente" },
+    },
     password: { // Contraseña
         type :      String,
         required :  true,

@@ -35,7 +35,9 @@ export default function Signup() {
                     confirmButtonColor: "#0098D4"
                 })
                 setToken(res.data.token.tokenid)
-                switch (res.data.role) {
+                console.log(data);
+                
+                switch (data.role) {
                     case "SuperUser":
                         navigate("/settings")
                         break;
@@ -48,25 +50,35 @@ export default function Signup() {
                 }
             })
             .catch((e) => {
-                console.error(e.response.data)
-                if (e.response.data.errors.password) {
-                    Swal.fire({
-                        title: "¡Error!",
-                        text: e.response.data.errors.password,
-                        icon: "error",
-                        confirmButtonText: "Aceptar",
-                        confirmButtonColor: "#0098D4"
-                    })
-                    
-                } else {
-                    Swal.fire({
-                        title: "¡Error!",
-                        text: e.response.data.message,
-                        icon: "error",
-                        confirmButtonText: "Aceptar",
-                        confirmButtonColor: "#0098D4"
-                    })
+                console.error(e.response.data.message)
+                let errormsg;
+
+                switch (true) {
+                    case !!e.response.data.errors.password:
+                        errormsg = e.response.data.errors.password;
+                        break;
+                    case !!e.response.data.errors.emailI:
+                        errormsg = e.response.data.errors.emailI;
+                        break;
+                    case !!e.response.data.errors.identify:
+                        errormsg = e.response.data.errors.identify;
+                        break;
+                    case !!e.response.data:
+                        errormsg = e.response.data.message;
+                        break;
+                    default:
+                        errormsg = e.response.data.message;
+                        break;
                 }
+                
+                
+                Swal.fire({
+                    title: "¡Error!",
+                    text: errormsg,
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#0098D4"
+                })
             })
     }
 

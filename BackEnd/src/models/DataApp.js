@@ -7,7 +7,6 @@ import { goalSchema } from './Goal.js';
 import { recordSchema } from './Record.js';
 import { ethicalImpactsSchema } from './EthicalImpacts.js';
 import { reviewSchema } from './Reviews.js';
-import { tutorSchema } from './Tutor.js';
 
 export const dataAppSchema = new Schema({
     problems: { type: problemSchema }, // Problemas
@@ -18,9 +17,9 @@ export const dataAppSchema = new Schema({
     goals: { type: goalSchema }, // Objetivos
     records: { type: recordSchema }, // Registros
     review :  { type: reviewSchema }, // Revisiones
-    tutor: { type: tutorSchema }, // Tutor
     deadline: { type: Date }, // Fecha de entrega
     user: { type: String }, // Usuario
+    tutor: { type: String }, // Tutor
     creationDate: { // Fecha de creacion
         type :      Date,
         default :   Date.now,

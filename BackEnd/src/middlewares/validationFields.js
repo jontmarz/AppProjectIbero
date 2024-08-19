@@ -20,22 +20,35 @@ export const validationResExpress = (req, res, next) => {
 
 export const signupValidatorFields = [
     body('fullName', "Coloca tu nombre completo").trim().isString().notEmpty(), // Nombre completo
-    body('typeDoc', "Coloca tu tipo de documento").trim().isString().notEmpty(), // Tipo de documento
-    body('identify', "Coloca tu documento").trim().notEmpty().custom(async(value) => {
+    body('typeDoc', "Coloca tu tipo de identificación").trim().isString().notEmpty(), // Tipo de identificación
+    body('identify', "Coloca tu identificación")
+      .trim()
+      .notEmpty()
+      .custom(async(value) => {
+        let user =  await Users.findOne({ identify: value })
+        if (user) return Promise.reject('Esta identificación ya esta registrada');
 
-      let user =  await Users.findOne({ documento: value })    
-
-      if (user) {
-        return Promise.reject('Este dato ya esta registrado');
-      }
-    }), // Documento
-    body('emailI', "Coloca un correo institucional valido").trim().custom(async(value) => {
+      }), // Identificación
+    body('emailI', "Coloca un correo institucional valido")
+      .trim()
+      .isEmail()
+      .normalizeEmail()
+      .notEmpty()
+      .custom(async(value) => {
+        let email = await Users.findOne({ email: value })
+        if (email) return Promise.reject('Este correo institucional ya esta registrado')
+           
+      })
+      .matches(/^[a-zA-Z0-9._%+-]+@(ibero\.edu\.co|docente\.ibero\.edu\.co|estudiante\.ibero\.edu\.co)$/)
+      .withMessage("El correo debe ser de los dominios ibero.edu.co o docentes.ibero.edu.co o estudiantes.ibero.edu.co")
+      .isEmail().normalizeEmail().notEmpty(), // Correo institucional
+    /* body('emailI', "Coloca un correo institucional valido").trim().custom(async(value) => {
       let email = await Users.findOne({ email: value })
       
       if (email) {
-        return Promise.reject('Este dato ya esta registrado')
+        return Promise.reject('Este correo institucional ya esta registrado')
       }        
-    }).isEmail().normalizeEmail().notEmpty(), // Correo institucional
+    }).isEmail().normalizeEmail().notEmpty(), // Correo institucional */
     body('emailP', "Coloca un correo personal valido").trim().isEmail().normalizeEmail().notEmpty(), // Correo personal
     body('faculty', "Colocar la facultad o institución").trim().isString().notEmpty(), // Facultad
     body('role', "Colocar el rol de usuario").trim().isString().notEmpty(), // rol
@@ -48,6 +61,7 @@ export const signupValidatorFields = [
         return e
       }
     ), // Contraseña
+    body('projects').optional().isArray().withMessage("Si se proporciona, debe ser un array de proyectos"),
     validationResExpress
   ]
 
@@ -63,11 +77,12 @@ export const userFields = [
   body('emailP', "Coloca un correo personal valido").trim().isEmail().normalizeEmail(),
   body('faculty', "Colocar la facultad o institución").trim().isString(),
   body('academicProgram', "Colocar la facultad o institución").trim().isString(),
-  body('code', "Colocar código de estudiante").trim().isString(),
-  body('phone', "Colocar número de teléfono de contacto").trim().isString(),
+  body('code', "Colocar código de estudiante").trim().isNumeric(),
+  body('phone', "Colocar número de teléfono de contacto").trim().isNumeric(),
   body('typeProj', "Colocar el tipo de proyecto").trim().isString(),
   body('instLine', "Colocar la línea de investigación").trim().isString(),
   body('ResearchGroup', "Colocar el grupo de investigación").trim().isString(),
   body('seedLine', "Colocar la línea del semillero de investigación").trim().isString(),
-  body('role', "Elija un rol de usuario").trim().isString()
+  body('role', "Elija un rol de usuario").trim().isString(),
+  body('projects', "Colocar los proyectos en los que participa").optional().isArray()
 ]

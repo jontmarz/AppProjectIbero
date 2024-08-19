@@ -69,7 +69,7 @@ export default function SettingsApp() {
               sx={{ borderBottom: 1, borderColor: 'divider' }}
             >
               <Tab label="Roles" {...a11yProps(0)} />
-              <Tab label="Configuración" {...a11yProps(1)} />
+              <Tab label="Proyectos Asignados" {...a11yProps(1)} />
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>

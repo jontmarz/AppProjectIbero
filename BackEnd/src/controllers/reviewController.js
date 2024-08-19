@@ -114,8 +114,6 @@ export const reviewCreate = async (req, res) => {
         const token = req.headers.authorization.split(' ').pop();
         const payload = await decodeJwt(token);
 
-        console.log(data)
-
         const review = new Review({comment: data.comment, author: payload.id_User, state: data.state});
         await DataApp.findOneAndUpdate({_id: idProject}, { "review": review });
 

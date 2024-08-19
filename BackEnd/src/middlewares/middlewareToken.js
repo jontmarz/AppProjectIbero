@@ -1,6 +1,7 @@
 import { verificarJwt } from "../utils/jwtAuth.js";
+import { Users } from "../models/Users.js";
 
-export const middlewareToken = async(req,res,next) => {
+export const middlewareToken = async(req, res, next) => {
     try {
     const authHeader = req.headers.authorization;
         if (!authHeader) {
@@ -11,8 +12,17 @@ export const middlewareToken = async(req,res,next) => {
         }
 
         const token = authHeader.split(' ').pop();
-
         const payload = await verificarJwt(token);
+
+        const user = await Users.findOne({ _id: payload.id_User });
+        if (!user) {
+            return res.status(410).json({
+                message: "Usuario no encontrado",
+                code: 410
+            })
+        }
+
+        req.user = user;
 
         next();
     } catch (error) {

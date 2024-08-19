@@ -16,6 +16,7 @@ import ethicalImpacts from "./routes/ethicalImpactRouter.js";
 import review from "./routes/reviewRouter.js";
 import search from "./routes/searchRouter.js";
 import settingsApp from './routes/settingsAppRouter.js';
+import superUser from './routes/superUserRouter.js';
 
 const app = express();
 
@@ -52,6 +53,7 @@ app.use('/api/dataApp/review', middlewares, review);
 app.use('/api/dataApp', middlewares, dataApp);
 app.use('/api/search', middlewares, search);
 app.use('/api/settings', middlewares, settingsApp);
+app.use('/api/superUser', middlewares, superUser);
 
 // SERVER LISTENER
 app.listen(process.env.APPSETTING_PORT, () => {

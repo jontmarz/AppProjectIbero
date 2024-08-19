@@ -1,12 +1,12 @@
 import { DataApp } from "../models/DataApp.js";
 import { Users } from "../models/Users.js";
-import { generarJwt } from "../utils/jwtAuth.js";
+import { generarJwt, decodeJwt } from "../utils/jwtAuth.js";
 
 // FUNCION PARA CREAR UN USUARIO NUEVO
 export const signup = async ( req , res ) => {
     try {
-        const request = req.body;
-        let dataApp = DataApp();
+        const request = {... req.body};
+        let dataApp = new DataApp();
 
         // Verificar si hay usuarios en la base de datos
         let users = await Users.find({});
@@ -15,7 +15,7 @@ export const signup = async ( req , res ) => {
             let user = await Users.findOne({ emailI: request.emailI })
             if (user) {
                 return res.status(400).json({
-                    message: "Ya existen este usuario",
+                    message: "Ya existe un usuario con este correo electrónico",
                     code: 410
                 })
             }
@@ -28,18 +28,24 @@ export const signup = async ( req , res ) => {
             request.role = "SuperUser"
         }
 
+        // Verifica si está autorizado para asignar proyectos
+        if (request.role !== 'Docente') {
+            // Eliminar el campo projects del objeto request
+            delete request.projects;
+        } 
+
         // Crear un nuevo usuario
         let user = new Users(request);
         await user.save();
 
         // Guardar el id del usuario en la colección DataApp
-        dataApp.set({ "user": user._id });
-        await dataApp.save();
+        if (request.role === "Estudiante") {
+            dataApp.set({ "user": user._id });
+            await dataApp.save();
+        }
 
         // Se genera el token de autenticación
         const payload = {
-            'User': user.emailI,
-            'Nombre': user.fullName,
             'id_User': user._id,
             'role': user.role
         }
@@ -47,9 +53,8 @@ export const signup = async ( req , res ) => {
 
         // Se envía la respuesta al cliente
         return res.status(200).json({
-            message: "SING-IN fue realizado con exito",
+            message: "Registro de usuario realizado con exito",
             code: 220,
-            role: user.role,
             token: {
                 tokenid: tokenGenerado,
                 expires: expiresIn,
@@ -79,8 +84,6 @@ export const login = async ( req , res ) => {
         }
         // Si el usuario existe y los datos son correctos, se genera el token de autenticación
         const payload ={
-            'User' : user.emailI,
-            'Nombre' : user.fullName,
             'id_User' : user._id,
             'role' : user.role
         }
@@ -135,6 +138,51 @@ export const login = async ( req , res ) => {
         return res.status(420).json({
             message: e.message,
             code:420
+        })
+    }
+}
+
+// FUNCIÓN PARA ELIMINAR EL USUARIO Y LA FICHA DE INVESTIGACIÓN
+export const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const token = req.headers.authorization.split(' ').pop();
+        const payload = await decodeJwt(token);        
+
+        // Validar si el usuario actual es SuperUser
+        if (payload.role !== 'SuperUser') {
+            return res.status(403).json({
+                message: `Acceso denegado, No tienes permisos para realizar esta acción`,
+                code : 403
+            })
+        }
+
+        // Buscar y eliminar el usuario de la colección Users
+        const user = await Users.findByIdAndDelete(id);
+        if (!user) {
+            return res.status(410).json({
+                message: "Usuario no encontrado",
+                code: 410
+            })
+        }
+
+        // Eliminar el registro de la ficha de investigación
+        const dataApp = await DataApp.findOneAndDelete({user: id});
+        if (!dataApp) {
+            return res.status(410).json({
+                message: "Ficha de investigación no encontrada",
+                code: 410
+            })
+        }
+
+        return res.status(200).json({
+            message: "Usuario y su registro asociado a la ficha de investigación fueron eliminados exitosamente",
+            code: 200
+        })
+    } catch (e) {
+        return res.status(500).json({
+            message: e.message,
+            code: 500
         })
     }
 }

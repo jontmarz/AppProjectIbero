@@ -55,6 +55,7 @@ export default function UserContextProvider({ children }) {
             setUser(null)
         }
     }, [isLoggedIn])
+    
 
     const contextValue = { user, setUser, isLoggedIn, setIsLoggedIn, logIn, logOut }
     
