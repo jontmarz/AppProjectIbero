@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { api, setToken } from '../../config/axios'
+import { api } from '../../config/axios'
 import { useForm } from "react-hook-form";
-import { Box, FormControl, Grid, Typography, Select, MenuItem, InputLabel, RadioGroup, List, ListItem, Radio, FormControlLabel } from "@mui/material"
+import { Box, FormControl, Grid, Typography, Select, InputLabel, RadioGroup, List, ListItem, Radio, FormControlLabel } from "@mui/material"
 import CustomButton from '../CustomButton';
 import Swal from 'sweetalert2';
 
 
-export default function AppSettings() {
+export default function Projects() {
   const [ docentes, setDocentes ] = useState([])
   const [ projects, setProjects ] = useState([])
   const [ selectedDocente, setSelectedDocente ] = useState("")

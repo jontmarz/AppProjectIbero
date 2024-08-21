@@ -86,6 +86,9 @@ export default function HeaderStudentDashboard(props) {
                     <Typography variant="h6" component="h6" sx={{ mt: 1, mb: 3, color:"#fff"}}>
                         <strong>Título Proyecto: </strong> <i>{dataApp && dataApp.goals && dataApp.goals.titleProj ? dataApp.goals.titleProj: "N/D"}</i>
                     </Typography>
+                    <Typography variant="h6" component="h6" sx={{ mt: 1, mb: 3, color:"#fff"}}>
+                        <strong>Docente Investigador: </strong><i>{dataApp && dataApp.tutor ? dataApp && dataApp.tutor: "N/D" }</i>
+                    </Typography>
                     <CustomButton name="Ver Perfil" action={handleClickOpen} color="#cca448" padding="1em, 1em" height="3em" txtHovColor="fff" />
                 </Grid>
             </Grid>

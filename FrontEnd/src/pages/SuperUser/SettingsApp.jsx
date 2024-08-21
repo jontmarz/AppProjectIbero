@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Grid, Typography, Box, Tabs, Tab } from "@mui/material"
 import { Navigate } from "react-router-dom";
 import RolesSettings from '../../components/SuperUser/RolesSettings';
-import AppSettings from '../../components/SuperUser/AppSettings';
+import Projects from '../../components/SuperUser/Projects';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -76,7 +76,7 @@ export default function SettingsApp() {
             <RolesSettings />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            <AppSettings />
+            <Projects />
           </CustomTabPanel>
         </Grid>
     </Grid>

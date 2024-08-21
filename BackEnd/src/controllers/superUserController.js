@@ -102,6 +102,7 @@ export const addProjects = async (req, res) => {
             }
 
             user.projects.push(projectId);
+            await DataApp.findByIdAndUpdate(projectId, { $set: { tutor: user.fullName } });
         }
 
         await Users.findByIdAndUpdate(id, { $set: { projects } });
