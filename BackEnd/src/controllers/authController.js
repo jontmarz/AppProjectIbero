@@ -190,7 +190,6 @@ export const deleteUser = async (req, res) => {
 // FUNCION PARA LOGEO DE USUARIOS
 export const logout = async ( req , res ) => {
     try {
-        res.clearCookie("refreshCookies ");
         return res.status(210).json({
             code: 210,
             message: {ok: true} });

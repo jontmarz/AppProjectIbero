@@ -4,7 +4,7 @@ import { Users } from "../models/Users.js";
 
 export const validationResExpress = (req, res, next) => {
     const errors = validationResult(req);
-    const errores = errors.formatWith( error => error.msg)
+    const errores = errors.formatWith( error => error.msg )
 
     if (!errors.isEmpty()) {
       
