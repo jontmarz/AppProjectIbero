@@ -69,8 +69,25 @@ export default function Projects() {
   }
 
   const onSubmit = async (data, e) => {
-    setProjects([...selectedProjects, data])
-    console.log(selectedDocente);
+    // setProjects([...selectedProjects, data])
+    const docente = docentes.find(d => d._id === selectedDocente)
+    const proyectAssigned = selectedDocente.filter(projId => docente.projects.includes(projId))
+    
+    if (proyectAssigned.length > 0) {
+      const projectsName = projects
+        .filter(p => proyectAssigned.includes(p._id))
+        .map(p => p.goals?.titleProj)
+        .join(", ")
+
+      Swal.fire({
+        title: "¡Proyecto ya asignado!",
+        text: `Los siguientes proyectos ya ha sido asignados: ${projectsName}`,
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#0098D4"
+      })
+      return
+    }
     
     try {
       const res = await api({

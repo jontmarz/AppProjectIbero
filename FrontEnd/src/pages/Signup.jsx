@@ -35,7 +35,7 @@ export default function Signup() {
                     confirmButtonColor: "#0098D4"
                 })
                 setToken(res.data.token.tokenid)
-                console.log(data);
+                // console.log(data);
                 
                 switch (data.role) {
                     case "SuperUser":

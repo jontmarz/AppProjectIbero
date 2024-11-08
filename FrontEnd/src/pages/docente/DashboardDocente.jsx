@@ -80,7 +80,7 @@ export default function DashboardDocente() {
         reset();
     }
 
-    console.log(user, userProjects, filterProjects);
+    // console.log(user, userProjects, filterProjects);
     
 
     const resetButton = () => {

@@ -10,7 +10,7 @@ export const getUsers = async (req, res) => {
         const payload = await decodeJwt(token);
         let tutors = await Users.find({ role: 'Docente' }, {_id: 1, fullName: 1, projects: 1});
 
-        console.log(payload.role, payload.id_User);
+        // console.log(payload.role, payload.id_User)
         
 
         if (payload.role !== 'SuperUser') {
